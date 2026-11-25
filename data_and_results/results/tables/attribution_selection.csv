@@ -1,0 +1,6 @@
+setting,strict_pct,label_blind_pct
+"our engine, layout variants chosen by defect count",86.25235404896422,96.9632768361582
+"our engine, first layout kept",73.75235404896422,94.89171374764595
+"dot top-down, curved (no selection of any kind)",52.89684408855393,98.84597268016957
+"pipeline, better of two sampled graphs",87.7995642701525,
+"pipeline, one greedy graph",80.5874840357599,

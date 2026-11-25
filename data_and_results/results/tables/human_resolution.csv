@@ -1,0 +1,2 @@
+quantity,n_graphs,estimate,ci_lo,ci_hi,sd,mde_80pct_power,strict_gap_in_panel_pp,corpus_wide_strict_gap_pp,verdict
+"paired best-worst difference, ours minus dot",24,-0.271,-0.656,0.146,1.011,0.578,20.8,21.0,inconclusive: MDE exceeds any plausible effect

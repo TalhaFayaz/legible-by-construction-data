@@ -1,0 +1,15 @@
+index,measure,weight
+ten_measure,label_collisions,-0.4256934358974711
+ten_measure,edge_node_crossings,0.29387372452118976
+ten_measure,node_overlap_pairs,-0.27064235589725
+ten_measure,area,-0.13590450038256935
+ten_measure,mean_bends_per_edge,0.10529309638329525
+ten_measure,aspect_deviation,-0.0963723925127986
+ten_measure,edge_edge_crossings,-0.04334559682710338
+ten_measure,total_edge_length,-0.04272712375727315
+ten_measure,edge_label_crossings,-0.015226479220380399
+ten_measure,stacked_routes,-0.0006504380282842583
+four_measure,label_collisions,-0.3008819335213733
+four_measure,node_overlap_pairs,-0.15484731010377706
+four_measure,aspect_deviation,-0.07379120277272222
+four_measure,area,-0.07737438169036928

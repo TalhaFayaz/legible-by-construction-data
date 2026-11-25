@@ -1,0 +1,5 @@
+corpus,system,mean_rho,n,rhos
+sciflow,ours,0.8713452715311057,391,"[np.float64(0.862), np.float64(0.877), np.float64(0.876)]"
+sciflow,DOT,0.7471614364171913,391,"[np.float64(0.789), np.float64(0.748), np.float64(0.704)]"
+flowvqa,ours,0.8223739696370277,290,"[np.float64(0.798), np.float64(0.806), np.float64(0.863)]"
+flowvqa,DOT,0.5736906629303887,290,"[np.float64(0.602), np.float64(0.513), np.float64(0.606)]"

@@ -1,0 +1,4 @@
+condition,n,label_coll_mean,label_coll_max,label_coll_nonzero,arrow_thru_label_mean,arrow_thru_label_nonzero,strict_pass,lenient_pass,n_nodes_min,n_nodes_max
+ours,24,0.0,0,0,0.08,2,22,24,8,20
+graphviz,24,0.04,1,1,0.25,6,17,24,8,20
+model,24,29.54,85,24,7.12,19,0,0,8,20

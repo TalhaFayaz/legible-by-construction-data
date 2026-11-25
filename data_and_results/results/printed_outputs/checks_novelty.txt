@@ -1,0 +1,232 @@
+
+================================================================================
+== V1  the corpus as a reference for auditing a figure-reading model
+================================================================================
+   the drawn graph is known exactly, so a reader is scored against what was drawn,
+   not against a gold graph, and with no human annotation
+  Qwen       boxes  drawn  19.5 -> read  24.5  x1.26 [1.21,1.30], over-returned on 47% of papers, rho +0.79
+             arrows drawn  13.2 -> read  24.5  x1.85 [1.77,1.95], over-returned on 92% of papers, rho +0.60
+  Gemma      boxes  drawn  22.4 -> read  27.2  x1.21 [1.18,1.24], over-returned on 65% of papers, rho +0.79
+             arrows drawn  15.2 -> read  27.9  x1.83 [1.77,1.89], over-returned on 96% of papers, rho +0.67
+  Ministral  boxes  drawn  31.2 -> read  40.5  x1.30 [1.25,1.34], over-returned on 72% of papers, rho +0.64
+             arrows drawn  25.1 -> read  41.6  x1.66 [1.59,1.72], over-returned on 92% of papers, rho +0.56
+  a benchmark that scores a figure through a recovered graph inherits this error.
+
+================================================================================
+== V2  engine dispatch: which engine a graph needs, before anything is drawn
+================================================================================
+  predict "dot fails the strict check" from boxes, loops and nesting; held out sciflow      AUC 0.762  (n=4246)
+  predict "dot fails the strict check" from boxes, loops and nesting; held out flowvqa      AUC 0.748  (n=900)
+  predict "dot fails the strict check" from boxes, loops and nesting; held out paperbanana  AUC 0.792  (n=863)
+  predict "our engine fails the strict check" from boxes, loops and nesting; held out sciflow      AUC 0.753  (n=4248)
+  predict "our engine fails the strict check" from boxes, loops and nesting; held out flowvqa      AUC 0.850  (n=900)
+  predict "our engine fails the strict check" from boxes, loops and nesting; held out paperbanana  AUC 0.824  (n=864)
+
+  always ours 86.9%, dot with an oracle over its four configurations 65.9%, best of the two per figure 90.0%
+  so always ours reaches 96.6% of a two-engine ceiling: headroom 3.1 points pooled
+  per setting the headroom is 1.0 to 5.3 points, so the rule is a cheap pre-draw test and not a large gain here.
+
+================================================================================
+== V3  geometry as a selection signal: one extra candidate, chosen by counting defects
+================================================================================
+  sciflow  Qwen       strict  +5.9 points [+3.3,+8.6]   score -0.0020 [-0.0049,+0.0008]   n=472
+  sciflow  Gemma      strict  +6.5 points [+4.1,+9.1]   score +0.0000 [-0.0015,+0.0016]   n=472
+  sciflow  Ministral  strict +17.3 points [+13.3,+21.5]   score +0.0005 [-0.0023,+0.0032]   n=472
+  flowvqa  Qwen       strict  +3.3 points [+1.0,+5.9]   score +0.0003 [-0.0080,+0.0086]   n=300
+  flowvqa  Gemma      strict  +4.3 points [+2.0,+7.0]   score +0.0001 [-0.0050,+0.0053]   n=300
+  flowvqa  Ministral  strict +17.4 points [+13.0,+22.1]   score +0.0008 [-0.0077,+0.0094]   n=300
+  every score interval contains zero; the legibility gain does not.
+  the signal costs one extra sample and a defect count, so any system that emits a
+  graph before it draws can use it, whatever it draws with.
+
+================================================================================
+== V4  what it takes to measure a system on these benchmarks
+================================================================================
+  sciflow: of the score variance, item 91.7%, model 1.5%, seed 6.8%
+    an unpaired comparison of 472 items resolves 0.012 of the score at 80% power; 50 items, 0.037
+  flowvqa: of the score variance, item 90.8%, model 1.5%, seed 7.7%
+    an unpaired comparison of 300 items resolves 0.034 of the score at 80% power; 50 items, 0.084
+
+  InternVL3.5-14B Qwen       paired judge sd 38.5 points -> resolves 6.3 at 292 items, 10.8 at 100, 15.3 at 50
+  InternVL3.5-14B Gemma      paired judge sd 38.3 points -> resolves 6.3 at 292 items, 10.7 at 100, 15.2 at 50
+  InternVL3.5-14B Ministral  paired judge sd 37.5 points -> resolves 6.2 at 292 items, 10.5 at 100, 14.9 at 50
+  Qwen2.5-VL-32B  Qwen       paired judge sd 38.6 points -> resolves 6.3 at 292 items, 10.8 at 100, 15.3 at 50
+  Qwen2.5-VL-32B  Gemma      paired judge sd 41.5 points -> resolves 6.8 at 292 items, 11.6 at 100, 16.4 at 50
+  Qwen2.5-VL-32B  Ministral  paired judge sd 43.2 points -> resolves 7.1 at 292 items, 12.1 at 100, 17.1 at 50
+  a judge study of 50 figures cannot see a difference under about 15 points, which is
+  larger than most differences this literature reports.
+
+================================================================================
+== V5  arrow direction: an error class no graph score here separates
+================================================================================
+   a reversed edge is one the extractor found and pointed the wrong way.
+   node-and-edge F1 scores it exactly like a missing edge, so the two errors --
+   which call for different fixes -- are merged. Both are computable from any
+   predicted graph, so any benchmark of this kind can separate them for free.
+
+  corpus/source      model       rev/fig   %gold  figs>=1  %located  edgeF1  undir.   delta
+  sciflow (papers)   Qwen          0.021   0.16%     1.8%     3.78%   0.028   0.029 +0.0011
+  sciflow (papers)   Gemma         0.023   0.20%     2.1%     2.73%   0.040   0.041 +0.0011
+  sciflow (papers)   Ministral     0.040   0.22%     2.4%     3.63%   0.038   0.040 +0.0014
+  flowvqa code       Qwen          0.047   0.37%     4.7%     0.51%   0.726   0.729 +0.0037
+  flowvqa code       Gemma         0.040   0.25%     3.0%     0.44%   0.727   0.730 +0.0032
+  flowvqa code       Ministral     0.057   0.45%     4.3%     0.59%   0.736   0.741 +0.0044
+  flowvqa instruct   Qwen          0.117   0.52%    10.0%     1.53%   0.413   0.420 +0.0064
+  flowvqa instruct   Gemma         0.110   0.48%    10.0%     1.46%   0.389   0.395 +0.0058
+  flowvqa instruct   Ministral     0.217   0.96%    16.7%     2.25%   0.391   0.400 +0.0090
+  flowvqa wiki       Qwen          0.080   0.31%     7.7%     1.18%   0.358   0.362 +0.0043
+  flowvqa wiki       Gemma         0.187   0.66%    16.7%     2.70%   0.340   0.350 +0.0094
+  flowvqa wiki       Ministral     0.237   0.94%    20.0%     2.35%   0.401   0.411 +0.0097
+
+  papers (sciflow)        2.1% of figures carry one [1.7,2.5], 3.36% of the relations it located, edge F1 0.036 -> 0.037 ignoring direction
+  code                    4.0% of figures carry one [2.8,5.3], 0.51% of the relations it located, edge F1 0.730 -> 0.733 ignoring direction
+  prose (wiki+instruct)  13.5% of figures carry one [11.9,15.1], 1.95% of the relations it located, edge F1 0.383 -> 0.391 ignoring direction
+  prose / code ratio 1.8x per gold edge, Mann-Whitney p = 2.5e-14 (E4)
+  on the 5247 figures whose graph is also in layout_items, a graph that loops back carries
+  a reversed arrow on 5.0% of figures against 2.8% for one that does not (Mann-Whitney p = 3.1e-05),
+  so the error concentrates where the extraction is hardest and the figure most needs
+  to be read in order.
+
+  the fix costs nothing: report a direction-insensitive edge F1 beside the directed
+  one, or the reversal count itself. The gap between the two is the share of the
+  benchmark's deficit that is a direction error and not a missing relation.
+
+================================================================================
+== V6  the corpus as a calibration set: the reader's transfer function, measured
+================================================================================
+   V1 shows the read-back reader does not return what was drawn. Because the drawn
+   graph is known exactly, the map from what it returns to what is there can be
+   fitted and tested out of sample: papers are split by position into two halves,
+   the correction is fitted on one and scored on the other.
+
+  model      target   slope     R2  MAE raw  MAE cal.  MAE const
+  Qwen       boxes     0.45   0.40     6.08      3.97       5.58
+  Qwen       arrows    0.28   0.26    11.83      4.60       5.50
+  Gemma      boxes     0.43   0.62     5.19      3.48       5.70
+  Gemma      arrows    0.35   0.47    12.72      4.08       5.82
+  Ministral  boxes     0.33   0.32    11.98      6.10       7.99
+  Ministral  arrows    0.26   0.28    18.39      6.25       7.35
+
+  calibration roughly halves the error on arrows (11.8-18.4 arrows to 4.1-6.3),
+  but the fitted slope is 0.26-0.35 rather than 1 and explains only 0.26-0.47 of the variance,
+  so the corrected estimate is barely better than ignoring the reader and returning
+  the mean of the corpus (last column).
+
+  cross-model transfer of the arrow correction (MAE, all papers of the target model):
+    fitted on Qwen       -> Qwen  4.47   Gemma  4.37   Ministral  8.60
+    fitted on Gemma      -> Qwen  4.59   Gemma  4.11   Ministral  7.29
+    fitted on Ministral  -> Qwen  8.34   Gemma  7.44   Ministral  6.55
+  a correction fitted on one model's figures is worse on another's than that
+  model's own, so the transfer function belongs to the figure set and not to the
+  reader alone: it cannot be fitted once and carried to a new system's figures.
+
+  what transfers is the procedure, not the coefficients: any corpus whose geometry
+  is known lets a reader be audited and bounded before it is trusted to score a
+  system, and this one shows the bound is not removable by calibration.
+
+================================================================================
+== V7  a judge verdict belongs to its dimensions, as a geometric verdict does
+================================================================================
+   PaperBananaBench combines four dimensions into one number: faithfulness and
+   conciseness decide, readability and aesthetics break ties. Section 7 does not
+   report a six-criterion verdict without attributing it to its criteria; this is
+   the same operation on the judge, over the identical figures and both judges.
+
+  judge            model       overall  faithfulness   conciseness   readability    aesthetics
+  InternVL3.5-14B  Qwen          +10.2     +4.4*         +3.3          -0.8         +12.2*    
+  InternVL3.5-14B  Gemma         -39.2    -17.4*        -34.8*         -6.2*        -15.8*    
+  InternVL3.5-14B  Ministral     -22.6     -8.8*        -27.3*         -6.9*         -3.5     
+  Qwen2.5-VL-32B   Qwen          +25.3    +11.0*         +3.4         +10.4*        +31.3*    
+  Qwen2.5-VL-32B   Gemma         -17.1     -3.7*        -24.8*         +2.1          +1.3     
+  Qwen2.5-VL-32B   Ministral      -6.8     +1.8         -27.7*         +2.1         +11.0*    
+  (* Holm-corrected inside the four dimensions of one judge and model; the bracket
+   in the CSV is a 95% bootstrap interval over the 292 items.)
+
+  what share of the overall difference each loss's deciding dimension accounts for:
+    InternVL3.5-14B  Gemma      conciseness  -34.8 of overall  -39.2  =    89%
+    InternVL3.5-14B  Ministral  conciseness  -27.3 of overall  -22.6  =   121%
+    Qwen2.5-VL-32B   Gemma      conciseness  -24.8 of overall  -17.1  =   145%
+    Qwen2.5-VL-32B   Ministral  conciseness  -27.7 of overall   -6.8  =   409%
+
+  how far each dimension moves when the judge is replaced, on the same figures:
+    faithfulness   moves   6.6 to  13.7 points, sign kept for 2 of 3 models
+    conciseness    moves   0.1 to  10.0 points, sign kept for 3 of 3 models
+    readability    moves   8.4 to  11.2 points, sign kept for 0 of 3 models
+    aesthetics     moves  14.4 to  19.1 points, sign kept for 1 of 3 models
+    overall        moves  15.1 to  22.0 points, sign kept for 3 of 3 models
+  the dimension that carries the verdict, conciseness, is the one the change of
+  judge leaves alone; the overall number moves further than any dimension in it.
+
+  how often each dimension separates the two figures at all:
+    faithfulness   ties on 62.8% [62.1,63.5] of judgements   model 13.9%   human 23.2%
+    conciseness    ties on 23.4% [22.8,24.0] of judgements   model 20.5%   human 56.0%
+    readability    ties on 65.1% [64.4,65.8] of judgements   model 10.1%   human 24.6%
+    aesthetics     ties on 48.1% [47.3,48.8] of judgements   model 15.4%   human 36.4%
+  the dimension that names legibility is silent on two judgements in three; the
+  deciding dimension is the one that nearly always fires, and it fires against the
+  generated figure. These shares match the tie column of checks_judge.py --analysis
+  G2, and the ordering matches its agreement between judges: conciseness kappa
+  0.294 against readability 0.151, the two ends of the same ranking.
+
+  and what each dimension responds to, inside one system, per figure:
+    InternVL3.5-14B  Qwen       n= 291  fait -0.23  conc -0.42  read -0.45  aest -0.22  over -0.35  
+    InternVL3.5-14B  Gemma      n= 292  fait -0.22  conc -0.40  read -0.39  aest -0.22  over -0.38  
+    InternVL3.5-14B  Ministral  n= 290  fait -0.23  conc -0.34  read -0.37  aest -0.33  over -0.30  
+    Qwen2.5-VL-32B   Qwen       n= 291  fait -0.06  conc -0.38  read -0.26  aest -0.11  over -0.27  
+    Qwen2.5-VL-32B   Gemma      n= 292  fait -0.00  conc -0.25  read -0.14  aest -0.19  over -0.18  
+    Qwen2.5-VL-32B   Ministral  n= 290  fait -0.02  conc -0.37  read -0.29  aest -0.20  over -0.26  
+  every dimension falls with the number of boxes the figure holds, the deciding one
+  fastest (rho -0.25 to -0.42). Section 6 shows the same slope between twelve
+  systems; here it is inside one system, figure by figure. With size held fixed the
+  readability dimension tracks no geometry at all (C1), so it reads how much a
+  figure holds and not whether it can be read.
+
+  what transfers: report a judge per dimension and attribute the verdict before
+  reporting it. Here that turns one unstable number into one stable finding (the
+  generated figures are less concise) and three unstable ones.
+
+================================================================================
+== V8  the geometric signal is stable in aggregate and noisy per figure, which is what selection spends
+================================================================================
+   the layout is a deterministic function of the graph, so everything that moves
+   between two seeds of one item is the extraction. V3 sells the counts as a
+   best-of-n signal; this is the reliability of that signal and the ceiling of
+   acting on it, measured over three seeds of the shipped pipeline.
+
+  corpus       model          n   flips  seed spread    mean  best of 3  worst of 3   ceiling
+  sciflow      Qwen         472   11.2%         0.7    93.2       97.8        86.8     +4.6 [+3.4,+5.9]
+  sciflow      Gemma        472    9.3%         1.7    91.4       95.4        86.2     +4.1 [+2.9,+5.3]
+  sciflow      Ministral    472   34.1%         3.0    74.3       89.0        55.4    +14.7 [+12.6,+16.7]
+  flowvqa      Qwen         300    4.3%         1.0    97.7       99.7        95.3     +2.0 [+1.0,+3.2]
+  flowvqa      Gemma        300    2.7%         0.7    98.0       99.0        96.3     +1.0 [+0.3,+1.8]
+  flowvqa      Ministral    300   18.0%         4.7    90.8       98.0        80.0     +7.2 [+5.4,+9.2]
+  paperbanana  Qwen         287    9.4%         1.7    95.2       99.3        89.9     +4.1 [+2.6,+5.7]
+  paperbanana  Gemma        291   12.0%         1.7    93.5       98.3        86.3     +4.8 [+3.3,+6.4]
+  paperbanana  Ministral    281   53.7%         0.7    58.0       84.7        31.0    +26.7 [+23.5,+29.9]
+
+  the seed moves the pass rate of a setting by 0.7 to 4.7 points and the verdict of a figure on
+  2.7 to 53.7% of them: the aggregate is reproducible and a single figure's verdict is not,
+  so one run under-reports a figure's legibility by up to 27.0 points of its own corpus.
+
+  and the share of figures whose verdict is seed-dependent is what one extra
+  sample buys, so the headroom can be read off a few resampled items in advance:
+    sciflow  Qwen       verdict seed-dependent on  11.2% of figures   measured best-of-2  +5.9 pts   best-of-3 ceiling  +4.6 pts
+    sciflow  Gemma      verdict seed-dependent on   9.3% of figures   measured best-of-2  +6.5 pts   best-of-3 ceiling  +4.1 pts
+    sciflow  Ministral  verdict seed-dependent on  34.1% of figures   measured best-of-2 +17.3 pts   best-of-3 ceiling +14.7 pts
+    flowvqa  Qwen       verdict seed-dependent on   4.3% of figures   measured best-of-2  +3.3 pts   best-of-3 ceiling  +2.0 pts
+    flowvqa  Gemma      verdict seed-dependent on   2.7% of figures   measured best-of-2  +4.3 pts   best-of-3 ceiling  +1.0 pts
+    flowvqa  Ministral  verdict seed-dependent on  18.0% of figures   measured best-of-2 +17.4 pts   best-of-3 ceiling  +7.2 pts
+    rank correlation over the 6 settings: rho = +0.83 (p = 0.042)
+
+  the same instability is there on content and cannot be spent:
+    sciflow  Qwen       score 0.104, seed spread 0.000, best of three 0.117 (+0.014)
+    sciflow  Gemma      score 0.124, seed spread 0.002, best of three 0.131 (+0.008)
+    sciflow  Ministral  score 0.124, seed spread 0.002, best of three 0.139 (+0.015)
+    flowvqa  Qwen       score 0.600, seed spread 0.006, best of three 0.646 (+0.046)
+    flowvqa  Gemma      score 0.587, seed spread 0.002, best of three 0.614 (+0.027)
+    flowvqa  Ministral  score 0.639, seed spread 0.007, best of three 0.682 (+0.042)
+  picking the best of three samples would add 0.008 to 0.046 of score as well, and
+  nothing available at generation time says which sample that is: a defect is
+  countable per figure and a missing relation is not. That asymmetry, and not the
+  size of either headroom, is why selection by geometry is free and selection on
+  content needs a gold graph or a judge.

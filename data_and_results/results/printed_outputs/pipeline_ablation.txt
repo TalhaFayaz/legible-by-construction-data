@@ -1,0 +1,162 @@
+=== qwen, sciflow, seed 0
+full pipeline: nocov_sciflow_qwen_seed0/full.jsonl
+  n 483, failed 0, node F1 0.208, edge F1 0.033, score 0.103
+
+node F1 (variant - full; Wilcoxon; r = rank-biserial; CI = 95 % bootstrap; Holm over 3 variants)
+  - best-of-2 (n=1)          n 483, failed 0, 0.210 (+0.002 [-0.002, +0.007]), r +0.05, p Holm 0.43: same
+  - constrained decoding     n 483, failed 30, 0.197 (-0.011 [-0.018, -0.003]), r -0.10, p Holm 0.2: same
+  + coverage pass            n 483, failed 0, 0.212 (+0.004 [-0.000, +0.009]), r +0.08, p Holm 0.37: same
+
+edge F1 (variant - full; Wilcoxon; r = rank-biserial; CI = 95 % bootstrap; Holm over 3 variants)
+  - best-of-2 (n=1)          n 483, failed 0, 0.036 (+0.003 [-0.004, +0.010]), r +0.22, p Holm 0.11: same
+  - constrained decoding     n 483, failed 30, 0.033 (+0.000 [-0.007, +0.007]), r +0.12, p Holm 0.27: same
+  + coverage pass            n 483, failed 0, 0.037 (+0.004 [-0.000, +0.008]), r +0.32, p Holm 0.0086: better
+
+score (variant - full; Wilcoxon; r = rank-biserial; CI = 95 % bootstrap; Holm over 3 variants)
+  - best-of-2 (n=1)          n 483, failed 0, 0.106 (+0.003 [-0.002, +0.007]), r +0.09, p Holm 0.32: same
+  - constrained decoding     n 483, failed 30, 0.099 (-0.004 [-0.010, +0.001]), r -0.05, p Holm 0.4: same
+  + coverage pass            n 483, failed 0, 0.107 (+0.004 [+0.000, +0.008]), r +0.17, p Holm 0.015: better
+
+arrow crossings per figure (items laid out in both runs; Wilcoxon)
+  - best-of-2 (n=1)          edge_edge_crossings  full 0.36, variant 0.69, n 483, p 0.00016
+  - best-of-2 (n=1)          edge_node_crossings  full 0.00, variant 0.00, n 483, identical
+  - constrained decoding     edge_edge_crossings  full 0.35, variant 0.51, n 453, p 0.83
+  - constrained decoding     edge_node_crossings  full 0.00, variant 0.00, n 453, identical
+  + coverage pass            edge_edge_crossings  full 0.36, variant 1.04, n 483, p 7.5e-13
+  + coverage pass            edge_node_crossings  full 0.00, variant 0.00, n 483, identical
+
+=== qwen, flowvqa, seed 0
+full pipeline: nocov_flowvqa_qwen_seed0/full.jsonl
+  n 300, failed 0, node F1 0.760, edge F1 0.490, score 0.598
+
+node F1 (variant - full; Wilcoxon; r = rank-biserial; CI = 95 % bootstrap; Holm over 3 variants)
+  - best-of-2 (n=1)          n 300, failed 0, 0.762 (+0.002 [-0.006, +0.011]), r +0.07, p Holm 1: same
+  - constrained decoding     n 300, failed 6, 0.758 (-0.002 [-0.017, +0.013]), r +0.05, p Holm 1: same
+  + coverage pass            n 300, failed 0, 0.760 (+0.000 [-0.007, +0.008]), r +0.04, p Holm 1: same
+
+edge F1 (variant - full; Wilcoxon; r = rank-biserial; CI = 95 % bootstrap; Holm over 3 variants)
+  - best-of-2 (n=1)          n 300, failed 0, 0.491 (+0.001 [-0.012, +0.015]), r +0.08, p Holm 0.67: same
+  - constrained decoding     n 300, failed 6, 0.492 (+0.003 [-0.017, +0.023]), r +0.03, p Holm 0.67: same
+  + coverage pass            n 300, failed 0, 0.497 (+0.007 [-0.004, +0.018]), r +0.15, p Holm 0.34: same
+
+score (variant - full; Wilcoxon; r = rank-biserial; CI = 95 % bootstrap; Holm over 3 variants)
+  - best-of-2 (n=1)          n 300, failed 0, 0.600 (+0.002 [-0.009, +0.012]), r +0.07, p Holm 0.78: same
+  - constrained decoding     n 300, failed 6, 0.599 (+0.001 [-0.015, +0.017]), r +0.03, p Holm 0.78: same
+  + coverage pass            n 300, failed 0, 0.602 (+0.005 [-0.004, +0.013]), r +0.13, p Holm 0.47: same
+
+arrow crossings per figure (items laid out in both runs; Wilcoxon)
+  - best-of-2 (n=1)          edge_edge_crossings  full 0.17, variant 0.26, n 300, p 0.039
+  - best-of-2 (n=1)          edge_node_crossings  full 0.00, variant 0.00, n 300, identical
+  - constrained decoding     edge_edge_crossings  full 0.18, variant 0.17, n 294, p 0.49
+  - constrained decoding     edge_node_crossings  full 0.00, variant 0.00, n 294, identical
+  + coverage pass            edge_edge_crossings  full 0.17, variant 0.24, n 300, p 0.039
+  + coverage pass            edge_node_crossings  full 0.00, variant 0.00, n 300, identical
+
+=== gemma4, sciflow, seed 0
+full pipeline: nocov_sciflow_gemma4_seed0/full.jsonl
+  n 483, failed 0, node F1 0.249, edge F1 0.044, score 0.126
+
+node F1 (variant - full; Wilcoxon; r = rank-biserial; CI = 95 % bootstrap; Holm over 3 variants)
+  - best-of-2 (n=1)          n 483, failed 0, 0.247 (-0.001 [-0.004, +0.001]), r -0.13, p Holm 0.091: same
+  - constrained decoding     n 483, failed 4, 0.241 (-0.008 [-0.013, -0.003]), r -0.13, p Holm 0.05: worse
+  + coverage pass            n 483, failed 0, 0.249 (+0.000 [-0.004, +0.005]), r -0.16, p Holm 0.011: worse
+
+edge F1 (variant - full; Wilcoxon; r = rank-biserial; CI = 95 % bootstrap; Holm over 3 variants)
+  - best-of-2 (n=1)          n 483, failed 0, 0.043 (-0.001 [-0.003, +0.001]), r -0.02, p Holm 0.87: same
+  - constrained decoding     n 483, failed 4, 0.036 (-0.007 [-0.013, -0.001]), r -0.25, p Holm 0.029: worse
+  + coverage pass            n 483, failed 0, 0.041 (-0.002 [-0.006, +0.002]), r -0.22, p Holm 0.029: worse
+
+score (variant - full; Wilcoxon; r = rank-biserial; CI = 95 % bootstrap; Holm over 3 variants)
+  - best-of-2 (n=1)          n 483, failed 0, 0.125 (-0.001 [-0.003, +0.001]), r -0.09, p Holm 0.2: same
+  - constrained decoding     n 483, failed 4, 0.118 (-0.008 [-0.012, -0.003]), r -0.18, p Holm 0.0046: worse
+  + coverage pass            n 483, failed 0, 0.125 (-0.001 [-0.004, +0.002]), r -0.17, p Holm 0.0046: worse
+
+arrow crossings per figure (items laid out in both runs; Wilcoxon)
+  - best-of-2 (n=1)          edge_edge_crossings  full 0.74, variant 1.11, n 483, p 5.2e-05
+  - best-of-2 (n=1)          edge_node_crossings  full 0.00, variant 0.00, n 483, identical
+  - constrained decoding     edge_edge_crossings  full 0.74, variant 0.35, n 479, p 0.00017
+  - constrained decoding     edge_node_crossings  full 0.00, variant 0.00, n 479, identical
+  + coverage pass            edge_edge_crossings  full 0.74, variant 2.39, n 483, p 2.9e-23
+  + coverage pass            edge_node_crossings  full 0.00, variant 0.00, n 483, identical
+
+=== gemma4, flowvqa, seed 0
+full pipeline: nocov_flowvqa_gemma4_seed0/full.jsonl
+  n 300, failed 0, node F1 0.748, edge F1 0.480, score 0.588
+
+node F1 (variant - full; Wilcoxon; r = rank-biserial; CI = 95 % bootstrap; Holm over 3 variants)
+  - best-of-2 (n=1)          n 300, failed 0, 0.748 (-0.001 [-0.006, +0.004]), r -0.03, p Holm 1: same
+  - constrained decoding     n 300, failed 19, 0.718 (-0.031 [-0.054, -0.009]), r +0.05, p Holm 1: same
+  + coverage pass            n 300, failed 0, 0.739 (-0.009 [-0.014, -0.003]), r -0.31, p Holm 0.00052: worse
+
+edge F1 (variant - full; Wilcoxon; r = rank-biserial; CI = 95 % bootstrap; Holm over 3 variants)
+  - best-of-2 (n=1)          n 300, failed 0, 0.479 (-0.001 [-0.011, +0.008]), r -0.04, p Holm 1: same
+  - constrained decoding     n 300, failed 19, 0.461 (-0.019 [-0.040, +0.000]), r -0.04, p Holm 1: same
+  + coverage pass            n 300, failed 0, 0.488 (+0.007 [-0.002, +0.017]), r +0.08, p Holm 1: same
+
+score (variant - full; Wilcoxon; r = rank-biserial; CI = 95 % bootstrap; Holm over 3 variants)
+  - best-of-2 (n=1)          n 300, failed 0, 0.586 (-0.001 [-0.008, +0.006]), r -0.04, p Holm 1: same
+  - constrained decoding     n 300, failed 19, 0.564 (-0.024 [-0.044, -0.005]), r -0.01, p Holm 1: same
+  + coverage pass            n 300, failed 0, 0.588 (+0.001 [-0.006, +0.008]), r -0.05, p Holm 1: same
+
+arrow crossings per figure (items laid out in both runs; Wilcoxon)
+  - best-of-2 (n=1)          edge_edge_crossings  full 0.35, variant 0.60, n 300, p 0.00084
+  - best-of-2 (n=1)          edge_node_crossings  full 0.00, variant 0.00, n 300, identical
+  - constrained decoding     edge_edge_crossings  full 0.36, variant 0.39, n 281, p 0.79
+  - constrained decoding     edge_node_crossings  full 0.00, variant 0.00, n 281, identical
+  + coverage pass            edge_edge_crossings  full 0.35, variant 0.89, n 300, p 1.4e-08
+  + coverage pass            edge_node_crossings  full 0.00, variant 0.00, n 300, identical
+
+=== ministral, sciflow, seed 0
+full pipeline: nocov_sciflow_ministral_seed0/full.jsonl
+  n 483, failed 0, node F1 0.247, edge F1 0.043, score 0.125
+
+node F1 (variant - full; Wilcoxon; r = rank-biserial; CI = 95 % bootstrap; Holm over 3 variants)
+  - best-of-2 (n=1)          n 483, failed 0, 0.247 (+0.000 [-0.004, +0.005]), r +0.01, p Holm 0.83: same
+  - constrained decoding     n 483, failed 10, 0.240 (-0.007 [-0.014, -0.001]), r -0.08, p Holm 0.29: same
+  + coverage pass            n 483, failed 0, 0.242 (-0.005 [-0.009, -0.000]), r -0.16, p Holm 0.011: worse
+
+edge F1 (variant - full; Wilcoxon; r = rank-biserial; CI = 95 % bootstrap; Holm over 3 variants)
+  - best-of-2 (n=1)          n 483, failed 0, 0.043 (-0.001 [-0.005, +0.003]), r -0.03, p Holm 1: same
+  - constrained decoding     n 483, failed 10, 0.040 (-0.004 [-0.008, +0.000]), r -0.14, p Holm 0.29: same
+  + coverage pass            n 483, failed 0, 0.044 (+0.001 [-0.003, +0.005]), r +0.02, p Holm 1: same
+
+score (variant - full; Wilcoxon; r = rank-biserial; CI = 95 % bootstrap; Holm over 3 variants)
+  - best-of-2 (n=1)          n 483, failed 0, 0.124 (-0.000 [-0.004, +0.003]), r +0.02, p Holm 0.66: same
+  - constrained decoding     n 483, failed 10, 0.120 (-0.005 [-0.009, -0.001]), r -0.08, p Holm 0.31: same
+  + coverage pass            n 483, failed 0, 0.124 (-0.001 [-0.004, +0.002]), r -0.09, p Holm 0.31: same
+
+arrow crossings per figure (items laid out in both runs; Wilcoxon)
+  - best-of-2 (n=1)          edge_edge_crossings  full 3.69, variant 5.86, n 483, p 1.4e-09
+  - best-of-2 (n=1)          edge_node_crossings  full 0.00, variant 0.00, n 483, identical
+  - constrained decoding     edge_edge_crossings  full 3.73, variant 1.87, n 473, p 3.8e-10
+  - constrained decoding     edge_node_crossings  full 0.00, variant 0.00, n 473, identical
+  + coverage pass            edge_edge_crossings  full 3.69, variant 11.83, n 483, p 2.9e-59
+  + coverage pass            edge_node_crossings  full 0.00, variant 0.00, n 483, identical
+
+=== ministral, flowvqa, seed 0
+full pipeline: nocov_flowvqa_ministral_seed0/full.jsonl
+  n 300, failed 0, node F1 0.779, edge F1 0.546, score 0.639
+
+node F1 (variant - full; Wilcoxon; r = rank-biserial; CI = 95 % bootstrap; Holm over 3 variants)
+  - best-of-2 (n=1)          n 300, failed 0, 0.776 (-0.003 [-0.010, +0.004]), r -0.04, p Holm 1: same
+  - constrained decoding     n 300, failed 26, 0.728 (-0.051 [-0.075, -0.029]), r -0.10, p Holm 0.47: same
+  + coverage pass            n 300, failed 0, 0.779 (+0.000 [-0.006, +0.006]), r +0.01, p Holm 1: same
+
+edge F1 (variant - full; Wilcoxon; r = rank-biserial; CI = 95 % bootstrap; Holm over 3 variants)
+  - best-of-2 (n=1)          n 300, failed 0, 0.547 (+0.001 [-0.013, +0.015]), r -0.02, p Holm 0.79: same
+  - constrained decoding     n 300, failed 26, 0.519 (-0.027 [-0.048, -0.007]), r -0.13, p Holm 0.13: same
+  + coverage pass            n 300, failed 0, 0.561 (+0.015 [+0.003, +0.027]), r +0.21, p Holm 0.028: better
+
+score (variant - full; Wilcoxon; r = rank-biserial; CI = 95 % bootstrap; Holm over 3 variants)
+  - best-of-2 (n=1)          n 300, failed 0, 0.639 (-0.001 [-0.011, +0.009]), r -0.03, p Holm 0.64: same
+  - constrained decoding     n 300, failed 26, 0.602 (-0.037 [-0.058, -0.017]), r -0.14, p Holm 0.11: same
+  + coverage pass            n 300, failed 0, 0.648 (+0.009 [-0.000, +0.018]), r +0.17, p Holm 0.1: same
+
+arrow crossings per figure (items laid out in both runs; Wilcoxon)
+  - best-of-2 (n=1)          edge_edge_crossings  full 1.73, variant 3.58, n 300, p 2.3e-07
+  - best-of-2 (n=1)          edge_node_crossings  full 0.00, variant 0.00, n 300, identical
+  - constrained decoding     edge_edge_crossings  full 1.63, variant 0.55, n 274, p 7.5e-05
+  - constrained decoding     edge_node_crossings  full 0.00, variant 0.00, n 274, identical
+  + coverage pass            edge_edge_crossings  full 1.73, variant 4.98, n 300, p 9.1e-19
+  + coverage pass            edge_node_crossings  full 0.00, variant 0.00, n 300, identical
+

@@ -1,0 +1,176 @@
+Engine choice: analyses F1-F4, computed from the per-item CSVs only.
+
+==============================================================================
+== F1  Is the content gain a size effect? The same comparison with boxes matched
+==============================================================================
+
+The PaperBananaBench loss is a size effect (6). The same question has to be
+asked of the gain: on SciFlow-Bench and FlowVQA a figure with more boxes can score
+higher simply by covering more of the gold graph. Below, each comparison is
+repeated on the items where the two systems drew within TOL boxes of each other,
+so neither can win on size. Failed DOT answers have no graph and so cannot enter
+a matched subset; they are kept in the 'all' column, scored zero, as in Table 1.
+
+--- baseline: DOT (short prompt) ---
+corpus     model       n_all    d_all  n_match  d_match                 95% CI      r    p_holm  verdict
+sciflow    Qwen          483  +0.0034      123  +0.0096 [-0.0062, +0.0244]   +0.27     0.034  ahead
+sciflow    Gemma         483  +0.0234      160  +0.0236 [+0.0120, +0.0359]   +0.38    0.0002  ahead
+sciflow    Ministral     483  +0.0278       50  +0.0120 [-0.0026, +0.0274]   +0.27      0.16  tied
+flowvqa    Qwen          300  +0.0576      125  +0.0446 [+0.0142, +0.0751]   +0.32     0.009  ahead
+flowvqa    Gemma         300  +0.0048      117  +0.0247 [-0.0026, +0.0515]   +0.19      0.16  tied
+flowvqa    Ministral     300  +0.1171       63  +0.1557 [+0.1082, +0.2054]   +0.75   1.3e-06  ahead
+
+--- baseline: prompt-matched DOT ---
+corpus     model       n_all    d_all  n_match  d_match                 95% CI      r    p_holm  verdict
+sciflow    Qwen          483  +0.0180      109  +0.0153 [+0.0047, +0.0275]   +0.30     0.036  ahead
+sciflow    Gemma         483  +0.0251      178  +0.0195 [+0.0108, +0.0291]   +0.40   5.4e-05  ahead
+sciflow    Ministral     483  +0.0235      119  +0.0128 [+0.0020, +0.0239]   +0.30     0.026  ahead
+flowvqa    Qwen          300  +0.0090      167  +0.0077 [-0.0117, +0.0272]   +0.06      0.93  tied
+flowvqa    Gemma         300  +0.0393      171  +0.0098 [-0.0059, +0.0251]   +0.11      0.84  tied
+flowvqa    Ministral     300  +0.0095      124  +0.0129 [-0.0077, +0.0342]   +0.08      0.93  tied
+
+Sensitivity to the matching tolerance (mean paired difference, n in brackets):
+baseline     corpus    model                   TOL=0              TOL=1              TOL=2              TOL=3              TOL=5
+dot          sciflow   Qwen             -0.0165 (14)       +0.0058 (75)      +0.0096 (123)      +0.0100 (150)      +0.0130 (199)
+dot          sciflow   Gemma            +0.0354 (27)      +0.0208 (115)      +0.0236 (160)      +0.0256 (209)      +0.0189 (303)
+dot          sciflow   Ministral         +0.0071 (3)       +0.0099 (30)       +0.0120 (50)       +0.0095 (78)      +0.0123 (158)
+dot          flowvqa   Qwen             +0.0338 (15)       +0.0260 (64)      +0.0446 (125)      +0.0410 (174)      +0.0425 (224)
+dot          flowvqa   Gemma            +0.0420 (26)       +0.0168 (74)      +0.0247 (117)      +0.0145 (152)      +0.0169 (199)
+dot          flowvqa   Ministral         +0.2783 (7)       +0.1968 (33)       +0.1557 (63)       +0.1557 (85)      +0.1489 (136)
+dot_matched  sciflow   Qwen             +0.0148 (12)       +0.0223 (63)      +0.0153 (109)      +0.0137 (159)      +0.0098 (250)
+dot_matched  sciflow   Gemma            +0.0202 (17)      +0.0167 (111)      +0.0195 (178)      +0.0164 (232)      +0.0141 (318)
+dot_matched  sciflow   Ministral         +0.0797 (6)       +0.0167 (67)      +0.0128 (119)      +0.0129 (158)      +0.0149 (250)
+dot_matched  flowvqa   Qwen             +0.0027 (48)      +0.0090 (122)      +0.0077 (167)      +0.0028 (190)      +0.0067 (234)
+dot_matched  flowvqa   Gemma            -0.0105 (84)      +0.0058 (135)      +0.0098 (171)      +0.0109 (204)      +0.0104 (239)
+dot_matched  flowvqa   Ministral        +0.0269 (40)       +0.0055 (90)      +0.0129 (124)      +0.0141 (150)      +0.0116 (185)
+
+Our graphs against DOT's, in boxes (mean ours - mean DOT):
+  dot          sciflow   ours  28.1  DOT  30.7  ours smaller on 61.2% of items
+  dot          flowvqa   ours  16.7  DOT  12.2  ours smaller on 13.7% of items
+  dot_matched  sciflow   ours  28.4  DOT  27.9  ours smaller on 50.3% of items
+  dot_matched  flowvqa   ours  16.7  DOT  15.4  ours smaller on 30.1% of items
+
+Summary: size-matched, ours is ahead in 7 of 12 settings and behind in 0.
+
+==============================================================================
+== F2  The criteria are not one quantity: crossings carry almost no information about label occlusion
+==============================================================================
+
+All 30,060 layouts of the two engines on identical graphs, three corpora.
+Spearman rho between the criteria, over figures (both engines pooled, so the
+matrix describes the measurements, not one engine's habits).
+
+                         edge_no  edge_ed  label_c  edge_la  stacked  mean_be  total_e  min_sep  aspect_
+arrows through a box       +1.00    +0.21    +0.33    +0.29    -0.00    -0.04    +0.13    -0.26    -0.04
+arrow crossings            +0.21    +1.00    +0.11    +0.39    +0.15    +0.33    +0.53    -0.14    -0.11
+label collisions           +0.33    +0.11    +1.00    +0.53    -0.03    -0.36    -0.07    -0.39    +0.03
+arrows through a label     +0.29    +0.39    +0.53    +1.00    +0.08    +0.07    +0.31    -0.30    -0.01
+stacked routes             -0.00    +0.15    -0.03    +0.08    +1.00    +0.07    +0.13    -0.01    -0.03
+bends per arrow            -0.04    +0.33    -0.36    +0.07    +0.07    +1.00    +0.60    -0.02    -0.16
+arrow length               +0.13    +0.53    -0.07    +0.31    +0.13    +0.60    +1.00    -0.11    -0.14
+box separation             -0.26    -0.14    -0.39    -0.30    -0.01    -0.02    -0.11    +1.00    +0.08
+page shape                 -0.04    -0.11    +0.03    -0.01    -0.03    -0.16    -0.14    +0.08    +1.00
+
+The pair the paper's argument turns on: rho(arrow crossings, label collisions) = +0.11
+  rho(bends per arrow, label collisions)   = -0.36
+  rho(arrow length, label collisions)      = -0.07
+
+Crossings, bends and length -- the criteria a layout tool optimises -- are
+uncorrelated or negatively correlated with label occlusion, the criterion that
+tracks the raters best (rho = 0.75, 5.3). Both grow with the graph, so within one
+engine the raw correlation is positive; what matters is whether it survives
+holding the graph fixed, below.
+
+Within each engine separately, rho(crossings, label collisions):
+  ours                   rho +0.16  (p=1.9e-34, n=6,012)
+  dot (tb, curved)       rho +0.24  (p=2.4e-82, n=6,009)
+  dot (tb, orthogonal)   rho +0.42  (p=4.6e-259, n=6,011)
+
+With the number of boxes held fixed (rank-partial rho):
+  rho(crossings, label collisions | boxes) = +0.02  (n=30,051)
+
+  It does not. At a fixed graph size the two are independent, so a figure's
+  crossing count says nothing about whether its labels can be read. This is the
+  mechanism behind Table S2a: 'dot' wins the criterion this literature reports and
+  loses the one that predicts a reader, and neither result implies the other.
+
+==============================================================================
+== F3  Graphviz with an oracle over its four configurations
+==============================================================================
+
+6,007 figures, each laid out by our engine and by all four 'dot' configurations
+on the identical graph. Table S2a reports the four configurations separately and
+notes that no one of them gives both right angles and legible labels. The
+stronger statement the same measurements support: give 'dot' the best of its four
+configurations *per figure* -- an oracle it cannot have, since choosing needs the
+very check being compared -- and it is still behind.
+
+corpus    model           n    ours  tb_spline  lr_spline   tb_ortho   lr_ortho   oracle   delta
+sciflow   Qwen         1413   93.1%      69.1%      54.4%       7.0%       3.3%    80.8%  +12.3
+sciflow   Gemma        1416   91.4%      57.8%      51.4%       6.4%       2.0%    71.5%  +19.8
+sciflow   Ministral    1415   74.3%      31.8%      18.2%       1.6%       1.3%    40.8%  +33.4
+flowvqa   Qwen          300   97.3%      79.3%      81.3%      23.3%       7.0%    92.0%   +5.3
+flowvqa   Gemma         300   98.0%      67.3%      75.0%      20.7%      10.7%    86.3%  +11.7
+flowvqa   Ministral     300   87.7%      52.3%      55.3%      18.3%       6.0%    67.7%  +20.0
+paperbanana Qwen          287   95.1%      71.8%      45.3%       0.7%       0.3%    84.0%  +11.1
+paperbanana Gemma         292   94.5%      51.7%      38.0%       1.4%       0.0%    64.0%  +30.5
+paperbanana Ministral     284   57.7%      16.2%       9.9%       1.1%       0.7%    21.1%  +36.6
+
+Pooled: ours 86.9% strictly legible, oracle 'dot' 65.9%, delta +21.0 points.
+Paired on identical graphs: ours passes where the oracle fails on 1,449 figures
+and the reverse on 185 -- 7.8 to one (exact McNemar p = 4.1e-243).
+
+Best single configuration per setting is not stable either:
+  sciflow     Qwen       best = tb_spline  (69.1%)
+  sciflow     Gemma      best = tb_spline  (57.8%)
+  sciflow     Ministral  best = tb_spline  (31.8%)
+  flowvqa     Qwen       best = lr_spline  (81.3%)
+  flowvqa     Gemma      best = lr_spline  (75.0%)
+  flowvqa     Ministral  best = lr_spline  (55.3%)
+  paperbanana Qwen       best = tb_spline  (71.8%)
+  paperbanana Gemma      best = tb_spline  (51.7%)
+  paperbanana Ministral  best = tb_spline  (16.2%)
+
+So the comparison in Table S2a is not a configuration this paper chose for 'dot':
+no configuration, and no per-figure choice among them, closes the gap.
+
+==============================================================================
+== F4  Loops and containers, as a 2x2: when a general-purpose layout tool stops being adequate
+==============================================================================
+
+6,007 figures. 5.2 reports loops and containers separately. Crossed, they
+are not additive: each one costs 'dot' something, and together they cost it more
+than the sum.
+
+ loop  container      n     ours      dot   oracle  gap(dot)
+   no         no   1399    96.6%    83.5%    92.5%    +13.2
+   no        yes   2048    88.9%    52.4%    68.4%    +36.5
+  yes         no    827    92.3%    67.7%    82.1%    +24.5
+  yes        yes   1733    74.3%    25.6%    33.8%    +48.7
+
+Interaction on the gap (loop x container): +0.8 points: the two costs are
+additive, not compounding. Each property independently costs 'dot' -23 points
+(a container) and -11 points (a loop) of legibility relative to ours, and a graph with
+both pays both.
+'dot' falls from 83.5% on graphs with neither to 25.6% on graphs with both; ours
+from 96.6% to 74.3%.
+
+The same, by graph size, since the two grow together:
+
+   boxes      n     ours      dot   oracle
+     <=9    374    99.7%    84.2%    97.1%
+   10-14    793    98.1%    77.2%    89.2%
+   15-19   1284    94.7%    65.9%    78.6%
+   20-29   2186    87.1%    48.9%    61.4%
+   30-49   1256    70.7%    29.9%    40.1%
+     50+    114    57.0%    22.8%    29.8%
+
+A rule from these three properties alone (no layout run): logistic fit of
+'dot (tb, curved) fails the strict check' on boxes, loop and container.
+  intercept      -5.121
+  log(boxes+1)   +1.198   odds x3.31
+  has loop       +0.951   odds x2.59
+  has container  +1.259   odds x3.52
+  AUC 0.772 on 6,007 figures: whether 'dot' will draw an illegible figure is
+  predictable from the graph before it is drawn, which is what makes the choice
+  of engine a decision a caller can make.

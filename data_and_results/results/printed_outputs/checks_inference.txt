@@ -1,0 +1,134 @@
+
+================================================================================
+== I1  pooled layout comparisons: the rows are clustered
+================================================================================
+
+ours vs dot, best single configuration
+  6009 figures from 1064 source graphs; 87.0% against 54.0%, difference +32.9 points
+  McNemar over the pooled rows (b=2124, c=145): p = 0   <- rows not independent
+  design effect 1.68x, so the pooled rows carry about 3579 independent figures, not 6009
+  cluster bootstrap 95% CI  [+31.3, +34.6] points
+  cluster-level sign-flip permutation p = 0.0001 (floor 1e-04 at 10000 draws)
+
+ours vs dot, oracle over its four configurations
+  6011 figures from 1064 source graphs; 86.9% against 65.9%, difference +21.0 points
+  McNemar over the pooled rows (b=1450, c=185): p = 2.29e-243   <- rows not independent
+  design effect 1.77x, so the pooled rows carry about 3402 independent figures, not 6011
+  cluster bootstrap 95% CI  [+19.5, +22.6] points
+  cluster-level sign-flip permutation p = 0.0001 (floor 1e-04 at 10000 draws)
+
+label-blind verdict (the reversal): 96.6% against 98.9%, -2.2 points, cluster 95% CI [-2.9, -1.6], sign-flip p = 0.0001
+
+================================================================================
+== I2  the nine per-setting legibility differences, cluster-robust
+================================================================================
+
+vs dot best single configuration
+  corpus      model      figures graphs    diff     cluster 95% CI   perm p
+  flowvqa     Gemma          300    300   +30.7  [ +25.0, +36.3]   0.0001
+  flowvqa     Ministral      300    300   +35.3  [ +30.0, +41.0]   0.0001
+  flowvqa     Qwen           300    300   +18.0  [ +13.3, +22.7]   0.0001
+  paperbanana Gemma          292    292   +42.8  [ +37.0, +48.6]   0.0001
+  paperbanana Ministral      284    284   +41.5  [ +34.9, +47.9]   0.0001
+  paperbanana Qwen           287    287   +23.3  [ +18.5, +28.6]   0.0001
+  sciflow     Gemma         1416    472   +33.5  [ +29.9, +37.2]   0.0001
+  sciflow     Ministral     1415    472   +42.5  [ +38.7, +46.1]   0.0001
+  sciflow     Qwen          1415    472   +24.1  [ +20.8, +27.5]   0.0001
+
+vs dot oracle over four configurations
+  corpus      model      figures graphs    diff     cluster 95% CI   perm p
+  flowvqa     Gemma          300    300   +11.7  [  +7.7, +15.7]   0.0001
+  flowvqa     Ministral      300    300   +20.0  [ +15.3, +25.0]   0.0001
+  flowvqa     Qwen           300    300    +5.3  [  +2.0,  +8.7]   0.0039
+  paperbanana Gemma          292    292   +30.5  [ +25.0, +36.3]   0.0001
+  paperbanana Ministral      285    285   +36.5  [ +29.8, +42.8]   0.0001
+  paperbanana Qwen           287    287   +11.1  [  +7.3, +15.3]   0.0001
+  sciflow     Gemma         1416    472   +19.8  [ +16.5, +23.1]   0.0001
+  sciflow     Ministral     1416    472   +33.4  [ +29.8, +37.1]   0.0001
+  sciflow     Qwen          1415    472   +12.4  [  +9.7, +15.2]   0.0001
+
+================================================================================
+== I3  "tied" as an equivalence claim: two one-sided bootstrap tests
+================================================================================
+  corpus   model     baseline         mean             95% CI TOST bound  verdict at that bound
+  flowvqa  Qwen      short prompt  +0.0576  [+0.0352,+0.0800]     0.0765  ahead
+  flowvqa  Qwen      our prompts   +0.0090  [-0.0084,+0.0262]     0.0234  equivalent within 0.023
+  flowvqa  Gemma     short prompt  +0.0048  [-0.0137,+0.0233]     0.0203  equivalent within 0.020
+  flowvqa  Gemma     our prompts   +0.0393  [+0.0215,+0.0581]     0.0547  ahead
+  flowvqa  Ministral short prompt  +0.1171  [+0.0940,+0.1414]     0.1371  ahead
+  flowvqa  Ministral our prompts   +0.0095  [-0.0078,+0.0273]     0.0244  equivalent within 0.024
+  sciflow  Qwen      short prompt  +0.0034  [-0.0037,+0.0108]     0.0096  equivalent within 0.010
+  sciflow  Qwen      our prompts   +0.0180  [+0.0122,+0.0243]     0.0232  ahead
+  sciflow  Gemma     short prompt  +0.0234  [+0.0169,+0.0299]     0.0288  ahead
+  sciflow  Gemma     our prompts   +0.0251  [+0.0186,+0.0318]     0.0306  ahead
+  sciflow  Ministral short prompt  +0.0278  [+0.0188,+0.0368]     0.0354  ahead
+  sciflow  Ministral our prompts   +0.0235  [+0.0177,+0.0297]     0.0288  ahead
+
+  PaperBananaBench, per judge (a two-level factor: no judge variance is estimable)
+  InternVL3.5-14B Qwen         +10.2  [  +5.7, +14.5]  n=292  Wilcoxon p=5.3e-06
+  InternVL3.5-14B Gemma        -39.2  [ -43.4, -34.8]  n=292  Wilcoxon p=3.4e-33
+  InternVL3.5-14B Ministral    -22.6  [ -26.9, -18.4]  n=292  Wilcoxon p=1.3e-18
+  Qwen2.5-VL-32B  Qwen         +25.3  [ +20.8, +29.7]  n=292  Wilcoxon p=2.7e-20
+  Qwen2.5-VL-32B  Gemma        -17.1  [ -21.8, -12.4]  n=292  Wilcoxon p=7.4e-11
+  Qwen2.5-VL-32B  Ministral     -6.8  [ -11.6,  -1.7]  n=292  Wilcoxon p=0.021
+    Qwen       judge-to-judge gap  15.1 points = 1.7x the width of one judge's own 95% CI (8.8)
+    Gemma      judge-to-judge gap  22.0 points = 2.4x the width of one judge's own 95% CI (9.0)
+    Ministral  judge-to-judge gap  15.9 points = 1.7x the width of one judge's own 95% CI (9.2)
+
+================================================================================
+== I4  Wilcoxon zero handling where paired differences are exactly zero
+================================================================================
+  corpus   model     baseline       zeros   discard    zsplit     pratt  sign test
+  flowvqa  Qwen      short prompt       2   4.7e-07  4.66e-07  4.66e-07    7.3e-06
+  flowvqa  Qwen      our prompts       16     0.353     0.353     0.352      0.441
+  flowvqa  Gemma     short prompt       1     0.816     0.819     0.819      0.644
+  flowvqa  Gemma     our prompts       37  0.000754   0.00098  0.000971    0.00947
+  flowvqa  Ministral short prompt       0  1.95e-19  1.95e-19  1.95e-19   2.87e-16
+  flowvqa  Ministral our prompts       10     0.944     0.973     0.973      0.597
+  sciflow  Qwen      short prompt      29      0.03    0.0243    0.0243     0.0074
+  sciflow  Qwen      our prompts       33  4.73e-09  7.31e-09  7.28e-09   6.98e-06
+  sciflow  Gemma     short prompt      28  1.36e-15  8.37e-16  8.33e-16   1.62e-14
+  sciflow  Gemma     our prompts       30  2.99e-16  3.54e-16  3.52e-16   2.27e-12
+  sciflow  Ministral short prompt      18  4.03e-17  2.96e-17  2.96e-17   1.53e-15
+  sciflow  Ministral our prompts       23  2.45e-16  2.46e-16  2.45e-16   5.98e-13
+  the three zero treatments agree throughout: no verdict depends on the choice.
+
+================================================================================
+== I5  rater study: 72 images and 216 choices come from 24 source graphs
+================================================================================
+  label collisions full panel, 72 images  rho=-0.75  naive p=4.7e-14  cluster 95% CI [-0.80, -0.68]
+  label collisions two engines, 48 images rho=+0.23  naive p=0.11  cluster 95% CI [+0.21, +0.42]
+  arrow crossings  full panel, 72 images  rho=-0.26  naive p=0.031  cluster 95% CI [-0.45, -0.06]
+  arrow crossings  two engines, 48 images rho=-0.04  naive p=0.78  cluster 95% CI [-0.23, +0.12]
+  strict verdict   full panel, 72 images  rho=+0.50  naive p=7.1e-06  cluster 95% CI [+0.31, +0.69]
+  strict verdict   two engines, 48 images rho=-0.26  naive p=0.071  cluster 95% CI [-0.56, +0.11]
+
+  the 48 images are 24 matched pairs: the paired test the design supports
+    rho(delta label collisions, delta best-worst) over 24 graphs = +0.32, sign-flip p = 0.259
+    rho(delta arrow crossings, delta best-worst) over 24 graphs = -0.08, sign-flip p = 0.977
+    rho(delta strict verdict, delta best-worst) over 24 graphs = -0.16, sign-flip p = 0.806
+    best-worst, ours minus dot, over 24 graphs: -0.090 [-0.215, +0.045], Wilcoxon p = 0.199
+
+  strict verdict against what a rater picks: most legible passes 69.9%, least legible 17.6%
+    pooled 2x2, choices treated as independent: OR = 10.9, Fisher p = 6.5e-29   <- 216 choices, 72 sets, 3 raters
+    Mantel-Haenszel OR stratified by rating set: 10.4
+    within-set randomisation p (each rater picks at random inside their own set): 0.0001 (floor 1e-04)
+
+================================================================================
+== I6  capacity (LD50) with cluster bootstrap intervals
+================================================================================
+  ours            half its figures stop passing at  52.7 boxes  95% CI [49.0, 57.0]   (6012 figures, 1064 graphs)
+  dot_tb_spline   half its figures stop passing at  23.3 boxes  95% CI [22.3, 24.3]   (6009 figures, 1064 graphs)
+  dot_lr_spline   half its figures stop passing at  18.3 boxes  95% CI [17.6, 19.1]   (6009 figures, 1064 graphs)
+  dot_tb_ortho    half its figures stop passing at   6.3 boxes  95% CI [5.6, 7.0]   (6011 figures, 1064 graphs)
+  dot_lr_ortho    half its figures stop passing at   5.0 boxes  95% CI [4.3, 5.5]   (6010 figures, 1064 graphs)
+  difference, ours minus dot best single configuration: +29.4 boxes, 95% CI [+25.6, +33.4]
+
+================================================================================
+== I7  "independent" restated as an equivalence bound
+================================================================================
+  benchmark score vs strict verdict, boxes held fixed: rho = +0.003 (n=7047 figures, 772 graphs)
+    cluster bootstrap 95% CI [-0.025, +0.033] -> any association is smaller than 0.03 in absolute value
+    unconditionally the score does carry a little signal: AUC = 0.593 (rank-biserial +0.186); with boxes held fixed it is the interval above, so what it tracks is size
+  arrow crossings vs label collisions, boxes held fixed: rho = +0.023 (naive p = 9.3e-05, n=30051 layouts, 1064 graphs)
+    cluster bootstrap 95% CI [+0.008, +0.036]: not zero, but under 0.04; "negligible", not "independent"

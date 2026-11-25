@@ -1,0 +1,257 @@
+Bounds on each measurement: analyses E1-E7, computed from the per-item CSVs only.
+
+==============================================================================
+== E1  What bounds the SciFlow-Bench score, and why every system is compressed
+==============================================================================
+
+Read-back ceiling (gold graphs drawn by our engine, read by the same reader), n=483:
+  score 0.611   node F1 0.824   edge F1 0.470
+  node recall 0.817   edge recall 0.544
+  -> even a perfect graph loses 43% more of its edges than its nodes under this protocol.
+
+The metric weights edges 0.6 and nodes 0.4, so the reachable score is set by the
+quantity the protocol recovers worst. Per item, an edge can only match if both of
+its endpoints matched, so edge recall is bounded by the share of gold edges with
+two matched endpoints -- node recall squared under independence.
+
+  share of items with edge recall <= node recall^2:
+    sciflow   ours  n= 4347  share 0.876  rho(nr^2, er) +0.46  node recall 0.263  edge recall 0.048
+    sciflow   DOT   n= 1449  share 0.883  rho(nr^2, er) +0.44  node recall 0.239  edge recall 0.045
+    flowvqa   ours  n= 2700  share 0.931  rho(nr^2, er) +0.86  node recall 0.779  edge recall 0.464
+    flowvqa   DOT   n=  900  share 0.844  rho(nr^2, er) +0.74  node recall 0.695  edge recall 0.359
+
+  implied band: with node recall at 0.22-0.29 the largest edge F1 any system
+  can reach on SciFlow-Bench is about 0.084, so 0.6 of the score is spent on a quantity capped near 0.08.
+
+  the ten system means under the benchmark's protocol:
+    sdxl         0.0159
+    pixart       0.0196
+    qwen         0.0792
+    graphviz     0.0866
+    gemini2.5    0.1011
+    seedream     0.1032
+    Qwen         0.1033
+    gemini3      0.1151
+    Gemma        0.1244
+    Ministral    0.1247
+  all ten span 0.1088; the eight whose figures carry readable text
+  (SDXL and PixArt excluded) span 0.0455, under 7% of the reachable score of 0.611.
+
+==============================================================================
+== E2  Which of the graph-drawing criteria predicts human judgement
+==============================================================================
+
+best-worst score by condition (216 judgements, 72 images):
+  graphviz   +0.323
+  model      -0.556
+  ours       +0.233
+
+Spearman rho with the raters' best-worst score, all 72 images
+(sign flipped so that + means the criterion agrees with the raters):
+  label_collisions             rho -0.747   p 4.7e-14
+  node_overlap_pairs           rho -0.733   p 2.5e-13
+  node_overlap_ratio           rho -0.720   p 1.1e-12
+  node_overlap_area            rho -0.720   p 1.1e-12
+  edge_node_crossings          rho -0.692   p 1.8e-11
+  mean_bends_per_edge          rho +0.538   p 1.1e-06
+  total_bends                  rho +0.525   p 2.2e-06
+  edge_label_crossings         rho -0.519   p 3e-06
+  min_separation               rho +0.500   p 7.9e-06
+  stacked_routes               rho -0.493   p 1.1e-05
+  ink_ratio                    rho -0.437   p 0.00012
+  area                         rho +0.373   p 0.0013
+  mean_edge_length_ratio       rho +0.357   p 0.0021
+  total_edge_length            rho +0.321   p 0.006
+  edge_edge_crossings          rho -0.255   p 0.031
+  edge_crossing_ratio          rho -0.248   p 0.036
+  aspect_deviation             rho -0.189   p 0.11
+  n_nodes                      rho -0.136   p 0.26
+  n_edges                      rho -0.124   p 0.3
+  aspect_ratio                 rho -0.120   p 0.32
+  alignment_ratio              rho -0.050   p 0.67
+
+  the strict verdict (binary)        rho +0.502   p 7.1e-06
+  the single best count, label collisions  rho -0.747
+  arrow crossings, the criterion most optimised in the literature  rho -0.255
+
+A weighted index of all ten criteria, fitted by ridge regression and scored
+leave-one-source-graph-out (24 folds):
+  ridge lambda   1   Spearman +0.660   Pearson +0.806
+  ridge lambda   5   Spearman +0.637   Pearson +0.802
+  ridge lambda  20   Spearman +0.599   Pearson +0.791
+  ridge lambda  50   Spearman +0.592   Pearson +0.783
+
+  best cross-validated index  rho +0.660  (Pearson +0.806)
+  binary strict verdict        rho +0.502
+  label collisions alone       rho +0.747
+
+  -> a continuous index beats the binary verdict, and one count beats both:
+     the cheapest faithful legibility measure on this evidence is the number of
+     label collisions, not the number of arrow crossings.
+
+==============================================================================
+== E3  What unconstrained generation costs in the tail
+==============================================================================
+
+wall clock per item, same server, same token limits (seconds):
+
+  corpus       model      |  ours med     p95      max    cv |  DOT med     p95      max    cv |  p95 x
+  sciflow      Qwen       |      28.7    59.6    573.4  0.83 |     25.9    62.8   4031.7  4.56 |   1.05
+  sciflow      Gemma      |      26.8    59.1    463.3  0.71 |     13.3    44.5   2801.7  5.07 |   0.75
+  sciflow      Ministral  |      60.3   102.9   1069.8  0.78 |     46.3   236.1   5198.3  3.28 |   2.29
+  flowvqa      Qwen       |      23.9    55.8    130.5  0.56 |     23.0    76.4   2768.4  4.30 |   1.37
+  flowvqa      Gemma      |      23.8    52.5     70.5  0.52 |     22.1   136.1   3404.5  4.33 |   2.59
+  flowvqa      Ministral  |      46.8    76.6    148.5  0.39 |     28.8    85.4   3471.9  4.19 |   1.11
+  paperbanana  Qwen       |      27.4    73.7    161.4  0.58 |     14.8   159.5    212.5  1.24 |   2.16
+  paperbanana  Gemma      |      22.7    42.2     75.1  0.42 |      8.8   146.3    219.5  1.37 |   3.46
+  paperbanana  Ministral  |      89.2   155.4    671.2  0.46 |     26.4   161.7    179.0  1.00 |   1.04
+
+  worst single item: ours 1070 s, DOT 5198 s (4.9x)
+  coefficient of variation: ours 0.39-0.83, DOT 1.00-5.07
+
+  The median is comparable; the tail is not. A schema-constrained answer cannot
+  run away, and free-form code can: the heavy tail is the same failure mode that
+  makes 0.8-15% of DOT answers unusable, seen as cost instead of as parse errors.
+
+==============================================================================
+== E4  Arrow direction is a separate error, and the metric hides it
+==============================================================================
+
+Reversed edges: the extractor found the relation and pointed the arrow the wrong
+way. strict_edges_reversed is a count per figure (0-3 here) and is never reported.
+
+  corpus/source          model       rev/fig  % of gold edges  figs with >=1  edge F1
+  sciflow (papers)       Qwen          0.021            0.16%           1.8%    0.033
+  sciflow (papers)       Gemma         0.023            0.20%           2.1%    0.042
+  sciflow (papers)       Ministral     0.040            0.22%           2.4%    0.043
+  flowvqa code           Qwen          0.047            0.37%           4.7%    0.748
+  flowvqa code           Gemma         0.040            0.25%           3.0%    0.750
+  flowvqa code           Ministral     0.057            0.45%           4.3%    0.783
+  flowvqa instruct       Qwen          0.117            0.52%          10.0%    0.402
+  flowvqa instruct       Gemma         0.110            0.48%          10.0%    0.377
+  flowvqa instruct       Ministral     0.217            0.96%          16.7%    0.440
+  flowvqa wiki           Qwen          0.080            0.31%           7.7%    0.326
+  flowvqa wiki           Gemma         0.187            0.66%          16.7%    0.310
+  flowvqa wiki           Ministral     0.237            0.94%          20.0%    0.416
+
+  code   0.048 reversed per figure, 0.36% of gold edges, 4.0% of figures
+  prose  0.158 reversed per figure, 0.64% of gold edges, 13.5% of figures
+  prose / code ratio 1.8x, Mann-Whitney p = 2.5e-14
+
+  On SciFlow-Bench papers 2.1% of figures carry at least one reversed
+  edge, against 13.5% on FlowVQA prose, where gold graphs are denser.
+
+  The rate has to be read beside recall, because only a recovered relation can be
+  reversed: a system that finds fewer edges reverses fewer. That is exactly the
+  point. Under node-and-edge F1 a reversed edge scores like a missing one, so the
+  benchmark cannot separate an extractor that misreads direction from one that
+  misses the relation, and the two call for different fixes. A direction-insensitive
+  edge F1 reported beside the directed one, or the reversal count itself, separates
+  them at no cost; both are already computable from any predicted graph.
+
+==============================================================================
+== E5  Content and legibility together, over the nine settings
+==============================================================================
+
+  content verdict from Table 1; legibility = strict-legible share on identical
+  graphs (ours vs dot_tb_spline, dot's best configuration):
+
+  corpus       model        content  ours legible  dot legible     gap         p
+  sciflow      Qwen                         93.1%        69.0%  +24.1     5e-62
+  sciflow      Gemma                        91.4%        57.8%  +33.5   2.8e-97
+  sciflow      Ministral                    74.2%        31.8%  +42.4  1.2e-110
+  flowvqa      Qwen                         97.3%        79.3%  +18.0   3.1e-12
+  flowvqa      Gemma                        98.0%        67.3%  +30.7   1.5e-20
+  flowvqa      Ministral                    87.7%        52.3%  +35.3   5.2e-24
+  paperbanana  Qwen                         95.1%        71.8%  +23.3   1.8e-15
+  paperbanana  Gemma                        94.5%        51.7%  +42.8   2.3e-27
+  paperbanana  Ministral                    57.5%        16.2%  +41.3   9.7e-24
+
+  settings where our layout is significantly ahead: 9
+  The two axes do not trade off: on every corpus and model the same graphs are
+  drawn more legibly, while the content verdict is ahead or tied in seven of nine
+  settings and ahead in six of nine with none behind at a matched prompt. No
+  system in the comparison is ahead of ours on both axes at once.
+
+==============================================================================
+== E6  What choosing between two samples by geometry buys
+==============================================================================
+
+  paired on the same items, seed 0, best-of-2 against one greedy graph:
+
+  corpus    model                 score          crossings       strict legible      label coll.
+  sciflow   Qwen       0.103/0.106 -0.0039   0.36/ 0.68    -47%   93.1%/ 87.5%   +5.5pt 0.006/0.020
+  sciflow   Gemma      0.127/0.126 +0.0008   0.73/ 1.09    -33%   91.3%/ 85.5%   +5.7pt 0.030/0.040
+  sciflow   Ministral  0.126/0.126 +0.0002   3.67/ 5.87    -37%   76.2%/ 57.4%  +18.8pt 0.103/0.174
+  flowvqa   Qwen       0.598/0.600 -0.0018   0.17/ 0.26    -34%   97.3%/ 94.3%   +3.0pt 0.003/0.003
+  flowvqa   Gemma      0.588/0.586 +0.0012   0.35/ 0.60    -42%   98.0%/ 93.7%   +4.3pt 0.017/0.023
+  flowvqa   Ministral  0.639/0.639 +0.0008   1.73/ 3.58    -52%   87.7%/ 73.3%  +14.3pt 0.030/0.040
+
+  strict-legible gain, Holm-corrected:
+    sciflow   Qwen        +5.54 pt  [+2.57, +8.51]  r +0.44  p 0.0014
+    sciflow   Gemma       +5.74 pt  [+3.17, +8.32]  r +0.62  p 9.3e-05
+    sciflow   Ministral  +18.81 pt  [+14.06, +23.37]  r +0.58  p 6e-13
+    flowvqa   Qwen        +3.00 pt  [+0.67, +5.67]  r +0.60  p 0.02
+    flowvqa   Gemma       +4.33 pt  [+2.00, +7.00]  r +0.87  p 0.0016
+    flowvqa   Ministral  +14.33 pt  [+9.33, +19.33]  r +0.64  p 7.5e-07
+
+  score, same comparison:
+    sciflow   Qwen       -0.0039  [-0.0093, +0.0012]
+    sciflow   Gemma      +0.0008  [-0.0013, +0.0029]
+    sciflow   Ministral  +0.0002  [-0.0033, +0.0038]
+    flowvqa   Qwen       -0.0018  [-0.0123, +0.0089]
+    flowvqa   Gemma      +0.0012  [-0.0061, +0.0082]
+    flowvqa   Ministral  +0.0008  [-0.0093, +0.0107]
+
+  One extra sample, chosen by counting defects rather than by a learned judge,
+  buys legibility and leaves the content score where it was. The selection rule
+  is deterministic, costs one forward pass and needs no reward model, which makes
+  it portable to any system that emits a graph before it draws it.
+
+==============================================================================
+== E7  The judge: how much a single image order would have changed
+==============================================================================
+
+  judge InternVL3.5-14B: 12 system x model points
+  system         model        normal  swapped   delta     avg
+  dot            Gemma          74.0     67.0    +7.0    70.5
+  dot            Ministral      47.9     45.2    +2.7    46.6
+  dot            Qwen           33.0     32.2    +0.9    32.6
+  dot_matched    Gemma          32.0     26.9    +5.1    29.5
+  dot_matched    Ministral      16.1     16.8    -0.7    16.4
+  dot_matched    Qwen           34.8     31.5    +3.3    33.1
+  ours           Gemma          33.8     28.8    +5.0    31.3
+  ours           Ministral      28.7     19.2    +9.5    23.9
+  ours           Qwen           47.2     38.4    +8.8    42.8
+  ours_coverage  Gemma          28.7     21.5    +7.2    25.1
+  ours_coverage  Ministral      16.5      8.6    +7.9    12.6
+  ours_coverage  Qwen           37.5     27.5   +10.0    32.5
+  order effect: mean +5.6 pt, |mean| 5.7, max 10.0, same sign in 11/12 systems
+  pairwise system comparisons whose sign reverses between the two orders: 6/66 = 9.1%
+
+  judge Qwen2.5-VL-32B: 6 system x model points
+  system         model        normal  swapped   delta     avg
+  dot            Gemma          64.6     78.3   -13.7    71.4
+  dot            Ministral      38.2     55.8   -17.6    47.0
+  dot            Qwen           19.3     50.9   -31.5    35.1
+  ours           Gemma          36.6     71.9   -35.3    54.3
+  ours           Ministral      28.3     52.2   -24.0    40.2
+  ours           Qwen           45.2     75.5   -30.3    60.4
+  order effect: mean -25.4 pt, |mean| 25.4, max 35.3, same sign in 0/6 systems
+  pairwise system comparisons whose sign reverses between the two orders: 1/15 = 6.7%
+
+  What the four dimensions actually return (first judge, all verdicts):
+    faithfulness   Both are good=0.617  Human=0.252  Model=0.122  Both are bad=0.008  Error=0.001
+    conciseness    Human=0.600  Both are good=0.208  Model=0.162  Both are bad=0.030  Error=0.001
+    readability    Both are good=0.625  Human=0.274  Model=0.086  Both are bad=0.014  Error=0.000
+    aesthetics     Both are good=0.465  Human=0.377  Model=0.149  Both are bad=0.009  Error=0.000
+    overall        Human=0.635  Model=0.246  Tie=0.119
+
+  The readability dimension answers 'both are good' on 62.5% of
+  judgements and prefers the generated figure on 8.6%: it is close to constant
+  on this corpus, which is why it responds to no geometry a reader pays for.
+  Conciseness is the one dimension that decides, and it is the one that scores
+  size: the human figure wins it on 60.0% of judgements.
+
+  Anyone reusing this benchmark in one image order gets the wrong sign on about
+  one system pair in eleven, always in the same direction.

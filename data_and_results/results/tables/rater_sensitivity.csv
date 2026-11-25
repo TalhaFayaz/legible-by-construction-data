@@ -1,0 +1,3 @@
+sample,images,best_pass,best_fail,worst_pass,worst_fail,odds_ratio,p
+all three conditions,72,151,65,38,178,10.88178137651822,6.540460058193111e-29
+the two engines only,48,151,54,38,7,0.5151072124756335,0.1786626753658353

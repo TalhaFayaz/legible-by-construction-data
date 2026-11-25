@@ -1,0 +1,16 @@
+gemma4_seed0: papers 100, compared on 99
+gemma4_seed1: papers 100, compared on 99
+gemma4_seed2: papers 100, compared on 99
+tested on the 98 papers compared in every seed
+measure                                           ours             model         p   p per seed
+strict legible (%)                      87.205 +- 2.542     0.673 +- 0.583   2.2e-19   4.9e-20 3e-20 6.5e-21
+lenient legible (%)                    100.000 +- 0.000     4.714 +- 0.583   1.6e-21   3.2e-22 3.2e-22 1.9e-22
+figures with overlapping boxes (%)       0.000 +- 0.000    77.441 +- 1.543     1e-17   4.7e-18 1e-18 1.7e-18
+overlapping box pairs                    0.000 +- 0.000    18.357 +- 0.942     8e-16   5.2e-14 1.6e-14 2.4e-14
+arrows through a box                     0.000 +- 0.000    10.377 +- 0.388   8.1e-17   5.3e-16 1.1e-15 5.3e-16
+arrow crossings                          0.475 +- 0.081     1.249 +- 0.561   0.00011   0.048 0.00051 0.015
+arrows through a label                   0.182 +- 0.044     7.916 +- 1.652   1.1e-16   2.1e-15 1.8e-15 2.3e-15
+label collisions                         0.007 +- 0.012    34.135 +- 1.919   8.3e-18   5.7e-18 8.3e-18 8.2e-18
+SciFlow score                            0.115 +- 0.001     0.114 +- 0.001      0.54   0.8 0.18 0.34
+node F1                                  0.236 +- 0.001     0.238 +- 0.002      0.53   0.93 0.26 0.17
+edge F1                                  0.034 +- 0.003     0.031 +- 0.001      0.61   0.31 0.62 0.43

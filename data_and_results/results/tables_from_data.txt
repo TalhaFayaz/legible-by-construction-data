@@ -1,0 +1,185 @@
+Data table 2  ours vs the same model writing DOT, each corpus's standard metric
+corpus      model         ours     sd     DOT     diff              95% CI          matched        
+sciflow     Qwen         0.103  0.000   0.100   +0.003    [-0.004, +0.010]    tied    0.085   ahead
+sciflow     Gemma        0.124  0.001   0.101   +0.023    [+0.017, +0.030]   ahead    0.099   ahead
+sciflow     Ministral    0.125  0.001   0.097   +0.028    [+0.019, +0.037]   ahead    0.101   ahead
+flowvqa     Qwen         0.600  0.003   0.542   +0.058    [+0.035, +0.080]   ahead    0.591    tied
+flowvqa     Gemma        0.587  0.001   0.582   +0.005    [-0.014, +0.023]    tied    0.547   ahead
+flowvqa     Ministral    0.639  0.004   0.522   +0.117    [+0.094, +0.141]   ahead    0.630    tied
+paperbanana Qwen          42.8           32.6    +10.2       [+5.7, +14.5]   ahead     33.1   ahead
+paperbanana Gemma         31.3           70.5    -39.2      [-43.4, -34.8]  behind     29.5    tied
+paperbanana Ministral     23.9           46.6    -22.6      [-26.9, -18.4]  behind     16.4   ahead
+SciFlow-Bench: Holm over the 7 shipped systems and DOT per model; FlowVQA and PaperBananaBench: Holm over the three models; matched: Holm over the three models.
+The SciFlow-Bench rows run at the floor of their metric: its edge half, 0.6 of the weight, is
+exactly zero on 60-76% of items for every system in them and no system reaches a fifth of the
+0.611 the gold graphs reach, so the verdicts in those three rows are not read as a content
+advantage (checks_claims.py --analysis K3). FlowVQA and PaperBananaBench are where the two
+content instruments have room; ours is ahead in 3 of those 6 settings, tied in 1 and behind in 2.
+
+Data table 3  SciFlow-Bench, every system; left: own graph or graph recovered by the benchmark; right: every figure read back by one reader
+system                        n  edge F1   score  node F1  read-back    n
+Ours + Qwen                 483    0.033   0.103    0.209      0.082  483
+Ours + Gemma                483    0.042   0.124    0.247      0.101  483
+Ours + Ministral            483    0.043   0.125    0.247      0.107  483
+Gemini 3 Pro Image          230    0.030   0.115    0.242      0.118  483
+Gemini 2.5 Flash Image      455    0.022   0.101    0.220      0.100  483
+Seedream 4.0                280    0.022   0.103    0.225      0.095  481
+Graphviz (GPT-4o->DOT)      461    0.026   0.087    0.177      0.096  475
+Qwen-Image                  472    0.015   0.079    0.176      0.075  483
+PixArt-Sigma                450    0.015   0.020    0.027      0.012  483
+SDXL                        426    0.008   0.016    0.028      0.016  483
+
+ceiling: gold graphs drawn by our engine and read back: 0.611 over 483, 0.679 over the 432 read within the limit
+
+Every number in the read-back column is a graph this one 14B reader recovered from an image;
+measured against the figures whose geometry we know exactly, it returns 1.2-1.3 boxes and
+1.7-1.9 arrows per one drawn (checks_new.py --analysis N2), and 6 of the 21 paired differences
+below do not clear what this sample can resolve (checks_claims.py --analysis K8).
+The column is reported as a measurement of the protocol, not as a ranking of systems, and
+no verdict in the paper rests on it.
+
+read-back, paired (ours seed 0 minus each system; Holm over the 7 systems per model)
+  Ours + Qwen: Gemini 3 Pro Image behind (r -0.53), Gemini 2.5 Flash Image behind (r -0.30), Seedream 4.0 behind (r -0.19), Graphviz (GPT-4o->DOT) behind (r -0.23), Qwen-Image ahead (r +0.12), PixArt-Sigma ahead (r +0.91), SDXL ahead (r +0.88)
+  Ours + Gemma: Gemini 3 Pro Image behind (r -0.24), Gemini 2.5 Flash Image tied (r +0.08), Seedream 4.0 ahead (r +0.14), Graphviz (GPT-4o->DOT) ahead (r +0.14), Qwen-Image ahead (r +0.37), PixArt-Sigma ahead (r +0.92), SDXL ahead (r +0.89)
+  Ours + Ministral: Gemini 3 Pro Image behind (r -0.20), Gemini 2.5 Flash Image ahead (r +0.12), Seedream 4.0 ahead (r +0.20), Graphviz (GPT-4o->DOT) ahead (r +0.20), Qwen-Image ahead (r +0.42), PixArt-Sigma ahead (r +0.92), SDXL ahead (r +0.91)
+
+Data table 4  PaperBananaBench judge per dimension (50 = parity with the authors' figure); Holm over the three models per dimension
+system                    faithfulness   conciseness   readability    aesthetics       overall
+Ours + Qwen                       48.1          37.7          48.2          48.1          42.8
+Qwen writing DOT                  43.8          34.3          49.1          35.9          32.6
+  ours is                        ahead          tied          tied         ahead         ahead
+Ours + Gemma                      42.6          30.8          46.2          39.1          31.3
+Gemma writing DOT                 60.0          65.6          52.5          55.0          70.5
+  ours is                       behind        behind        behind        behind        behind
+Ours + Ministral                  42.6          19.0          36.1          39.1          23.9
+Ministral writing DOT             51.4          46.3          43.1          42.6          46.6
+  ours is                       behind        behind        behind          tied        behind
+
+Data table 5  the same SciFlow-Bench graphs laid out by our engine and by Graphviz dot (mean over three runs; area median)
+graphs    layout            cross.  thr.box lbl.coll   area  strict%
+Qwen      ours                0.41     0.00     0.01    621    93.1%
+Qwen      dot TB curved       0.23     0.02     0.36    691    69.0%
+Gemma     ours                0.68     0.00     0.03    673    91.4%
+Gemma     dot TB curved       0.49     0.02     0.40    739    57.8%
+Ministral ours                4.04     0.00     0.14   1233    74.2%
+Ministral dot TB curved       1.71     0.18     0.78   1258    31.8%
+
+Data table 12  strict legibility (%) / arrow crossings for every dot configuration
+layout                      Qwen           Gemma       Ministral
+ours                 93.1 / 0.41     91.4 / 0.68     74.2 / 4.04
+dot TB curved        69.0 / 0.23     57.8 / 0.49     31.8 / 1.71
+dot LR curved        54.3 / 0.25     51.4 / 0.50     18.2 / 1.86
+dot TB ortho          7.0 / 0.25      6.4 / 0.48      1.6 / 1.97
+dot LR ortho          3.3 / 0.26      2.0 / 0.50      1.3 / 1.98
+
+Text, Section 5.2: graphs outside development (seed 0): strict % and crossings
+  flowvqa     Qwen       ours  97.3% / 0.17   dot  79.3% / 0.04
+  flowvqa     Gemma      ours  98.0% / 0.35   dot  67.3% / 0.05
+  flowvqa     Ministral  ours  87.7% / 1.73   dot  52.3% / 0.49
+  paperbanana Qwen       ours  95.1% / 0.96   dot  71.8% / 0.33
+  paperbanana Gemma      ours  94.5% / 1.25   dot  51.7% / 0.45
+  paperbanana Ministral  ours  57.5% / 12.15   dot  16.2% / 5.35
+
+Data table 6  who places the boxes: ours vs the model's own positions, 100 SciFlow-Bench papers, mean over three seeds; p: Wilcoxon on seed-averaged values
+measure                            Qwen ours    model        p      Gemma ours    model        p  Ministral ours    model        p
+With overlapping boxes (%)             0.000   79.063  1.1e-17           0.000   77.441    1e-17           0.000   99.667  2.5e-23
+Arrows through a box                   0.000   13.451    8e-16           0.000   10.377  8.1e-17           0.000   49.710  3.9e-18
+Arrow crossings                        0.466    0.967  0.00017           0.475    1.249  0.00011           4.050    6.483   0.0035
+Label collisions                       0.031   34.085  2.6e-16           0.007   34.135  8.3e-18           0.093  103.487  3.9e-18
+Strict legible (%)                    86.829   12.511  6.7e-17          87.205    0.673  2.2e-19          56.333    0.000  9.9e-16
+SciFlow score                          0.105    0.095   0.0055           0.115    0.114     0.54           0.119    0.125     0.13
+
+Data table 7  pipeline with one component changed, against the full pipeline (seed 0); score: Holm over the three changes; crossings: mean per figure on items laid out in both
+
+sciflow Qwen
+  - best-of-2              score same    crossings 0.36 -> 0.69 (+91%, p 0.00016), failed 0
+  - constrained decoding   score same    crossings 0.35 -> 0.51 (+44%, p 0.83), failed 30
+  + coverage call          score better  crossings 0.36 -> 1.04 (+187%, p 7.5e-13), failed 0
+
+sciflow Gemma
+  - best-of-2              score same    crossings 0.74 -> 1.11 (+50%, p 5.2e-05), failed 0
+  - constrained decoding   score worse   crossings 0.74 -> 0.35 (-52%, p 0.00017), failed 4
+  + coverage call          score worse   crossings 0.74 -> 2.39 (+224%, p 2.9e-23), failed 0
+
+sciflow Ministral
+  - best-of-2              score same    crossings 3.69 -> 5.86 (+59%, p 1.4e-09), failed 0
+  - constrained decoding   score same    crossings 3.73 -> 1.87 (-50%, p 3.8e-10), failed 10
+  + coverage call          score same    crossings 3.69 -> 11.83 (+221%, p 2.9e-59), failed 0
+
+flowvqa Qwen
+  - best-of-2              score same    crossings 0.17 -> 0.26 (+52%, p 0.039), failed 0
+  - constrained decoding   score same    crossings 0.18 -> 0.17 (-6%, p 0.49), failed 6
+  + coverage call          score same    crossings 0.17 -> 0.24 (+38%, p 0.039), failed 0
+
+flowvqa Gemma
+  - best-of-2              score same    crossings 0.35 -> 0.60 (+72%, p 0.00084), failed 0
+  - constrained decoding   score same    crossings 0.36 -> 0.39 (+8%, p 0.79), failed 19
+  + coverage call          score same    crossings 0.35 -> 0.89 (+156%, p 1.4e-08), failed 0
+
+flowvqa Ministral
+  - best-of-2              score same    crossings 1.73 -> 3.58 (+107%, p 2.3e-07), failed 0
+  - constrained decoding   score same    crossings 1.63 -> 0.55 (-66%, p 7.5e-05), failed 26
+  + coverage call          score same    crossings 1.73 -> 4.98 (+188%, p 9.1e-19), failed 0
+
+Data table 8  layout ablation on identical graphs, mean of three runs: crossings / median area / strict %
+configuration                                         Qwen                   Gemma               Ministral
+Full engine                           0.41     621    93.1    0.68     673    91.4    4.04    1233    74.2
+- forward detours                     0.98     620    74.1    1.41     683    72.3    8.26    1254    35.7
+- label placement after routing       0.45     619    80.4    0.74     670    74.0    4.27    1236    38.9
+- spread arrow ends                   1.08     548    47.7    1.45     587    51.4    5.55    1082    18.9
+- sideways tracks                     0.58     618    87.1    0.93     667    85.9    4.57    1205    64.1
+- layout variants                     1.16     634    81.1    1.34     688    79.9    5.67    1254    60.2
+- variants and pull-later             1.18     644    82.8    1.36     699    81.1    5.91    1293    60.8
+- all six                             3.30     648    23.7    3.47     709    22.8   12.46    1332     5.7
+
+crossings, full engine vs each component off (papers averaged over runs; Holm over the configurations per model)
+  Qwen: no_detours p_Holm 5.4e-19, no_label_placement p_Holm 0.0037, no_spread_ends p_Holm 1.9e-26, no_sideways p_Holm 5.4e-13, no_variants p_Holm 2.5e-29, no_variants_no_pull p_Holm 1.1e-30, none p_Holm 1.7e-49
+  Gemma: no_detours p_Holm 1.3e-23, no_label_placement p_Holm 7.5e-08, no_spread_ends p_Holm 7e-28, no_sideways p_Holm 4.2e-19, no_variants p_Holm 6.4e-28, no_variants_no_pull p_Holm 4.3e-30, none p_Holm 9.4e-50
+  Ministral: no_detours p_Holm 2.5e-54, no_label_placement p_Holm 4.7e-14, no_spread_ends p_Holm 7.3e-43, no_sideways p_Holm 2.5e-24, no_variants p_Holm 2.9e-48, no_variants_no_pull p_Holm 2.1e-51, none p_Holm 5.3e-69
+
+Data table 9  human best-worst study: Spearman rho of each measure with the raters' BWS scores (counts negated: positive = agreement)
+measure                              all 72  ours, dot 48
+Label collisions                      +0.75         -0.23
+Overlapping box pairs                 +0.73           ---
+Arrows through a box                  +0.69           ---
+Arrows through a label                +0.52         -0.19
+Strict legible (yes/no)               +0.50         -0.26
+Arrow crossings                       +0.26         +0.04
+Distance from target page shape       +0.19         +0.31
+best-worst mean, ours: +0.23
+best-worst mean, graphviz: +0.32
+best-worst mean, model: -0.56
+ours preferred to model on 23 of 24 graphs, model on 1, tied 0 (sign test p = 3e-06)
+graphviz preferred to ours on 16 of 24 graphs, ours on 6, tied 2 (sign test p = 0.052)
+split-half reliability 0.79; Kendall's W all 72 0.80, ours + dot 48 0.54
+
+Data table 11  node and edge F1, ours vs the same model writing DOT (SciFlow: Holm over 7 shipped systems and DOT per model)
+corpus    model      node ours    DOT         edge ours    DOT        
+sciflow   Qwen           0.209  0.200   ahead     0.033  0.033    tied
+sciflow   Gemma          0.247  0.202   ahead     0.042  0.034   ahead
+sciflow   Ministral      0.247  0.187   ahead     0.043  0.037   ahead
+flowvqa   Qwen           0.761  0.734   ahead     0.492  0.415   ahead
+flowvqa   Gemma          0.748  0.740    tied     0.479  0.476    tied
+flowvqa   Ministral      0.779  0.686   ahead     0.546  0.413   ahead
+
+Data table 13  test sets without / with the coverage call (Holm over the three models)
+                                          Qwen                     Gemma                 Ministral
+PaperBanana judge          42.8 / 32.5 (ahead)       31.3 / 25.1 (ahead)       23.9 / 12.6 (ahead)
+FlowVQA score             0.600 / 0.605 (tied)      0.587 / 0.589 (tied)      0.639 / 0.645 (tied)
+FlowVQA edge F1           0.492 / 0.500 (tied)    0.479 / 0.488 (behind)    0.546 / 0.558 (behind)
+SciFlow score           0.103 / 0.107 (behind)      0.124 / 0.124 (tied)     0.125 / 0.122 (ahead)
+(verdict: without the call vs with it)
+
+Data table 14  FlowVQA score per source: ours / DOT / DOT from our prompts (verdict ours vs DOT and ours vs matched; Holm over the three models per source)
+wiki             Qwen: 0.467 / 0.437 / 0.454 (tied, tied)   Gemma: 0.448 / 0.467 / 0.383 (tied, ahead)   Ministral: 0.535 / 0.464 / 0.531 (ahead, tied)
+instruct         Qwen: 0.522 / 0.518 / 0.531 (tied, tied)   Gemma: 0.497 / 0.555 / 0.454 (behind, tied)   Ministral: 0.543 / 0.497 / 0.549 (ahead, tied)
+code             Qwen: 0.810 / 0.671 / 0.788 (ahead, tied)   Gemma: 0.815 / 0.724 / 0.805 (ahead, tied)   Ministral: 0.840 / 0.606 / 0.810 (ahead, tied)
+
+Data table 15  PaperBananaBench seed 0, ours minus the same model's DOT figures (Holm over the three models per dimension)
+  InternVL3.5-14B overall             Qwen   +8.8*     Gemma  -40.4* Ministral  -23.8*
+  Qwen2.5-VL-32B  faithfulness        Qwen  +11.0*     Gemma   -3.7* Ministral   +1.8 
+  Qwen2.5-VL-32B  conciseness         Qwen   +3.4      Gemma  -24.8* Ministral  -27.7*
+  Qwen2.5-VL-32B  readability         Qwen  +10.4*     Gemma   +2.1  Ministral   +2.1 
+  Qwen2.5-VL-32B  aesthetics          Qwen  +31.3*     Gemma   +1.3  Ministral  +11.0*
+  Qwen2.5-VL-32B  overall             Qwen  +25.3*     Gemma  -17.1* Ministral   -6.8*
+(* significant)

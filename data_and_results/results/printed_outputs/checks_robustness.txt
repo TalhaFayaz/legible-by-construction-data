@@ -1,0 +1,239 @@
+Robustness and bounds: analyses R1-R8, computed from the per-item CSVs only.
+
+==============================================================================
+R1  The PaperBananaBench comparison under a second judge
+==============================================================================
+
+Every figure was judged by two vision-language models with the benchmark's own
+prompts and combination rule, each in both image orders. The paper reports the
+first judge. The second judge sees the same images, so the difference between
+the two columns below is the instrument, not the system.
+
+ judge                model      n   ours    dot    diff           95% CI      r    p(Holm)   p(vs 50)
+ InternVL3.5-14B  Qwen        292   42.8   32.6   +10.2  [  +5.7, +14.5]  +0.34   5.26e-06   7.22e-04
+ InternVL3.5-14B  Gemma       292   31.3   70.5   -39.2  [ -43.4, -34.8]  -0.86   1.01e-32   1.13e-17
+ InternVL3.5-14B  Ministral   292   23.9   46.6   -22.6  [ -26.9, -18.4]  -0.66   2.62e-18   1.06e-30
+ Qwen2.5-VL-32B   Qwen        292   60.4   35.1   +25.3  [ +20.8, +29.7]  +0.73   8.25e-20   2.30e-06
+ Qwen2.5-VL-32B   Gemma       292   54.3   71.4   -17.1  [ -21.8, -12.4]  -0.52   1.49e-10   3.49e-02
+ Qwen2.5-VL-32B   Ministral   292   40.2   47.0    -6.8  [ -11.6,  -1.7]  -0.19   2.09e-02   4.06e-07
+
+Per dimension, seed 0, both orders averaged (50 = parity with the authors' figure):
+          judge system  faithfulness  conciseness  readability  aesthetics
+InternVL3.5-14B   ours          44.1         29.0         43.2        42.1
+InternVL3.5-14B    dot          51.7         48.7         48.2        44.5
+ Qwen2.5-VL-32B   ours          54.3         40.8         53.8        50.2
+ Qwen2.5-VL-32B    dot          51.2         57.1         48.9        35.6
+
+The verdict moves by 15.1 to 22.0 points between the two judges on the same figures.
+Under the second judge our figures are above parity with the authors' own for 2 of 3 models.
+
+==============================================================================
+R2  The content comparison as the benchmark's matching threshold tightens
+==============================================================================
+
+SciFlow-Bench matches node labels above cosine 0.5, so a node counts as
+recovered when it is about the right thing. Rescoring the same graphs at 0.6
+and 0.7 asks what the comparison looks like when the label itself has to match.
+
+                    diff                   r            
+threshold            0.5    0.6    0.7   0.5   0.6   0.7
+corpus  model                                           
+flowvqa Gemma      0.006  0.022  0.024  0.02  0.12  0.13
+        Ministral  0.117  0.129  0.095  0.58  0.64  0.56
+        Qwen       0.055  0.070  0.062  0.32  0.37  0.35
+sciflow Gemma      0.024  0.019  0.016  0.43  0.53  0.63
+        Ministral  0.029  0.011  0.005  0.44  0.36  0.28
+        Qwen       0.004  0.005  0.006  0.06  0.12  0.21
+  threshold 0.5: ahead in 4 of 6 settings, mean effect size r +0.31
+  threshold 0.6: ahead in 5 of 6 settings, mean effect size r +0.36
+  threshold 0.7: ahead in 6 of 6 settings, mean effect size r +0.36
+
+==============================================================================
+R3  Choosing a layout engine from graph properties, before drawing
+==============================================================================
+
+A caller holding an extracted graph wants to know which engine to call before
+paying for a layout. The fit below uses only properties of the graph, and is
+repeated three times, each time holding out one corpus.
+
+AUC of predicting that an engine draws a figure illegibly, from the graph alone:
+   held_out  n_test  dot3  dot5  oracle5  ours5
+    sciflow    4248 0.762 0.789    0.823  0.816
+    flowvqa     900 0.748 0.749    0.817  0.881
+paperbanana     864 0.793 0.805    0.849  0.879
+  in sample    6012 0.772 0.795    0.839  0.838
+
+Coefficients of the five-feature rule, fitted on every figure on standardised inputs:
+  intercept -1.055  lbox +0.503  larr +0.325  density +0.603  loops +0.424  nested +0.972
+
+Selector ceiling, pooled over 6,012 figures: ours 86.9%, oracle 'dot' 65.9%, best of the two per figure 90.0%.
+  always using ours reaches 96.6% of what any policy over the two engines could reach; headroom 3.1 points pooled, at most 5.3 in any setting.
+  discordant figures: ours only 1,451, oracle 'dot' only 185 (ratio 7.8x).
+
+==============================================================================
+R4  The legibility index predicting a rater it was not fitted on
+==============================================================================
+
+The paper cross-validates the index by leaving one source graph out, which shows
+it has not memorised a layout. This leaves one rater out instead, which shows it
+has not memorised a panel.
+
+agreement between raters (Spearman of their best-worst scores):
+ pair   rho
+R1-R2 0.791
+R1-R3 0.699
+R2-R3 0.699
+
+fitted on two raters, scored on the third:
+        index held_out   rho
+four measures       R1 0.753
+four measures       R2 0.766
+four measures       R3 0.668
+ ten measures       R1 0.799
+ ten measures       R2 0.755
+ ten measures       R3 0.686
+
+  held-out rater: rho 0.67 to 0.80; between raters: 0.70 to 0.79.
+  the index therefore predicts a rater it has not seen about as well as another rater does.
+
+==============================================================================
+R5  Which graph-drawing criterion tracks the raters
+==============================================================================
+Spearman with the raters' best-worst score (negative = more defects, worse rated).
+rho: all 72 images, three conditions. rho_engines48: the 48 images the two engines
+drew, which is the sample a claim about two drawn layouts needs. Holm within each
+of the two families:
+               measure    rho     p  rho_engines48  p_engines48  p_holm  p_holm_engines48
+      label_collisions -0.747 0.000          0.233        0.111   0.000             1.000
+    node_overlap_pairs -0.733 0.000            NaN          NaN   0.000               NaN
+    node_overlap_ratio -0.720 0.000            NaN          NaN   0.000               NaN
+     node_overlap_area -0.720 0.000            NaN          NaN   0.000               NaN
+   edge_node_crossings -0.692 0.000            NaN          NaN   0.000               NaN
+  edge_label_crossings -0.519 0.000          0.187        0.204   0.000             1.000
+        stacked_routes -0.493 0.000            NaN          NaN   0.000               NaN
+             ink_ratio -0.437 0.000          0.221        0.132   0.001             1.000
+   edge_edge_crossings -0.255 0.031         -0.041        0.781   0.214             1.000
+   edge_crossing_ratio -0.248 0.036         -0.043        0.773   0.215             1.000
+      aspect_deviation -0.189 0.111         -0.311        0.031   0.555             0.469
+               n_nodes -0.136 0.256         -0.354        0.014   1.000             0.231
+               n_edges -0.124 0.299         -0.204        0.165   1.000             1.000
+          aspect_ratio -0.120 0.317         -0.003        0.984   1.000             1.000
+       alignment_ratio -0.050 0.675          0.098        0.506   1.000             1.000
+     total_edge_length  0.321 0.006         -0.149        0.312   0.048             1.000
+mean_edge_length_ratio  0.357 0.002          0.070        0.638   0.019             1.000
+                  area  0.373 0.001         -0.354        0.014   0.013             0.231
+        min_separation  0.500 0.000         -0.203        0.165   0.000             1.000
+                 valid  0.502 0.000         -0.263        0.071   0.000             0.989
+           total_bends  0.525 0.000          0.079        0.594   0.000             1.000
+   mean_bends_per_edge  0.538 0.000          0.125        0.399   0.000             1.000
+
+  15 of 22 measures track the raters over the full panel after correction, and 0
+  of the 16 that vary among the 48 engine-drawn images do. The ranking of the criteria
+  on the left is therefore a ranking of how sharply each measure separates the model-
+  placed condition from the two drawn ones; it does not say which criterion a reader
+  pays for between two drawn layouts, and this paper does not claim that it does.
+
+Over 30051 layouts of identical graphs by both engines, with box count held fixed:
+  arrow crossings and label collisions: partial rho +0.02 (independent)
+  bends per arrow and label collisions: rho -0.36 (a layout that bends less occludes more)
+
+==============================================================================
+R6  What each instrument can resolve, in one table
+==============================================================================
+
+Every row below is taken from the script that computes it, so this table and the
+analyses behind it cannot disagree: the ceiling and the reader from
+checks_new.py, the variance components and the resolution from
+checks_variance.py, the judge from checks_new.py, the paraphrase share from
+checks_judge.py.
+
+  benchmark score        the score a perfect graph reaches          0.611
+                         its node F1 is 0.824 but its edge F1 0.470, and the score weights edges 0.6
+  SciFlow-Bench score    share of its variance in the item          85.7\%
+                         in the model 1.0\%; two samples of 50 items cannot separate means closer than 0.037
+  FlowVQA score          share of its variance in the item          83.4\%
+                         in the model 0.9\%; two samples of 50 items cannot separate means closer than 0.083
+  judge                  share of its variance in the system judged 3.2\%
+                         in the item 34.0\%; two samples of 50 figures cannot separate means closer than 15--18 points
+  read-back reader       arrows returned per arrow drawn            1.66--1.85
+                         boxes 1.21--1.30; its arrow count tracks the drawn one at $\rho=0.56$--0.67
+  node matching          matched nodes not carrying the gold label  46--53\%
+                         node F1 roughly halves under exact matching, and the item ranking is unchanged
+
+Sign errors, from checks_variance.py H2: the rate at which a sample of n items
+returns the wrong sign for the paired difference against the same model writing DOT.
+ corpus     model   true  wrong50  wrong100  wrongfull
+sciflow      Qwen 0.0034   0.3865    0.3345     0.1777
+sciflow     Gemma 0.0234   0.0120    0.0003     0.0000
+sciflow Ministral 0.0278   0.0293    0.0057     0.0000
+flowvqa      Qwen 0.0576   0.0195    0.0013     0.0000
+flowvqa     Gemma 0.0048   0.4027    0.3877     0.3095
+flowvqa Ministral 0.1171   0.0000    0.0000     0.0000
+
+==============================================================================
+R7  The same model placing the boxes it extracted
+==============================================================================
+
+Same text, same extracted graph, same renderer, same seed: the only change is
+who decides the coordinates. Layout measures are over the figures actually
+drawn, as the invariant of the paper is; the scores are over every item.
+
+
+Qwen: (code places / model places)
+  lenient legible (%)                    100.0 +- 0.0        14.9 +- 1.8   p 9.5e-57
+  strict legible (%)                      86.7 +- 4.0        12.5 +- 1.3   p 6.7e-47
+  figures with a box overlap (%)           0.0 +- 0.0        79.1 +- 1.3   p 8.0e-53
+  overlapping box pairs                   0.00 +- 0.00       23.07 +- 2.20   p 3.8e-40
+  arrows through a box                    0.00 +- 0.00       13.45 +- 1.78   p 3.4e-38
+  label collisions                        0.03 +- 0.01       34.09 +- 3.59   p 6.5e-42
+  SciFlow-Bench score                    0.105 +- 0.002       0.095 +- 0.005   p 1.0e-04
+  node F1                                0.210 +- 0.005       0.185 +- 0.001   p 4.7e-05
+
+Gemma: (code places / model places)
+  lenient legible (%)                    100.0 +- 0.0         4.7 +- 0.6   p 1.7e-63
+  strict legible (%)                      87.2 +- 2.5         0.7 +- 0.6   p 7.7e-58
+  figures with a box overlap (%)           0.0 +- 0.0        77.6 +- 1.4   p 6.0e-52
+  overlapping box pairs                   0.00 +- 0.00       18.74 +- 1.29   p 1.7e-39
+  arrows through a box                    0.00 +- 0.00       10.45 +- 0.48   p 2.8e-44
+  label collisions                        0.01 +- 0.01       34.44 +- 1.82   p 3.9e-50
+  SciFlow-Bench score                    0.115 +- 0.001       0.114 +- 0.001   p 2.5e-01
+  node F1                                0.236 +- 0.001       0.239 +- 0.002   p 1.8e-01
+
+Ministral: (code places / model places)
+  lenient legible (%)                    100.0 +- 0.0         0.0 +- 0.0   p 3.3e-67
+  strict legible (%)                      56.3 +- 4.9         0.0 +- 0.0   p 1.2e-38
+  figures with a box overlap (%)           0.0 +- 0.0        99.7 +- 0.6   p 5.4e-67
+  overlapping box pairs                   0.00 +- 0.00       54.21 +- 1.31   p 8.8e-51
+  arrows through a box                    0.00 +- 0.00       49.71 +- 0.62   p 6.0e-51
+  label collisions                        0.09 +- 0.06      103.49 +- 1.67   p 6.1e-51
+  SciFlow-Bench score                    0.119 +- 0.001       0.125 +- 0.004   p 1.1e-01
+  node F1                                0.248 +- 0.003       0.254 +- 0.007   p 7.0e-01
+
+  over the 898 figures our engine drew here the lenient verdict holds on 100.0% of them, against 6.5% when the model places the boxes.
+  the content score does not improve when the model places the boxes:
+    Qwen       0.105 against 0.095  (p = 0.000104)
+    Gemma      0.115 against 0.114  (p = 0.249)
+    Ministral  0.119 against 0.125  (p = 0.11)
+
+==============================================================================
+R8  Where the legibility gap sits: loops and nested containers
+==============================================================================
+
+Loops that return to an earlier stage and boxes nested inside a container are
+what extracted graphs have. Both engines draw identical graphs, so the split
+below is a property of the graph, not of the extractor. 'dot' is its best single
+configuration, as in Table S2a; the oracle column gives it the best of its four
+per figure.
+
+            prop  value    n  ours  dot  gap   lo   hi  dot_oracle  gap_oracle
+   feedback loop  False 3449  92.1 65.0 27.0 25.4 28.6        78.1        13.9
+   feedback loop   True 2563  80.0 39.1 40.9 38.8 42.9        49.4        30.7
+nested container  False 2228  95.0 77.6 17.4 15.7 19.3        88.6         6.4
+nested container   True 3784  82.2 40.1 42.1 40.4 43.9        52.5        29.7
+  feedback loop: gap +40.9 points with the property, +27.0 without, difference +13.9; against the oracle +30.7 and +13.9
+  nested container: gap +42.1 points with the property, +17.4 without, difference +24.7; against the oracle +29.7 and +6.4
+
+A note on the second metric family carried in the released columns:
+  sciflow: 31% of items have no comparable path, so their strict_path_f1 is 1.000 by convention; rho with the benchmark score -0.222 over all items, +0.212 over the comparable ones.
+  flowvqa: 3% of items have no comparable path, so their strict_path_f1 is 1.000 by convention; rho with the benchmark score +0.680 over all items, +0.692 over the comparable ones.
+

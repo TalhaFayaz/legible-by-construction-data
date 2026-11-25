@@ -1,0 +1,7 @@
+verdict,comparison,n,ours_pct,dot_pct,matched,difference_pts
+strict,as reported: our layout vs dot's best single configuration,6007,86.9485600133178,54.02030963875478,"no: we choose among our variants, dot gets one",32.92825037456302
+strict,both choose: our variants vs dot's oracle over its four,6007,86.9485600133178,65.90644248376893,yes,21.042117529548875
+strict,neither chooses: our first layout vs dot's best single configuration,4244,73.751178133836,52.89820923656927,yes,20.852968897266734
+label_blind,as reported: our layout vs dot's best single configuration,6007,96.65390377892459,98.85134010321292,"no: we choose among our variants, dot gets one",-2.197436324288333
+label_blind,both choose: our variants vs dot's oracle over its four,6007,96.65390377892459,99.46728816380889,yes,-2.8133843848843014
+label_blind,neither chooses: our first layout vs dot's best single configuration,4244,94.91046182846371,98.84542884071631,yes,-3.9349670122525993

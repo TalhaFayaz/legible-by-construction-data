@@ -1,0 +1,10 @@
+corpus,model,instrument,difference,unpaired_mde_50,sign_error_pct_50,sign_error_pct_full
+sciflow,Qwen,benchmark score,0.003407095392114,0.0371963073214814,38.65,17.775
+sciflow,Gemma,benchmark score,0.0233811204161689,0.0371963073214814,1.2,0.0
+sciflow,Ministral,benchmark score,0.0278038750106383,0.0371963073214814,2.9250000000000003,0.0
+flowvqa,Qwen,benchmark score,0.0575519709010248,0.0829792097092481,1.95,0.0
+flowvqa,Gemma,benchmark score,0.0047599766129268,0.0829792097092481,40.275,30.95
+flowvqa,Ministral,benchmark score,0.1170689251550534,0.0829792097092481,0.0,0.0
+paperbanana,Qwen,judge,,18.16380041280303,,
+paperbanana,Gemma,judge,,17.30983863532368,,
+paperbanana,Ministral,judge,,14.635876800716993,,

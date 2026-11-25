@@ -1,0 +1,45 @@
+raters 3, judgements 216, images 72
+
+Spearman rho with the raters' BWS score, all 72 images (sign: agreement)
+  valid (headline)         +0.502
+  -overlap_pairs           +0.733
+  -overlap_ratio           +0.720
+  -edge_node_crossings     +0.692
+  -edge_edge_crossings     +0.255
+  -label_collisions        +0.747
+  -edge_label_crossings    +0.519
+  -stacked_routes          +0.493
+  -bends_per_edge          -0.538
+  -aspect_deviation        +0.189
+  min_separation           +0.500
+
+Spearman rho with the raters' BWS score, ours + dot only (48) (sign: agreement)
+  valid (headline)         -0.263
+  -overlap_pairs           no variance
+  -overlap_ratio           no variance
+  -edge_node_crossings     no variance
+  -edge_edge_crossings     +0.041
+  -label_collisions        -0.233
+  -edge_label_crossings    -0.187
+  -stacked_routes          no variance
+  -bends_per_edge          -0.125
+  -aspect_deviation        +0.311
+  min_separation           -0.203
+
+between raters, all 72 (72 images): pairwise Spearman of BWS scores
+  R1 vs R2: +0.791
+  R1 vs R3: +0.699
+  R2 vs R3: +0.699
+  Kendall's W (3 raters): 0.802
+
+between raters, ours + dot (48 images): pairwise Spearman of BWS scores
+  R1 vs R2: +0.530
+  R1 vs R3: +0.263
+  R2 vs R3: +0.242
+  Kendall's W (3 raters): 0.539
+
+R1 mean BWS: ours +0.219, graphviz +0.354, model -0.573
+
+R2 mean BWS: ours +0.271, graphviz +0.281, model -0.552
+
+R3 mean BWS: ours +0.208, graphviz +0.333, model -0.542

@@ -1,0 +1,5 @@
+held_out,n_test,F4_3feat,F4_5feat,oracle_5feat,ours_5feat
+sciflow,4248,0.762,0.789,0.823,0.816
+flowvqa,900,0.748,0.749,0.817,0.881
+paperbanana,864,0.793,0.805,0.849,0.879
+in sample (F4),6012,0.772,0.795,0.839,0.838

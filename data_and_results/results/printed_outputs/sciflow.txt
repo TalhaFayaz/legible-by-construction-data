@@ -1,0 +1,122 @@
+Every system, the corpus's own metric (mean; +- std across runs)
+system                                n         edge F1           score         node F1
+Ours + Qwen                         483    0.033 +-0.000    0.103 +-0.000    0.209 +-0.001
+Ours + Gemma                        483    0.042 +-0.001    0.124 +-0.001    0.247 +-0.002
+Ours + Ministral                    483    0.043 +-0.001    0.125 +-0.001    0.247 +-0.001
+Qwen writing DOT                    483    0.033           0.100           0.200       
+Gemma writing DOT                   483    0.034           0.101           0.202       
+Ministral writing DOT               483    0.037           0.097           0.187       
+Gemini 2.5 Flash Image              455    0.022           0.101           0.220       
+Gemini 3 Pro Image                  230    0.030           0.115           0.242       
+Graphviz (GPT-4o->DOT)              461    0.026           0.087           0.177       
+Qwen-Image                          472    0.015           0.079           0.176       
+SDXL                                426    0.008           0.016           0.028       
+PixArt-Sigma                        450    0.015           0.020           0.027       
+Seedream 4.0                        280    0.022           0.103           0.225       
+
+Paired comparisons (each paper averaged over the model's runs; Wilcoxon; r = rank-biserial; CI = 95 % bootstrap of the mean difference; verdict on Holm-corrected p over this model's comparisons)
+
+Ours + Qwen, edge F1
+  vs.                               n    win  mean diff              95% CI      r       p  p Holm  verdict
+  Gemini 2.5 Flash Image          455  64.8%     +0.012    [+0.004, +0.021]  +0.29  0.0016  0.0082  ahead
+  Gemini 3 Pro Image              230  45.6%     -0.004    [-0.015, +0.006]  -0.12    0.34    0.68  tied
+  Graphviz (GPT-4o->DOT)          461  65.5%     +0.006    [-0.004, +0.015]  +0.29  0.0024  0.0097  ahead
+  Qwen-Image                      472  75.3%     +0.019    [+0.011, +0.027]  +0.48   <1e-4   <1e-4  ahead
+  SDXL                            426  95.7%     +0.023    [+0.011, +0.034]  +0.84   <1e-4   <1e-4  ahead
+  PixArt-Sigma                    450  92.2%     +0.018    [+0.004, +0.031]  +0.75   <1e-4   <1e-4  ahead
+  Seedream 4.0                    280  67.0%     +0.001    [-0.008, +0.010]  +0.17    0.14    0.42  tied
+  Qwen writing DOT                483  48.1%     -0.000    [-0.007, +0.007]  -0.03    0.68    0.68  tied
+
+Ours + Qwen, score
+  vs.                               n    win  mean diff              95% CI      r       p  p Holm  verdict
+  Gemini 2.5 Flash Image          455  46.5%     +0.003    [-0.005, +0.011]  -0.03    0.57    0.57  tied
+  Gemini 3 Pro Image              230  38.5%     -0.020    [-0.030, -0.009]  -0.30 0.00011 0.00044  behind
+  Graphviz (GPT-4o->DOT)          461  64.0%     +0.015    [+0.007, +0.023]  +0.36   <1e-4   <1e-4  ahead
+  Qwen-Image                      472  60.8%     +0.025    [+0.017, +0.034]  +0.31   <1e-4   <1e-4  ahead
+  SDXL                            426  91.1%     +0.085    [+0.074, +0.096]  +0.91   <1e-4   <1e-4  ahead
+  PixArt-Sigma                    450  90.6%     +0.083    [+0.072, +0.095]  +0.85   <1e-4   <1e-4  ahead
+  Seedream 4.0                    280  44.0%     -0.008    [-0.018, +0.001]  -0.11    0.11    0.22  tied
+  Qwen writing DOT                483  56.7%     +0.003    [-0.004, +0.010]  +0.11   0.034     0.1  tied
+
+Ours + Qwen, node F1
+  vs.                               n    win  mean diff              95% CI      r       p  p Holm  verdict
+  Gemini 2.5 Flash Image          455  46.1%     -0.011    [-0.024, +0.001]  -0.10   0.077   0.077  tied
+  Gemini 3 Pro Image              230  39.4%     -0.043    [-0.063, -0.023]  -0.31   <1e-4  0.0002  behind
+  Graphviz (GPT-4o->DOT)          461  63.8%     +0.030    [+0.019, +0.040]  +0.37   <1e-4   <1e-4  ahead
+  Qwen-Image                      472  61.0%     +0.034    [+0.021, +0.047]  +0.28   <1e-4   <1e-4  ahead
+  SDXL                            426  91.3%     +0.178    [+0.163, +0.194]  +0.93   <1e-4   <1e-4  ahead
+  PixArt-Sigma                    450  91.7%     +0.182    [+0.166, +0.199]  +0.91   <1e-4   <1e-4  ahead
+  Seedream 4.0                    280  42.2%     -0.023    [-0.041, -0.007]  -0.17   0.015   0.029  behind
+  Qwen writing DOT                483  58.9%     +0.009    [-0.002, +0.019]  +0.16  0.0025  0.0075  ahead
+
+Ours + Gemma, edge F1
+  vs.                               n    win  mean diff              95% CI      r       p  p Holm  verdict
+  Gemini 2.5 Flash Image          455  69.1%     +0.021    [+0.013, +0.030]  +0.45   <1e-4   <1e-4  ahead
+  Gemini 3 Pro Image              230  61.0%     +0.008    [-0.003, +0.018]  +0.19   0.095   0.095  tied
+  Graphviz (GPT-4o->DOT)          461  69.6%     +0.015    [+0.005, +0.024]  +0.46   <1e-4   <1e-4  ahead
+  Qwen-Image                      472  80.3%     +0.028    [+0.020, +0.037]  +0.62   <1e-4   <1e-4  ahead
+  SDXL                            426  96.5%     +0.033    [+0.020, +0.044]  +0.87   <1e-4   <1e-4  ahead
+  PixArt-Sigma                    450  94.2%     +0.028    [+0.014, +0.041]  +0.79   <1e-4   <1e-4  ahead
+  Seedream 4.0                    280  67.8%     +0.013    [+0.004, +0.023]  +0.37 0.00049  0.0015  ahead
+  Gemma writing DOT               483  62.0%     +0.009    [+0.002, +0.016]  +0.20   0.014   0.028  ahead
+
+Ours + Gemma, score
+  vs.                               n    win  mean diff              95% CI      r       p  p Holm  verdict
+  Gemini 2.5 Flash Image          455  60.5%     +0.024    [+0.016, +0.032]  +0.29   <1e-4   <1e-4  ahead
+  Gemini 3 Pro Image              230  50.4%     +0.004    [-0.007, +0.014]  +0.03    0.73    0.73  tied
+  Graphviz (GPT-4o->DOT)          461  76.2%     +0.036    [+0.028, +0.044]  +0.63   <1e-4   <1e-4  ahead
+  Qwen-Image                      472  69.7%     +0.046    [+0.037, +0.055]  +0.54   <1e-4   <1e-4  ahead
+  SDXL                            426  92.9%     +0.107    [+0.095, +0.119]  +0.93   <1e-4   <1e-4  ahead
+  PixArt-Sigma                    450  92.6%     +0.105    [+0.092, +0.117]  +0.89   <1e-4   <1e-4  ahead
+  Seedream 4.0                    280  57.4%     +0.017    [+0.007, +0.026]  +0.24 0.00054  0.0011  ahead
+  Gemma writing DOT               483  68.1%     +0.023    [+0.017, +0.030]  +0.43   <1e-4   <1e-4  ahead
+
+Ours + Gemma, node F1
+  vs.                               n    win  mean diff              95% CI      r       p  p Holm  verdict
+  Gemini 2.5 Flash Image          455  58.5%     +0.027    [+0.015, +0.040]  +0.25   <1e-4   <1e-4  ahead
+  Gemini 3 Pro Image              230  50.0%     -0.002    [-0.021, +0.016]  -0.00    0.99    0.99  tied
+  Graphviz (GPT-4o->DOT)          461  76.4%     +0.067    [+0.056, +0.078]  +0.67   <1e-4   <1e-4  ahead
+  Qwen-Image                      472  70.8%     +0.072    [+0.059, +0.085]  +0.54   <1e-4   <1e-4  ahead
+  SDXL                            426  93.1%     +0.219    [+0.202, +0.236]  +0.95   <1e-4   <1e-4  ahead
+  PixArt-Sigma                    450  93.5%     +0.220    [+0.203, +0.237]  +0.93   <1e-4   <1e-4  ahead
+  Seedream 4.0                    280  56.7%     +0.022    [+0.004, +0.039]  +0.19  0.0058   0.012  ahead
+  Gemma writing DOT               483  70.7%     +0.045    [+0.036, +0.054]  +0.53   <1e-4   <1e-4  ahead
+
+Ours + Ministral, edge F1
+  vs.                               n    win  mean diff              95% CI      r       p  p Holm  verdict
+  Gemini 2.5 Flash Image          455  77.2%     +0.022    [+0.015, +0.028]  +0.56   <1e-4   <1e-4  ahead
+  Gemini 3 Pro Image              230  66.7%     +0.007    [-0.002, +0.016]  +0.23   0.033   0.033  ahead
+  Graphviz (GPT-4o->DOT)          461  74.5%     +0.016    [+0.007, +0.025]  +0.53   <1e-4   <1e-4  ahead
+  Qwen-Image                      472  83.5%     +0.029    [+0.021, +0.037]  +0.66   <1e-4   <1e-4  ahead
+  SDXL                            426  97.1%     +0.033    [+0.022, +0.044]  +0.89   <1e-4   <1e-4  ahead
+  PixArt-Sigma                    450  95.3%     +0.028    [+0.014, +0.040]  +0.83   <1e-4   <1e-4  ahead
+  Seedream 4.0                    280  75.9%     +0.017    [+0.008, +0.026]  +0.45   <1e-4   <1e-4  ahead
+  Ministral writing DOT           483  66.4%     +0.006    [-0.004, +0.015]  +0.34   <1e-4   <1e-4  ahead
+
+Ours + Ministral, score
+  vs.                               n    win  mean diff              95% CI      r       p  p Holm  verdict
+  Gemini 2.5 Flash Image          455  60.6%     +0.023    [+0.016, +0.031]  +0.34   <1e-4   <1e-4  ahead
+  Gemini 3 Pro Image              230  50.0%     +0.002    [-0.008, +0.012]  +0.02    0.78    0.78  tied
+  Graphviz (GPT-4o->DOT)          461  74.6%     +0.037    [+0.029, +0.045]  +0.65   <1e-4   <1e-4  ahead
+  Qwen-Image                      472  69.5%     +0.046    [+0.038, +0.054]  +0.57   <1e-4   <1e-4  ahead
+  SDXL                            426  94.2%     +0.107    [+0.096, +0.119]  +0.93   <1e-4   <1e-4  ahead
+  PixArt-Sigma                    450  92.9%     +0.105    [+0.093, +0.117]  +0.88   <1e-4   <1e-4  ahead
+  Seedream 4.0                    280  58.5%     +0.018    [+0.008, +0.027]  +0.25 0.00038 0.00076  ahead
+  Ministral writing DOT           483  68.6%     +0.028    [+0.019, +0.037]  +0.45   <1e-4   <1e-4  ahead
+
+Ours + Ministral, node F1
+  vs.                               n    win  mean diff              95% CI      r       p  p Holm  verdict
+  Gemini 2.5 Flash Image          455  56.8%     +0.026    [+0.014, +0.038]  +0.25   <1e-4   <1e-4  ahead
+  Gemini 3 Pro Image              230  49.6%     -0.006    [-0.024, +0.012]  -0.01    0.85    0.85  tied
+  Graphviz (GPT-4o->DOT)          461  74.3%     +0.068    [+0.057, +0.079]  +0.67   <1e-4   <1e-4  ahead
+  Qwen-Image                      472  71.5%     +0.072    [+0.059, +0.085]  +0.56   <1e-4   <1e-4  ahead
+  SDXL                            426  94.2%     +0.218    [+0.201, +0.235]  +0.96   <1e-4   <1e-4  ahead
+  PixArt-Sigma                    450  94.0%     +0.221    [+0.203, +0.237]  +0.93   <1e-4   <1e-4  ahead
+  Seedream 4.0                    280  54.9%     +0.018    [+0.001, +0.035]  +0.18    0.01   0.021  ahead
+  Ministral writing DOT           483  69.6%     +0.060    [+0.047, +0.074]  +0.49   <1e-4   <1e-4  ahead
+
+Our legibility measure (supporting; not a comparison with other systems)
+system                      strict %     lenient %     crossings  failed
+Ours + Qwen               93.1 +-0.3   100.0 +-0.0    0.41 +-0.04       0
+Ours + Gemma              91.4 +-0.8   100.0 +-0.0    0.68 +-0.05       0
+Ours + Ministral          74.5 +-1.5   100.0 +-0.0    4.01 +-0.36       0

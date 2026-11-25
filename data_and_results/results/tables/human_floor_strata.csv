@@ -1,0 +1,3 @@
+stratum,images,strict_pass_pct,mean_bw,bw_sd
+below the lenient floor,24,0.0,-1.667,0.877
+above the lenient floor,48,81.2,0.833,0.813

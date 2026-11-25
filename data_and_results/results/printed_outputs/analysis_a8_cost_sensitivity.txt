@@ -1,0 +1,73 @@
+done qwen hand-set
+done qwen bend x0.5
+done qwen bend x2
+done qwen cross x0.5
+done qwen cross x2
+done qwen along x0.5
+done qwen along x2
+done qwen reuse x0.5
+done qwen reuse x2
+done qwen offset x0.5
+done qwen offset x2
+done gemma4 hand-set
+done gemma4 bend x0.5
+done gemma4 bend x2
+done gemma4 cross x0.5
+done gemma4 cross x2
+done gemma4 along x0.5
+done gemma4 along x2
+done gemma4 reuse x0.5
+done gemma4 reuse x2
+done gemma4 offset x0.5
+done gemma4 offset x2
+done ministral hand-set
+done ministral bend x0.5
+done ministral bend x2
+done ministral cross x0.5
+done ministral cross x2
+done ministral along x0.5
+done ministral along x2
+done ministral reuse x0.5
+done ministral reuse x2
+done ministral offset x0.5
+done ministral offset x2
+Route-cost sensitivity, SciFlow-Bench seed 0 (mean per figure; strict %; Holm over the 10 changed configurations; * = significantly different from hand-set)
+
+qwen: config             crossings   through box   label coll.   strict %
+   hand-set               0.37          0.00          0.01       93.4 
+   bend x0.5              0.36          0.00          0.01       92.8 
+   bend x2                0.37          0.00          0.01       92.8 
+   cross x0.5             0.41          0.00          0.00       92.6 
+   cross x2               0.34          0.00          0.01       93.0 
+   along x0.5             0.37          0.00          0.01       93.4 
+   along x2               0.37          0.00          0.01       93.4 
+   reuse x0.5             0.37          0.00          0.01       92.8 
+   reuse x2               0.37          0.00          0.01       93.4 
+   offset x0.5            0.37          0.00          0.00       93.4 
+   offset x2              0.36          0.00          0.01       93.2 
+
+gemma4: config             crossings   through box   label coll.   strict %
+   hand-set               0.73          0.00          0.03       91.3 
+   bend x0.5              0.74          0.00          0.03       90.7 
+   bend x2                0.74          0.00          0.03       91.1 
+   cross x0.5             0.77          0.00          0.03       90.7 
+   cross x2               0.70          0.00          0.03       91.1 
+   along x0.5             0.73          0.00          0.03       91.3 
+   along x2               0.73          0.00          0.03       91.3 
+   reuse x0.5             0.73          0.00          0.03       91.1 
+   reuse x2               0.73          0.00          0.03       91.3 
+   offset x0.5            0.74          0.00          0.03       91.1 
+   offset x2              0.74          0.00          0.03       91.3 
+
+ministral: config             crossings   through box   label coll.   strict %
+   hand-set               3.69          0.00          0.11       75.6 
+   bend x0.5              3.68          0.00          0.11       75.2 
+   bend x2                3.73          0.00          0.10       74.8 
+   cross x0.5             4.01*         0.00          0.11       73.3 
+   cross x2               3.46*         0.00          0.11       73.9 
+   along x0.5             3.66          0.00          0.11       75.4 
+   along x2               3.69          0.00          0.11       75.4 
+   reuse x0.5             3.69          0.00          0.11       75.6 
+   reuse x2               3.69          0.00          0.11       75.6 
+   offset x0.5            3.74          0.00          0.10       75.4 
+   offset x2              3.70          0.00          0.11       75.4 

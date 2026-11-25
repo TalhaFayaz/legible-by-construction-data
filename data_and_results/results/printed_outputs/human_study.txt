@@ -1,0 +1,26 @@
+raters 3 | stimuli 72 | judgements 216
+split-half reliability (Spearman rho): 0.789
+
+metric                    rho vs human
+--------------------------------------
+-label_collisions                0.747
+-overlap_pairs                   0.733
+-overlap_ratio                   0.720
+-edge_node_crossings             0.692
+-edge_label_crossings            0.519
+valid (headline)                 0.502
+min_separation                   0.500
+-stacked_routes                  0.493
+-edge_edge_crossings             0.255
+-aspect_deviation                0.189
+-bends_per_edge                 -0.538
+
+Same graph, three layouts (BWS score, -1 worst .. +1 best)
+  ours      mean +0.233  (n=24)
+  graphviz  mean +0.323  (n=24)
+  model     mean -0.556  (n=24)
+  ours preferred to graphviz on 6 of 24 graphs, graphviz on 16, tied on 2  (sign test p = 0.0525)
+  ours preferred to model on 23 of 24 graphs, model on 1, tied on 0  (sign test p = 2.98e-06)
+  graphviz preferred to model on 23 of 24 graphs, model on 1, tied on 0  (sign test p = 2.98e-06)
+
+median time per set 8.4 s over 216 set(s)

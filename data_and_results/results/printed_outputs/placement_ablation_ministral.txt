@@ -1,0 +1,16 @@
+ministral_seed0: papers 100, compared on 100
+ministral_seed1: papers 100, compared on 100
+ministral_seed2: papers 100, compared on 100
+tested on the 100 papers compared in every seed
+measure                                           ours             model         p   p per seed
+strict legible (%)                      56.333 +- 4.933     0.000 +- 0.000   9.9e-16   3.4e-15 2e-13 3.3e-13
+lenient legible (%)                    100.000 +- 0.000     0.000 +- 0.000   1.5e-23   1.5e-23 1.5e-23 1.5e-23
+figures with overlapping boxes (%)       0.000 +- 0.000    99.667 +- 0.577   2.5e-23   2.5e-23 1.5e-23 1.5e-23
+overlapping box pairs                    0.000 +- 0.000    54.207 +- 1.307   3.9e-18   5.7e-18 3.9e-18 3.9e-18
+arrows through a box                     0.000 +- 0.000    49.710 +- 0.624   3.9e-18   3.9e-18 3.9e-18 3.9e-18
+arrow crossings                          4.050 +- 0.819     6.483 +- 0.870    0.0035   0.0012 0.068 0.25
+arrows through a label                   1.113 +- 0.189    39.080 +- 3.162   3.9e-18   3.9e-18 4e-18 5.7e-18
+label collisions                         0.093 +- 0.055   103.487 +- 1.665   3.9e-18   3.9e-18 3.9e-18 3.9e-18
+SciFlow score                            0.119 +- 0.001     0.125 +- 0.004      0.13   0.25 0.11 0.95
+node F1                                  0.248 +- 0.003     0.254 +- 0.007      0.93   0.76 0.77 0.96
+edge F1                                  0.034 +- 0.003     0.038 +- 0.006      0.11   0.37 0.02 0.69

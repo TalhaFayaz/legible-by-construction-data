@@ -1,0 +1,7 @@
+target,held_out,n,auc
+dot fails the strict check,sciflow,4246,0.7619043855743544
+dot fails the strict check,flowvqa,900,0.7482213045425146
+dot fails the strict check,paperbanana,863,0.7921998058042938
+our engine fails the strict check,sciflow,4248,0.7525119451755697
+our engine fails the strict check,flowvqa,900,0.8502967735975426
+our engine fails the strict check,paperbanana,864,0.8236905900820152

@@ -1,0 +1,111 @@
+==============================================================================
+D1  The lenient-legibility invariant, verified on every figure measured
+==============================================================================
+                                                configuration  pass     n    share
+our engine, every pipeline run (all variants, seeds, corpora) 26595 26595 100.000%
+                               our engine, placement ablation   898   898 100.000%
+                         model places the boxes (same graphs)    58   895   6.480%
+                            our engine, layout comparison set  6012  6012 100.000%
+                              Graphviz top-down, curved edges  5958  6009  99.151%
+                            Graphviz left-right, curved edges  5953  6009  99.068%
+                          Graphviz top-down, orthogonal edges  5195  6011  86.425%
+                        Graphviz left-right, orthogonal edges  5206  6010  86.622%
+
+  Our engine laid out 27,493 of the 28,388 figures measured here -- three corpora,
+  three models, three seeds, all five pipeline variants, and the half of the
+  placement ablation our engine drew; zero box overlaps, zero arrows through a
+  box and zero reversed routes in every one of them.
+
+  The other 895 are the other half of that ablation, where the model places
+  the boxes of the graph it extracted: 765 of them overlap a box and 783 run an
+  arrow through one. The invariant is a property of our layout code, so its
+  denominator is the 27,493 figures that code drew and not every figure measured
+  for this paper (28,388). The paper states it that way.
+
+                                                         set  figures  lenient_pct  box_overlaps  arrows_through_a_box  covered_by_the_invariant
+our layout engine (pipeline runs + placement ablation, ours)    27493   100.000000             0                     0                      True
+      the model places the boxes (placement ablation, model)      895     6.480447           765                   783                     False
+                        every figure measured for this paper    28388    97.051571           765                   783                     False
+  Paired against dot_tb_spline on identical graphs (n=6,012): ours passes where dot fails on 54, the reverse on 0.
+
+==============================================================================
+D2  Independent replication of SciFlow-Bench's inverse-parsing step
+==============================================================================
+Same images, two readers: the benchmark's shipped recovered graphs against
+one open 14B reader (InternVL3.5-14B, one prompt), scored by the same metric.
+
+   system   n  benchmark  our_reader  delta   rho     lo    hi
+  gemini3 230      0.115       0.115  0.000 0.662  0.574 0.741
+gemini2.5 455      0.101       0.101 -0.000 0.742  0.685 0.796
+ seedream 280      0.103       0.098 -0.006 0.619  0.506 0.702
+ graphviz 461      0.087       0.095  0.008 0.809  0.759 0.850
+     qwen 472      0.079       0.075 -0.004 0.734  0.686 0.779
+   pixart 450      0.020       0.013 -0.007 0.069 -0.021 0.180
+     sdxl 426      0.016       0.015 -0.001 0.067 -0.039 0.161
+
+  Systems whose figures render legible text (5): the two readers agree on the
+  corpus mean to within 0.0083 of the score and per paper at
+  rho=0.62-0.81.
+  The two diffusion systems whose text is not legible: rho=0.07-0.07,
+  with a bootstrap interval that contains zero, so for them the recovered graph is a
+  property of the reader and not of the figure.
+  Rank correlation of the seven system means under the two readers: 0.929.
+
+==============================================================================
+D3  How large a sample this literature needs
+==============================================================================
+ corpus     model   n  effect     sd  mde50  mde100  mde_full  power50  seed_spread
+sciflow      Qwen 483  0.0034 0.0813 0.0322  0.0228    0.0104   0.0950       0.0002
+sciflow     Gemma 483  0.0234 0.0727 0.0288  0.0204    0.0093   0.7350       0.0022
+sciflow Ministral 483  0.0278 0.1020 0.0404  0.0286    0.0130   0.8050       0.0025
+flowvqa      Qwen 300  0.0576 0.1964 0.0778  0.0550    0.0318   0.5450       0.0061
+flowvqa     Gemma 300  0.0048 0.1637 0.0649  0.0459    0.0265   0.0325       0.0016
+flowvqa Ministral 300  0.1171 0.2073 0.0822  0.0581    0.0335   0.9760       0.0072
+
+  At the n=50 items many diagram papers evaluate on, the differences measured here
+  would be detected with probability 0.03-0.98; the smallest
+  difference detectable at that size is 0.029-0.082 of the score, against
+  0.009-0.034 on the full corpora.
+  Run-to-run spread over three seeds is at most 0.0072 of the corpus mean,
+  16 times smaller than the largest effect reported.
+
+  Per item the same pipeline is far less stable than its corpus mean:
+ corpus     model  identical_pct  within_item_sd  corpus_mean_sd
+flowvqa     Gemma        33.6667          0.0294          0.0009
+flowvqa Ministral        13.6667          0.0461          0.0036
+flowvqa      Qwen        17.6667          0.0509          0.0035
+sciflow     Gemma        30.8489          0.0085          0.0012
+sciflow Ministral         8.4886          0.0157          0.0013
+sciflow      Qwen        20.9110          0.0143          0.0001
+
+==============================================================================
+D4  Rater decision time as a second behavioural signal
+==============================================================================
+  Spearman correlation of a set's median-centred log decision time with:
+    defect_range   rho=-0.396  p=0.00058
+    defect_mean    rho=-0.372  p=0.0013
+    n_model        rho=-0.317  p=0.0067
+    n_valid        rho=+0.130  p=0.28
+  Per rater, against the spread of defect counts inside the set:
+    R1: rho=-0.434 (p=0.000139)
+    R2: rho=-0.212 (p=0.0732)
+    R3: rho=-0.210 (p=0.0765)
+
+  Sets that contain a model-placed figure (n=58) are decided 1.98 times faster
+  than sets of four engine layouts (n=14): medians +0.034 against +0.719 in
+  centred log seconds, Mann-Whitney p=8.4e-05. The raters' own response times say
+  that a broken layout is easy to reject and that the two engines are hard to separate,
+  which is the comparison the study could not resolve.
+
+==============================================================================
+D5  The strict check as a predictor of what raters choose
+==============================================================================
+  P(strict-legible | the rater called it the most legible)  = 0.699
+  P(strict-legible | the rater called it the least legible) = 0.176
+  share of strict-legible figures among the 72 stimuli      = 0.542
+
+  2x2 table (best/worst x pass/fail) = [[151, 65], [38, 178]],
+  odds ratio 10.9, Fisher p=6.5e-29, over 216 choices by three raters.
+  The verdict the paper computes from geometry alone therefore predicts which image a
+  rater picks, which is the property a structural metric does not have.
+

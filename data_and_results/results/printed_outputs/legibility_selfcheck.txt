@@ -1,0 +1,24 @@
+72 rated images, 216 choices
+  rho with the raters  +0.814   (on the 48 images the two engines drew: +0.534, in sample)   four-measure index
+  rho with the raters  +0.854   (on the 48 images the two engines drew: +0.645, in sample)   ten-measure index
+  rho with the raters  +0.502   (on the 48 images the two engines drew: -0.263)   strict verdict alone
+  rho with the raters  +0.255   (on the 48 images the two engines drew: +0.041)   arrow crossings alone
+  rho with the raters  +0.747   (on the 48 images the two engines drew: -0.233)   label collisions alone
+  (the paper reports the two indices under leave-one-source-graph-out
+   cross-validation: 0.76 and 0.77; the rows above are in sample.)
+  The first column is over all three conditions, one of which is the model
+  placing its own boxes: it measures how well each number detects a figure
+  nobody can read, which is what these counts are for. The bracket is the same
+  correlation between two layouts a real engine drew; nothing in it survives
+  correction, so do not read these weights as a ranking of drawn layouts.
+  The two index rows are in sample on that subset; cross-validated the index
+  does not predict those 48 images at all (rho 0.11, checks_claims.py K6).
+  strict-legible stimuli 39/72; verdict agrees with the released column on 72/72
+  label-blind-legible stimuli 48/72: on these images the strict
+  verdict differs from the label-blind one only in the label criteria (5.3)
+
+  engine rule, P(dot draws it illegibly):
+      6 boxes,   6 arrows, loop=0, nested=0  ->  0.02
+     24 boxes,  31 arrows, loop=1, nested=0  ->  0.46
+     24 boxes,  31 arrows, loop=1, nested=1  ->  0.86
+     53 boxes,  70 arrows, loop=1, nested=1  ->  0.96

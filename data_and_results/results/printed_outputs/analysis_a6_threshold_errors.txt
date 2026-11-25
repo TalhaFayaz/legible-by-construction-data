@@ -1,0 +1,34 @@
+===== sciflow: threshold sensitivity (score; ours seed 0 vs DOT; Holm over 3 models)
+  t=0.5  qwen       ours 0.104  DOT 0.100  diff +0.004  r +0.06  p Holm 0.25  tied
+  t=0.5  gemma4     ours 0.125  DOT 0.101  diff +0.024  r +0.43  p Holm 2.5e-15  ahead
+  t=0.5  ministral  ours 0.126  DOT 0.097  diff +0.029  r +0.44  p Holm 8e-16  ahead
+  t=0.6  qwen       ours 0.059  DOT 0.054  diff +0.005  r +0.12  p Holm 0.032  ahead
+  t=0.6  gemma4     ours 0.071  DOT 0.052  diff +0.019  r +0.53  p Holm 3.7e-21  ahead
+  t=0.6  ministral  ours 0.071  DOT 0.060  diff +0.011  r +0.36  p Holm 1.5e-10  ahead
+  t=0.7  qwen       ours 0.034  DOT 0.028  diff +0.006  r +0.21  p Holm 0.00057  ahead
+  t=0.7  gemma4     ours 0.042  DOT 0.026  diff +0.016  r +0.63  p Holm 3.2e-25  ahead
+  t=0.7  ministral  ours 0.041  DOT 0.036  diff +0.005  r +0.28  p Holm 2e-06  ahead
+===== sciflow: error analysis at 0.5 (shares of gold edges; node recall/precision)
+  ours qwen       node recall 0.18, precision 0.24 | forward (9128): found 0.02, reversed 0.00, missed, ends matched 0.08, missed, end missing 0.89 | back (2838): found 0.01, reversed 0.00, missed, ends matched 0.37, missed, end missing 0.63 |
+  DOT  qwen       node recall 0.20, precision 0.22 | forward (9128): found 0.04, reversed 0.01, missed, ends matched 0.09, missed, end missing 0.87 | back (2838): found 0.01, reversed 0.01, missed, ends matched 0.06, missed, end missing 0.91 |
+  ours gemma4     node recall 0.23, precision 0.27 | forward (9128): found 0.03, reversed 0.01, missed, ends matched 0.11, missed, end missing 0.85 | back (2838): found 0.01, reversed 0.01, missed, ends matched 0.37, missed, end missing 0.61 |
+  DOT  gemma4     node recall 0.19, precision 0.22 | forward (9128): found 0.03, reversed 0.00, missed, ends matched 0.08, missed, end missing 0.89 | back (2838): found 0.01, reversed 0.00, missed, ends matched 0.36, missed, end missing 0.63 |
+  ours ministral  node recall 0.25, precision 0.25 | forward (9128): found 0.04, reversed 0.01, missed, ends matched 0.12, missed, end missing 0.83 | back (2838): found 0.01, reversed 0.01, missed, ends matched 0.37, missed, end missing 0.61 |
+  DOT  ministral  node recall 0.21, precision 0.21 | forward (9128): found 0.04, reversed 0.01, missed, ends matched 0.09, missed, end missing 0.86 | back (2838): found 0.01, reversed 0.01, missed, ends matched 0.06, missed, end missing 0.92 |
+===== flowvqa: threshold sensitivity (score; ours seed 0 vs DOT; Holm over 3 models)
+  t=0.5  qwen       ours 0.598  DOT 0.542  diff +0.055  r +0.32  p Holm 2.9e-06  ahead
+  t=0.5  gemma4     ours 0.588  DOT 0.582  diff +0.006  r +0.02  p Holm 0.71  tied
+  t=0.5  ministral  ours 0.639  DOT 0.522  diff +0.117  r +0.58  p Holm 5.4e-18  ahead
+  t=0.6  qwen       ours 0.447  DOT 0.377  diff +0.070  r +0.37  p Holm 4.6e-08  ahead
+  t=0.6  gemma4     ours 0.431  DOT 0.409  diff +0.022  r +0.12  p Holm 0.07  tied
+  t=0.6  ministral  ours 0.476  DOT 0.348  diff +0.129  r +0.64  p Holm 2.6e-21  ahead
+  t=0.7  qwen       ours 0.296  DOT 0.233  diff +0.062  r +0.35  p Holm 3.5e-07  ahead
+  t=0.7  gemma4     ours 0.270  DOT 0.246  diff +0.024  r +0.13  p Holm 0.049  ahead
+  t=0.7  ministral  ours 0.304  DOT 0.209  diff +0.095  r +0.56  p Holm 1.7e-16  ahead
+===== flowvqa: error analysis at 0.5 (shares of gold edges; node recall/precision)
+  ours qwen       node recall 0.72, precision 0.77 | forward (5896): found 0.33, reversed 0.04, missed, ends matched 0.20, missed, end missing 0.43 | back (283): found 0.32, reversed 0.10, missed, ends matched 0.19, missed, end missing 0.38 |
+  DOT  qwen       node recall 0.67, precision 0.77 | forward (5896): found 0.25, reversed 0.04, missed, ends matched 0.19, missed, end missing 0.52 | back (283): found 0.19, reversed 0.09, missed, ends matched 0.21, missed, end missing 0.51 |
+  ours gemma4     node recall 0.74, precision 0.72 | forward (5896): found 0.32, reversed 0.05, missed, ends matched 0.22, missed, end missing 0.40 | back (283): found 0.39, reversed 0.05, missed, ends matched 0.20, missed, end missing 0.37 |
+  DOT  gemma4     node recall 0.70, precision 0.77 | forward (5896): found 0.29, reversed 0.05, missed, ends matched 0.20, missed, end missing 0.45 | back (283): found 0.29, reversed 0.05, missed, ends matched 0.18, missed, end missing 0.48 |
+  ours ministral  node recall 0.80, precision 0.71 | forward (5896): found 0.41, reversed 0.06, missed, ends matched 0.22, missed, end missing 0.31 | back (283): found 0.41, reversed 0.08, missed, ends matched 0.22, missed, end missing 0.29 |
+  DOT  ministral  node recall 0.68, precision 0.71 | forward (5896): found 0.27, reversed 0.05, missed, ends matched 0.21, missed, end missing 0.47 | back (283): found 0.24, reversed 0.05, missed, ends matched 0.18, missed, end missing 0.54 |

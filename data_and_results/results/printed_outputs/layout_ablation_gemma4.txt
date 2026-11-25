@@ -1,0 +1,94 @@
+Layout ablation, same graphs, mean over 3 run(s)
+
+standard graph-drawing measures
+configuration               figs   cross.    angle   len.cv  thr.box  overlap     area   aspect  err
+Full                         472     0.68     89.7     0.70     0.00     0.00      673     0.48    0
+- forward detours            472     1.41     86.4     0.73     0.01     0.00      683     0.49    0
+- label placement            472     0.74     89.6     0.70     0.00     0.00      670     0.46    0
+- spread ends                472     1.45     89.6     0.73     0.00     0.00      587     1.02    0
+- sideways tracks            472     0.93     65.1     0.71     0.00     0.00      667     0.50    0
+- layout variants            472     1.34     89.8     0.68     0.00     0.00      688     0.35    0
+- variants, pull-later       472     1.36     89.8     0.72     0.00     0.00      699     0.36    0
+- all six                    472     3.47     69.7     0.78     0.06     0.00      709     0.35    0
+angle: mean acute crossing angle over figures with a crossing (higher is better); area: median; all others lower is better
+
+our legibility measure (supporting)
+configuration               strict%  lenient%  thr.lbl lbl.coll
+Full                           91.4     100.0     0.19     0.03
+- forward detours              72.3      99.7     0.24     0.04
+- label placement              74.0     100.0     0.62     0.10
+- spread ends                  51.4     100.0     0.35     0.04
+- sideways tracks              85.9     100.0     0.29     0.04
+- layout variants              79.9     100.0     0.34     0.04
+- variants, pull-later         81.1     100.0     0.31     0.05
+- all six                      22.8      98.0     3.80     1.29
+
+paired against the full engine (each paper averaged over the runs; Wilcoxon; r = rank-biserial, positive = the full engine better; Holm over the configurations of one measure)
+
+edge_edge_crossings
+  without                       n full better      r  p Holm  verdict
+  - forward detours           472       96.6%  +0.97   <1e-4  component helps
+  - label placement           472       83.1%  +0.80   <1e-4  component helps
+  - spread ends               472       96.1%  +0.96   <1e-4  component helps
+  - sideways tracks           472       91.6%  +0.90   <1e-4  component helps
+  - layout variants           472       96.6%  +0.96   <1e-4  component helps
+  - variants, pull-later      472       97.3%  +0.98   <1e-4  component helps
+  - all six                   472       98.7%  +0.99   <1e-4  component helps
+
+crossing_angle
+  without                       n full better      r  p Holm  verdict
+  - forward detours           128      100.0%  +1.00   <1e-4  component helps
+  - label placement           127      100.0%  +1.00    0.44  no difference
+  - spread ends               128       66.7%  +0.33       1  no difference
+  - sideways tracks           127      100.0%  +1.00   <1e-4  component helps
+  - layout variants           128       66.7%  +0.00       1  no difference
+  - variants, pull-later      128       83.3%  +0.43       1  no difference
+  - all six                   128      100.0%  +1.00   <1e-4  component helps
+
+edge_length_cv
+  without                       n full better      r  p Holm  verdict
+  - forward detours           472       63.7%  +0.39   <1e-4  component helps
+  - label placement           472       45.2%  -0.08    0.43  no difference
+  - spread ends               472       62.0%  +0.28   <1e-4  component helps
+  - sideways tracks           472       65.4%  +0.27   <1e-4  component helps
+  - layout variants           472       35.2%  -0.35   <1e-4  component hurts
+  - variants, pull-later      472       54.8%  +0.21  0.0044  component helps
+  - all six                   472       69.2%  +0.53   <1e-4  component helps
+
+edge_node_crossings
+  without                       n full better      r  p Holm  verdict
+  - forward detours           472      100.0%  +1.00    0.11  no difference
+  - all six                   472      100.0%  +1.00   <1e-4  component helps
+
+node_overlap_pairs
+  without                       n full better      r  p Holm  verdict
+
+area
+  without                       n full better      r  p Holm  verdict
+  - forward detours           472       57.1%  +0.23  0.0037  component helps
+  - label placement           472       46.6%  -0.06    0.56  no difference
+  - spread ends               472       18.9%  -0.81   <1e-4  component hurts
+  - sideways tracks           472       43.5%  -0.17    0.19  no difference
+  - layout variants           472       60.4%  +0.32   <1e-4  component helps
+  - variants, pull-later      472       75.7%  +0.71   <1e-4  component helps
+  - all six                   472       74.2%  +0.75   <1e-4  component helps
+
+aspect_deviation
+  without                       n full better      r  p Holm  verdict
+  - forward detours           472       64.7%  +0.33   <1e-4  component helps
+  - label placement           472       56.2%  -0.04    0.68  no difference
+  - spread ends               472       87.6%  +0.92   <1e-4  component helps
+  - sideways tracks           472       58.8%  +0.21   0.078  no difference
+  - layout variants           472       32.6%  -0.69   <1e-4  component hurts
+  - variants, pull-later      472       34.3%  -0.59   <1e-4  component hurts
+  - all six                   472       32.8%  -0.58   <1e-4  component hurts
+
+strict legibility (ours)
+  without                       n full better      r  p Holm  verdict
+  - forward detours           472       99.3%  +0.98   <1e-4  component helps
+  - label placement           472       92.9%  +0.89   <1e-4  component helps
+  - spread ends               472       99.2%  +1.00   <1e-4  component helps
+  - sideways tracks           472       81.5%  +0.72   <1e-4  component helps
+  - layout variants           472       99.1%  +0.99   <1e-4  component helps
+  - variants, pull-later      472       99.0%  +0.98   <1e-4  component helps
+  - all six                   472      100.0%  +1.00   <1e-4  component helps

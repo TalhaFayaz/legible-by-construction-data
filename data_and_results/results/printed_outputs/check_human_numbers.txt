@@ -1,0 +1,74 @@
+ok   model-coord share of least-legible picks (%)       got       79.2  expected       79.2
+ok   model-coord least-legible picks                    got        171  expected        171
+ok   model-coord most-legible picks                     got         11  expected         11
+ok   model-coord median defects                         got       54.5  expected       54.5
+ok   model-coord max defects                            got        237  expected        237
+ok   model-coord strict passes                          got          0  expected          0
+ok   defect classes identically zero in the 48          got          4  expected          4
+ok   defect classes taking only 0/1 in the 48           got          2  expected          2
+ok   label-collision images among the 48                got          1  expected          1
+ok   arrow-through-label images among the 48            got          8  expected          8
+ok   n, 0 defects                                       got         39  expected         39
+ok   n, 1 defect                                        got          9  expected          9
+ok   n, >=15 defects                                    got         24  expected         24
+ok   n, 2-14 defects                                    got          0  expected          0
+ok   BW, 0 defects                                      got       0.72  expected       0.72
+ok   BW, 1 defect                                       got       1.31  expected       1.31
+ok   BW, >=15 defects                                   got      -1.67  expected      -1.67
+ok   CI lo, 0 defects                                   got       0.49  expected       0.49
+ok   p, 0 vs 1 defect                                   got      0.073  expected      0.073
+ok   p, 0 vs >=15 (exponent)                            got        -10  expected        -10
+ok   mean box count, 0 defects                          got       14.6  expected       14.6
+ok   mean box count, 1 defects                          got       14.9  expected       14.9
+ok   mean box count, >=15 defects                       got       14.7  expected       14.7
+ok   box counts matched string                          got          1  expected          1
+ok   engine pairs differing on the verdict              got          7  expected          7
+ok   contrast coverage (%)                              got       29.2  expected       29.2
+ok   max defects in a covered pair                      got          1  expected          1
+ok   paired BW difference                               got      -0.27  expected      -0.27
+ok   MDE at 80% power                                   got       0.58  expected       0.58
+ok   strict gap inside the panel (pp)                   got       20.8  expected       20.8
+ok   ours strict passes in panel                        got         22  expected         22
+ok   dot strict passes in panel                         got         17  expected         17
+ok   rho(48), n_nodes                                   got     -0.354  expected     -0.354
+ok   rho(48), area                                      got     -0.354  expected     -0.354
+ok   rho(48), aspect_deviation                          got     -0.311  expected     -0.311
+ok   rho(72), label_collisions                          got     -0.747  expected     -0.747
+ok   rho(72), node_overlap_pairs                        got     -0.733  expected     -0.733
+ok   rho(72), edge_node_crossings                       got     -0.692  expected     -0.692
+ok   rho(72), edge_edge_crossings                       got     -0.255  expected     -0.255
+ok   standing delta vs gemini3                          got    -0.0116  expected    -0.0116
+ok   standing verdict vs gemini3                        got     behind  expected     behind
+ok   standing delta vs gemini2.5                        got     0.0064  expected     0.0064
+ok   standing verdict vs gemini2.5                      got       tied  expected       tied
+ok   standing delta vs seedream                         got      0.011  expected      0.011
+ok   standing verdict vs seedream                       got      ahead  expected      ahead
+ok   standing delta vs graphviz                         got     0.0098  expected     0.0098
+ok   standing verdict vs graphviz                       got      ahead  expected      ahead
+ok   standing delta vs qwen                             got     0.0314  expected     0.0314
+ok   standing verdict vs qwen                           got      ahead  expected      ahead
+ok   standing delta vs pixart                           got     0.0945  expected     0.0945
+ok   standing verdict vs pixart                         got      ahead  expected      ahead
+ok   standing delta vs sdxl                             got     0.0908  expected     0.0908
+ok   standing verdict vs sdxl                           got      ahead  expected      ahead
+ok   systems we are ahead of                            got          5  expected          5
+ok   systems we are tied with                           got          1  expected          1
+ok   systems ahead of us                                got          1  expected          1
+ok   open-weight systems beaten                         got          3  expected          3
+ok   gold-graph ceiling                                 got      0.611  expected      0.611
+ok   median gold graph size                             got         28  expected         28
+ok   large-graph delta vs seedream                      got     0.0165  expected     0.0165
+ok   large-graph delta vs graphviz                      got     0.0148  expected     0.0148
+ok   large-graph delta vs qwen                          got     0.0427  expected     0.0427
+ok   decomp qwen node_precision                         got       0.04  expected       0.04
+ok   decomp qwen node_recall                            got     0.0709  expected     0.0709
+ok   decomp qwen: components with CI excluding 0        got          4  expected          4
+ok   decomp seedream node_precision                     got     0.0258  expected     0.0258
+ok   decomp seedream node_recall                        got     0.0085  expected     0.0085
+ok   decomp seedream: components with CI excluding 0    got          2  expected          2
+ok   decomp graphviz node_precision                     got    -0.0041  expected    -0.0041
+ok   decomp graphviz node_recall                        got     0.0405  expected     0.0405
+ok   decomp graphviz: components with CI excluding 0    got          2  expected          2
+ok   Graphviz margin is recall-only (no precision win)  got      False  expected      False
+
+72/72 checks passed

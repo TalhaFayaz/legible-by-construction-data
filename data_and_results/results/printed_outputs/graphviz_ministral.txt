@@ -1,0 +1,72 @@
+Graphviz baseline, same prepared graphs, mean over 3 run(s)
+
+all (472 figures in run 0)
+system                       strict% frames% lenient% overlap  cross. thr.box thr.lbl lbl.coll aspect   area  err
+Ours                            74.2    74.3    100.0    0.00    4.04    0.00    0.86     0.14   0.49   1233    0
+dot, top-down, curved           31.8    41.2     97.9    0.00    1.71    0.18    1.36     0.78   0.62   1258    0
+dot, top-down, orthogonal        1.6     1.8     73.4    0.00    1.97    4.32    7.13    14.83   0.62   1014    0
+dot, left-right, curved         18.2    23.0     97.5    0.00    1.86    0.21    1.60     1.95   0.89   1438    0
+dot, left-right, orthogonal      1.3     1.3     72.7    0.00    1.98    4.04    4.07    24.61   0.66    887    0
+
+with loops (266 figures in run 0)
+system                       strict% frames% lenient% overlap  cross. thr.box thr.lbl lbl.coll aspect   area  err
+Ours                            70.6    70.8    100.0    0.00    4.95    0.00    0.93     0.18   0.49   1327    0
+dot, top-down, curved           25.1    35.0     97.2    0.00    2.00    0.22    1.57     0.99   0.59   1397    0
+dot, top-down, orthogonal        0.1     0.1     70.0    0.00    2.35    4.69    9.06    16.44   0.59   1077    0
+dot, left-right, curved         10.4    14.7     96.7    0.00    2.15    0.27    2.06     2.47   0.86   1552    0
+dot, left-right, orthogonal      0.0     0.0     69.5    0.00    2.34    4.59    5.28    26.74   0.62    959    0
+
+with nesting (405 figures in run 0)
+system                       strict% frames% lenient% overlap  cross. thr.box thr.lbl lbl.coll aspect   area  err
+Ours                            72.7    72.8    100.0    0.00    4.12    0.00    0.93     0.16   0.51   1239    0
+dot, top-down, curved           28.0    38.9     97.5    0.00    1.82    0.21    1.44     0.90   0.62   1312    0
+dot, top-down, orthogonal        1.5     1.7     69.1    0.00    2.08    5.01    7.32    15.66   0.62   1029    0
+dot, left-right, curved         16.8    22.4     97.1    0.00    1.97    0.25    1.64     2.04   0.89   1476    0
+dot, left-right, orthogonal      1.5     1.5     68.3    0.00    2.10    4.68    4.17    25.06   0.66    904    0
+
+loops and nesting (225 figures in run 0)
+system                       strict% frames% lenient% overlap  cross. thr.box thr.lbl lbl.coll aspect   area  err
+Ours                            69.0    69.1    100.0    0.00    5.05    0.00    0.98     0.21   0.51   1344    0
+dot, top-down, curved           21.1    32.7     96.8    0.00    2.13    0.26    1.67     1.14   0.59   1432    0
+dot, top-down, orthogonal        0.0     0.0     65.1    0.00    2.48    5.46    9.32    17.30   0.59   1104    0
+dot, left-right, curved          8.0    13.0     96.2    0.00    2.28    0.31    2.13     2.61   0.85   1611    0
+dot, left-right, orthogonal      0.0     0.0     64.5    0.00    2.48    5.34    5.40    27.24   0.62    983    0
+
+standard graph-drawing measures (all figures, mean over runs)
+system                        cross.  angle  len.cv len/diag  bends overlap thr.box   area aspect
+Ours                            4.04   89.8    0.76    0.210   1.61    0.00    0.00   1233   0.49
+dot, top-down, curved           1.71   57.1    0.77    0.072    n/a    0.00    0.18   1258   0.62
+dot, top-down, orthogonal       1.97   90.0    0.90    0.069   0.28    0.00    4.32   1014   0.62
+dot, left-right, curved         1.86   61.6    0.66    0.096    n/a    0.00    0.21   1438   0.89
+dot, left-right, orthogonal     1.98   90.0    0.99    0.073   0.31    0.00    4.04    887   0.66
+angle: mean acute crossing angle over figures with a crossing (higher reads better); len.cv: variation of arrow lengths (lower is more uniform)
+
+paired against ours (all figures, every run)
+dot configuration            run ours only dot only  p strict cross. ours   dot  p cross.
+dot, top-down, curved          0       226       23   4.3e-43        3.69  1.82   1.4e-27
+dot, top-down, curved          1       215       21   1.1e-41        4.45  1.88   2.9e-30
+dot, top-down, curved          2       221       17   1.9e-46        3.97  1.44   1.3e-31
+dot, top-down, orthogonal      0       349        0  1.7e-105        3.69  2.08   2.9e-20
+dot, top-down, orthogonal      1       334        0  5.7e-101        4.47  2.17   6.8e-22
+dot, top-down, orthogonal      2       345        0  2.8e-104        3.97  1.66   5.7e-25
+dot, left-right, curved        0       282        4   4.5e-78        3.69  2.02   1.1e-25
+dot, left-right, curved        1       261        4   6.9e-72        4.47  2.06   2.3e-28
+dot, left-right, curved        2       266        8   4.8e-68        3.97  1.49   4.7e-30
+dot, left-right, orthogonal    0       350        0  8.7e-106        3.69  2.05   5.9e-23
+dot, left-right, orthogonal    1       337        0  7.1e-102        4.47  2.26   1.4e-24
+dot, left-right, orthogonal    2       346        0  1.4e-104        3.97  1.63   9.3e-26
+
+paired against ours on the standard measures (Wilcoxon, every run)
+dot configuration            run len.cv ours   dot        p area ours   dot        p aspect ours   dot        p
+dot, top-down, curved          0        0.76  0.77     0.48      1215  1251  3.5e-08        0.48  0.61  6.2e-07
+dot, top-down, curved          1        0.77  0.76      0.6      1269  1263  1.7e-06        0.49  0.62  2.4e-07
+dot, top-down, curved          2        0.75  0.77     0.44      1214  1260  2.1e-08        0.48  0.62  4.6e-07
+dot, top-down, orthogonal      0        0.76  0.90  4.8e-17      1215   993  1.3e-11        0.48  0.62  2.3e-07
+dot, top-down, orthogonal      1        0.77  0.90  8.2e-17      1269  1023  5.7e-14        0.50  0.63  2.8e-07
+dot, top-down, orthogonal      2        0.75  0.91  6.2e-18      1214  1026  1.6e-11        0.48  0.62  2.4e-07
+dot, left-right, curved        0        0.76  0.65  1.2e-08      1215  1431    3e-27        0.48  0.90  2.2e-22
+dot, left-right, curved        1        0.77  0.66  9.8e-09      1269  1439  7.9e-29        0.50  0.89  2.2e-20
+dot, left-right, curved        2        0.75  0.67  2.4e-08      1214  1445  2.6e-29        0.48  0.89  2.2e-23
+dot, left-right, orthogonal    0        0.76  0.98  3.4e-28      1215   872    3e-33        0.48  0.66  8.3e-09
+dot, left-right, orthogonal    1        0.77  1.00  5.3e-28      1269   887    1e-33        0.50  0.67  1.1e-07
+dot, left-right, orthogonal    2        0.75  1.00  3.5e-31      1214   903  9.5e-34        0.48  0.66  9.9e-09

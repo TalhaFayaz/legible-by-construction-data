@@ -1,0 +1,52 @@
+Every system, the corpus's own metric (mean; +- std across runs)
+system                                n         edge F1           score         node F1
+Ours + Qwen                         483    0.033 +-0.000    0.103 +-0.000    0.209 +-0.001
+Ours + Gemma                        483    0.042 +-0.001    0.124 +-0.001    0.247 +-0.002
+Ours + Ministral                    483    0.043 +-0.001    0.125 +-0.001    0.247 +-0.001
+Qwen writing DOT                    483    0.025           0.085           0.175       
+Gemma writing DOT                   483    0.032           0.099           0.200       
+Ministral writing DOT               483    0.029           0.101           0.210       
+
+Paired comparisons (each paper averaged over the model's runs; Wilcoxon; r = rank-biserial; CI = 95 % bootstrap of the mean difference; verdict on Holm-corrected p over this model's comparisons)
+
+Ours + Qwen, edge F1
+  vs.                               n    win  mean diff              95% CI      r       p  p Holm  verdict
+  Qwen writing DOT                483  58.2%     +0.008    [+0.002, +0.014]  +0.19   0.038   0.038  ahead
+
+Ours + Qwen, score
+  vs.                               n    win  mean diff              95% CI      r       p  p Holm  verdict
+  Qwen writing DOT                483  60.4%     +0.018    [+0.012, +0.024]  +0.31   <1e-4   <1e-4  ahead
+
+Ours + Qwen, node F1
+  vs.                               n    win  mean diff              95% CI      r       p  p Holm  verdict
+  Qwen writing DOT                483  63.0%     +0.034    [+0.024, +0.043]  +0.38   <1e-4   <1e-4  ahead
+
+Ours + Gemma, edge F1
+  vs.                               n    win  mean diff              95% CI      r       p  p Holm  verdict
+  Gemma writing DOT               483  64.5%     +0.011    [+0.004, +0.017]  +0.32 0.00017 0.00017  ahead
+
+Ours + Gemma, score
+  vs.                               n    win  mean diff              95% CI      r       p  p Holm  verdict
+  Gemma writing DOT               483  66.6%     +0.025    [+0.019, +0.032]  +0.44   <1e-4   <1e-4  ahead
+
+Ours + Gemma, node F1
+  vs.                               n    win  mean diff              95% CI      r       p  p Holm  verdict
+  Gemma writing DOT               483  68.1%     +0.047    [+0.037, +0.057]  +0.49   <1e-4   <1e-4  ahead
+
+Ours + Ministral, edge F1
+  vs.                               n    win  mean diff              95% CI      r       p  p Holm  verdict
+  Ministral writing DOT           483  70.5%     +0.014    [+0.009, +0.020]  +0.43   <1e-4   <1e-4  ahead
+
+Ours + Ministral, score
+  vs.                               n    win  mean diff              95% CI      r       p  p Holm  verdict
+  Ministral writing DOT           483  67.1%     +0.024    [+0.018, +0.030]  +0.44   <1e-4   <1e-4  ahead
+
+Ours + Ministral, node F1
+  vs.                               n    win  mean diff              95% CI      r       p  p Holm  verdict
+  Ministral writing DOT           483  66.9%     +0.037    [+0.028, +0.047]  +0.43   <1e-4   <1e-4  ahead
+
+Our legibility measure (supporting; not a comparison with other systems)
+system                      strict %     lenient %     crossings  failed
+Ours + Qwen               93.1 +-0.3   100.0 +-0.0    0.41 +-0.04       0
+Ours + Gemma              91.4 +-0.8   100.0 +-0.0    0.68 +-0.05       0
+Ours + Ministral          74.5 +-1.5   100.0 +-0.0    4.01 +-0.36       0

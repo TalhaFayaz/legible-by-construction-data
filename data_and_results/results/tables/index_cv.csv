@@ -1,0 +1,10 @@
+index,logo_rho
+arrow crossings alone,0.25511753668363285
+strict verdict alone,0.5019111852766381
+label collisions alone,0.7473123028530092
+"ten measures, log1p + z, fitted",0.7735604683509535
+label_collisions + node_overlap_pairs + aspect_deviation + area,0.7566945594701837
+label_collisions + edge_label_crossings + aspect_deviation + area,0.7422932962997844
+label_collisions + mean_bends_per_edge + aspect_deviation + area,0.7296478918380801
+node_overlap_pairs + mean_bends_per_edge + aspect_deviation + area,0.7242031189615756
+label_collisions + edge_node_crossings + aspect_deviation + area,0.7220445403655649

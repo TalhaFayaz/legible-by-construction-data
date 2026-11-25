@@ -1,0 +1,7 @@
+instrument,quantity,value,note
+benchmark score,the score a perfect graph reaches,0.611,"its node F1 is 0.824 but its edge F1 0.470, and the score weights edges 0.6"
+SciFlow-Bench score,share of its variance in the item,85.7\%,in the model 1.0\%; two samples of 50 items cannot separate means closer than 0.037
+FlowVQA score,share of its variance in the item,83.4\%,in the model 0.9\%; two samples of 50 items cannot separate means closer than 0.083
+judge,share of its variance in the system judged,3.2\%,in the item 34.0\%; two samples of 50 figures cannot separate means closer than 15--18 points
+read-back reader,arrows returned per arrow drawn,1.66--1.85,boxes 1.21--1.30; its arrow count tracks the drawn one at $\rho=0.56$--0.67
+node matching,matched nodes not carrying the gold label,46--53\%,"node F1 roughly halves under exact matching, and the item ranking is unchanged"

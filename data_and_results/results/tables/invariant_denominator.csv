@@ -1,0 +1,4 @@
+set,figures,lenient_pct,box_overlaps,arrows_through_a_box,covered_by_the_invariant
+"our layout engine (pipeline runs + placement ablation, ours)",27493,100.0,0,0,True
+"the model places the boxes (placement ablation, model)",895,6.4804469273743015,765,783,False
+every figure measured for this paper,28388,97.05157108637452,765,783,False

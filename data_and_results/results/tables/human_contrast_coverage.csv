@@ -1,0 +1,4 @@
+contrast,pairs,same_verdict,differ,coverage_pct,a_only,b_only
+ours vs dot (engine contrast),24,17,7,29.2,6,1
+ours vs model coordinates,24,2,22,91.7,22,0
+dot vs model coordinates,24,7,17,70.8,17,0

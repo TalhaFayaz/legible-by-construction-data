@@ -1,0 +1,33 @@
+PaperBananaBench judge: mean with 95 % bootstrap CI over test cases (each case averaged over the files given; 50 = parity with the human figure)
+system                   files    n          faithfulness           conciseness           readability            aesthetics               overall
+qwen                         6  292     48.1 [46.0, 50.3]     37.7 [34.6, 40.8]     48.2 [46.5, 49.9]     48.1 [45.7, 50.5]     42.8 [39.1, 46.5]
+dot_qwen                     2  292     43.8 [41.2, 46.3]     34.3 [30.6, 38.1]     49.1 [47.0, 51.1]     35.9 [32.5, 39.2]     32.6 [28.4, 36.9]
+gemma4                       6  292     42.6 [40.4, 44.8]     30.8 [27.7, 33.9]     46.2 [44.5, 48.0]     39.1 [36.6, 41.7]     31.3 [27.9, 34.8]
+dot_gemma4                   2  292     60.0 [57.2, 62.8]     65.6 [62.0, 69.0]     52.5 [50.0, 54.9]     55.0 [51.9, 58.0]     70.5 [66.4, 74.3]
+ministral                    6  292     42.6 [40.4, 44.8]     19.0 [16.7, 21.5]     36.1 [34.2, 38.0]     39.1 [36.7, 41.4]     23.9 [21.0, 27.1]
+dot_ministral                2  292     51.4 [48.4, 54.5]     46.3 [42.4, 50.3]     43.1 [40.5, 45.5]     42.6 [39.4, 45.7]     46.6 [42.0, 51.1]
+
+faithfulness (Wilcoxon; r = rank-biserial; CI = 95 % bootstrap of the mean difference; Holm over 3 pairs)
+  qwen vs dot_qwen: n 292, diff +4.4 [+1.7, +7.0], r +0.27, p 0.0004, p Holm 0.0004: qwen ahead
+  gemma4 vs dot_gemma4: n 292, diff -17.4 [-20.4, -14.4], r -0.71, p 6.2e-22, p Holm 1.9e-21: gemma4 behind
+  ministral vs dot_ministral: n 292, diff -8.8 [-11.6, -5.8], r -0.42, p 5.8e-09, p Holm 1.2e-08: ministral behind
+
+conciseness (Wilcoxon; r = rank-biserial; CI = 95 % bootstrap of the mean difference; Holm over 3 pairs)
+  qwen vs dot_qwen: n 292, diff +3.3 [-0.5, +7.1], r +0.14, p 0.06, p Holm 0.06: qwen tied
+  gemma4 vs dot_gemma4: n 292, diff -34.8 [-38.7, -30.6], r -0.83, p 2.8e-32, p Holm 8.4e-32: gemma4 behind
+  ministral vs dot_ministral: n 292, diff -27.3 [-31.1, -23.4], r -0.78, p 3.6e-27, p Holm 7.1e-27: ministral behind
+
+readability (Wilcoxon; r = rank-biserial; CI = 95 % bootstrap of the mean difference; Holm over 3 pairs)
+  qwen vs dot_qwen: n 292, diff -0.8 [-3.2, +1.6], r -0.05, p 0.54, p Holm 0.54: qwen tied
+  gemma4 vs dot_gemma4: n 292, diff -6.2 [-8.8, -3.6], r -0.35, p 2.3e-06, p Holm 7e-06: gemma4 behind
+  ministral vs dot_ministral: n 292, diff -6.9 [-9.6, -4.2], r -0.33, p 4.8e-06, p Holm 9.6e-06: ministral behind
+
+aesthetics (Wilcoxon; r = rank-biserial; CI = 95 % bootstrap of the mean difference; Holm over 3 pairs)
+  qwen vs dot_qwen: n 292, diff +12.2 [+8.8, +15.7], r +0.50, p 3.5e-12, p Holm 7e-12: qwen ahead
+  gemma4 vs dot_gemma4: n 292, diff -15.8 [-19.1, -12.5], r -0.59, p 2.1e-17, p Holm 6.4e-17: gemma4 behind
+  ministral vs dot_ministral: n 292, diff -3.5 [-6.7, -0.2], r -0.14, p 0.06, p Holm 0.06: ministral tied
+
+overall (Wilcoxon; r = rank-biserial; CI = 95 % bootstrap of the mean difference; Holm over 3 pairs)
+  qwen vs dot_qwen: n 292, diff +10.2 [+5.7, +14.5], r +0.34, p 5.3e-06, p Holm 5.3e-06: qwen ahead
+  gemma4 vs dot_gemma4: n 292, diff -39.2 [-43.4, -34.8], r -0.86, p 3.4e-33, p Holm 1e-32: gemma4 behind
+  ministral vs dot_ministral: n 292, diff -22.6 [-26.9, -18.4], r -0.66, p 1.3e-18, p Holm 2.6e-18: ministral behind

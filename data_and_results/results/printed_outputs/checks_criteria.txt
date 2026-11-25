@@ -1,0 +1,271 @@
+
+==============================================================================
+B1  CROSSING ANGLE AND ANGLE-WEIGHTED CROSSINGS  (Tables 4 and 9)
+==============================================================================
+w = crossings x (1 - angle/90): a right-angle crossing costs a reader
+almost nothing, a shallow one nearly its full weight.
+
+The engine comparison (SciFlow-Bench, 472 graphs x 3 runs), ours vs dot top-down curved:
+    model        layout  cross  angle  wcross  bends  through  labels  strict     area
+     Qwen          ours  0.411 89.924   0.001  1.453    0.000   0.009  93.150  625.429
+     Qwen dot_tb_spline  0.230 57.981   0.104  2.694    0.016   0.360  68.997  693.262
+    Gemma          ours  0.678 89.684   0.001  1.401    0.000   0.032  91.384  673.153
+    Gemma dot_tb_spline  0.485 57.146   0.235  2.221    0.020   0.399  57.839  739.928
+Ministral          ours  4.041 89.802   0.012  1.607    0.000   0.136  74.223 1231.538
+Ministral dot_tb_spline  1.714 57.129   0.812  4.495    0.182   0.784  31.780 1259.950
+
+Crossing angles (the same 472 SciFlow-Bench graphs x 3 runs; pct_shallow_all is
+over all 6,012 figures including the out-of-development ones):
+       config    n  angle  pct_figs_shallow  pct_shallow_all  through_box Qwen_strict/cross/w Gemma_strict/cross/w Ministral_strict/cross/w
+         ours 4248 89.797             0.071            0.050        0.000      93.1/0.41/0.00       91.4/0.68/0.00           74.2/4.04/0.01
+dot_tb_spline 4248 57.249            10.146           10.063        0.073      69.0/0.23/0.10       57.8/0.49/0.24           31.8/1.71/0.81
+dot_lr_spline 4248 62.596             6.944            8.034        0.082      54.2/0.25/0.06       51.4/0.50/0.18           18.2/1.86/0.73
+ dot_tb_ortho 4248 89.981             0.000            0.000        2.197       7.0/0.25/0.00        6.4/0.48/0.00            1.6/1.97/0.00
+ dot_lr_ortho 4248 89.976             0.000            0.000        2.043       3.2/0.26/0.00        2.0/0.50/0.00            1.3/1.98/0.00
+
+Paired tests on w, ours vs the two configurations dot draws legibly:
+    model        config    n     mx     my       d      lo      hi    p_holm
+     Qwen dot_tb_spline 2002 0.0011 0.0910 -0.0899 -0.1437 -0.0553  2.75e-25
+     Qwen dot_lr_spline 2001 0.0011 0.0614 -0.0603 -0.0886 -0.0396  3.08e-26
+    Gemma dot_tb_spline 2008 0.0013 0.1926 -0.1913 -0.2562 -0.1362  1.05e-37
+    Gemma dot_lr_spline 2008 0.0013 0.1525 -0.1512 -0.2128 -0.1008  7.74e-38
+Ministral dot_tb_spline 1999 0.0163 0.9239 -0.9076 -1.1572 -0.7099 1.09e-119
+Ministral dot_lr_spline 2000 0.0163 0.8131 -0.7968 -1.0992 -0.5790 3.22e-120
+
+Both orthogonal configurations cross at right angles (w = 0.000) and are
+strictly legible on 6.8% and 2.8% of figures; ours on 86.9%.
+
+==============================================================================
+B2  THE OTHER GRAPH-DRAWING CRITERIA  (Section 5.2)
+==============================================================================
+             measure     model    n        mx        my         d        lo        hi  p_holm
+ mean_bends_per_edge      Qwen 1415    1.4526    2.6944   -1.2418   -1.3794   -1.1119  0.0000
+      min_separation      Qwen 1415    0.8819    0.5738    0.3081    0.2919    0.3240  0.0000
+edge_label_crossings      Qwen 1415    0.1498    0.3583   -0.2085   -0.2926   -0.1385  0.0000
+    frame_label_hits      Qwen 1415    0.0014    0.1781   -0.1767   -0.2085   -0.1456  0.0000
+   total_edge_length      Qwen 1415  125.8305   42.7542   83.0763   78.8176   87.3859  0.0000
+      edge_length_cv      Qwen 1415    0.5824    0.4503    0.1321    0.1115    0.1529  0.0000
+           ink_ratio      Qwen 1415    0.3734    0.3859   -0.0125   -0.0196   -0.0055  0.0000
+                area      Qwen 1415  676.2290  766.5178  -90.2888 -105.3618  -75.4693  0.0000
+ mean_bends_per_edge     Gemma 1416    1.4008    2.2210   -0.8202   -0.9366   -0.7054  0.0000
+      min_separation     Gemma 1416    0.6618    0.4627    0.1991    0.1838    0.2143  0.0000
+edge_label_crossings     Gemma 1416    0.1921    0.6292   -0.4371   -0.5261   -0.3538  0.0000
+    frame_label_hits     Gemma 1416    0.0042    0.2839   -0.2797   -0.3178   -0.2429  0.0000
+   total_edge_length     Gemma 1416  135.1465   47.9470   87.1995   82.8760   91.5733  0.0000
+      edge_length_cv     Gemma 1416    0.6991    0.4797    0.2194    0.1983    0.2403  0.0000
+           ink_ratio     Gemma 1416    0.3399    0.3747   -0.0349   -0.0419   -0.0278  0.0000
+                area     Gemma 1416  747.4566  817.0036  -69.5470  -84.8602  -54.4515  0.0000
+ mean_bends_per_edge Ministral 1415    1.6071    4.4946   -2.8875   -3.0206   -2.7551  0.0000
+      min_separation Ministral 1415    0.5717    0.4175    0.1542    0.1401    0.1681  0.0000
+edge_label_crossings Ministral 1415    0.8594    1.3569   -0.4975   -0.6530   -0.3272  0.0000
+    frame_label_hits Ministral 1415    0.0113    0.5548   -0.5435   -0.6170   -0.4777  0.0000
+   total_edge_length Ministral 1415  312.3750  119.1566  193.2184  184.2325  201.9552  0.0000
+      edge_length_cv Ministral 1415    0.7585    0.7687   -0.0103   -0.0302    0.0106  0.2484
+           ink_ratio Ministral 1415    0.2914    0.3219   -0.0305   -0.0365   -0.0245  0.0000
+                area Ministral 1415 1315.2776 1500.0490 -184.7714 -221.3193 -149.1190  0.0000
+
+  nested figures, ours           hits per figure 0.008, figures with >=1 hit 0.5%
+  nested figures, dot_tb_spline  hits per figure 0.498, figures with >=1 hit 28.4%
+
+==============================================================================
+B3  LOOPS AND NESTED CONTAINERS  (Section 5.2)
+==============================================================================
+            prop  value    n  strict_ours  strict_dot     d    lo    hi  p_holm
+   feedback loop  False 3449       92.056      65.033 0.270 0.254 0.286     0.0
+   feedback loop   True 2563       80.023      39.134 0.409 0.387 0.430     0.0
+nested container  False 2228       95.018      77.603 0.174 0.156 0.192     0.0
+nested container   True 3784       82.162      40.090 0.421 0.403 0.438     0.0
+
+Interaction (gap with the property minus gap without, bootstrap 95% CI):
+  feedback loop      with +0.409, without +0.270, difference +0.139 [+0.111, +0.165]
+  nested container   with +0.421, without +0.174, difference +0.247 [+0.222, +0.272]
+
+==============================================================================
+B4  FLOWVQA BY SOURCE  (Section 5.4, Table 1)
+==============================================================================
+  source     model   n     mx     my  matched       d      lo      hi  p_holm
+    code     Gemma 100 0.8151 0.7236   0.8047  0.0915  0.0603  0.1231  0.0000
+instruct     Gemma 100 0.4970 0.5546   0.4539 -0.0576 -0.0809 -0.0335  0.0001
+    wiki     Gemma 100 0.4479 0.4675   0.3834 -0.0196 -0.0528  0.0140  0.5247
+    code Ministral 100 0.8399 0.6060   0.8101  0.2339  0.1885  0.2812  0.0000
+instruct Ministral 100 0.5432 0.4969   0.5488  0.0463  0.0158  0.0781  0.0278
+    wiki Ministral 100 0.5350 0.4640   0.5309  0.0710  0.0405  0.1020  0.0002
+    code      Qwen 100 0.8101 0.6712   0.7881  0.1389  0.0938  0.1838  0.0000
+instruct      Qwen 100 0.5224 0.5182   0.5306  0.0042 -0.0269  0.0353  0.8018
+    wiki      Qwen 100 0.4669 0.4374   0.4538  0.0295 -0.0020  0.0624  0.3228
+
+  pooled code      ours 0.822, DOT 0.667, matched DOT 0.801, d +0.155 [+0.130, +0.180], p 2.7e-28
+  pooled instruct  ours 0.521, DOT 0.523, matched DOT 0.511, d -0.002 [-0.020, +0.015], p 4.9e-01
+  pooled wiki      ours 0.483, DOT 0.456, matched DOT 0.456, d +0.027 [+0.008, +0.046], p 7.2e-03
+
+==============================================================================
+B5  PRECISION AND RECALL AGAINST THE SAME MODEL WRITING DOT
+==============================================================================
+ corpus     model        measure   n     mx     my       d  p_holm
+flowvqa     Gemma node_precision 300 0.7510 0.8004 -0.0494  0.0000
+flowvqa     Gemma    node_recall 300 0.7638 0.7081  0.0558  0.0000
+flowvqa     Gemma        node_f1 300 0.7479 0.7402  0.0078  0.1883
+flowvqa     Gemma edge_precision 300 0.6165 0.7136 -0.0971  0.0000
+flowvqa     Gemma    edge_recall 300 0.4343 0.3911  0.0432  0.0013
+flowvqa     Gemma        edge_f1 300 0.4791 0.4764  0.0028  0.9707
+flowvqa Ministral node_precision 300 0.7570 0.7181  0.0390  0.1764
+flowvqa Ministral    node_recall 300 0.8198 0.6784  0.1415  0.0000
+flowvqa Ministral        node_f1 300 0.7792 0.6863  0.0929  0.0000
+flowvqa Ministral edge_precision 300 0.6270 0.6133  0.0136  1.0000
+flowvqa Ministral    edge_recall 300 0.5191 0.3455  0.1736  0.0000
+flowvqa Ministral        edge_f1 300 0.5462 0.4130  0.1332  0.0000
+flowvqa      Qwen node_precision 300 0.7949 0.8002 -0.0053  0.3726
+flowvqa      Qwen    node_recall 300 0.7518 0.6989  0.0530  0.0000
+flowvqa      Qwen        node_f1 300 0.7611 0.7339  0.0272  0.0195
+flowvqa      Qwen edge_precision 300 0.6726 0.6671  0.0055  1.0000
+flowvqa      Qwen    edge_recall 300 0.4379 0.3418  0.0961  0.0000
+flowvqa      Qwen        edge_f1 300 0.4923 0.4145  0.0778  0.0000
+sciflow     Gemma node_precision 472 0.2710 0.2182  0.0529  0.0000
+sciflow     Gemma    node_recall 472 0.2748 0.2297  0.0451  0.0000
+sciflow     Gemma        node_f1 472 0.2471 0.2020  0.0451  0.0000
+sciflow     Gemma edge_precision 472 0.0611 0.0490  0.0121  0.0021
+sciflow     Gemma    edge_recall 472 0.0488 0.0404  0.0085  0.0558
+sciflow     Gemma        edge_f1 472 0.0417 0.0336  0.0081  0.0439
+sciflow Ministral node_precision 472 0.2541 0.1819  0.0722  0.0000
+sciflow Ministral    node_recall 472 0.2941 0.2503  0.0438  0.0000
+sciflow Ministral        node_f1 472 0.2466 0.1867  0.0599  0.0000
+sciflow Ministral edge_precision 472 0.0548 0.0479  0.0069  0.0000
+sciflow Ministral    edge_recall 472 0.0584 0.0496  0.0088  0.0001
+sciflow Ministral        edge_f1 472 0.0422 0.0369  0.0054  0.0000
+sciflow      Qwen node_precision 472 0.2472 0.2069  0.0403  0.0000
+sciflow      Qwen    node_recall 472 0.2237 0.2370 -0.0133  0.3707
+sciflow      Qwen        node_f1 472 0.2096 0.1994  0.0102  0.0010
+sciflow      Qwen edge_precision 472 0.0574 0.0476  0.0097  0.0390
+sciflow      Qwen    edge_recall 472 0.0356 0.0454 -0.0098  0.0558
+sciflow      Qwen        edge_f1 472 0.0329 0.0332 -0.0003  0.7355
+
+  flowvqa  ours significantly ahead in 10 of 18 comparisons: edge_f1, edge_recall, node_f1, node_recall
+  sciflow  ours significantly ahead in 14 of 18 comparisons: edge_f1, edge_precision, edge_recall, node_f1, node_precision, node_recall
+
+==============================================================================
+B6  PAPERBANANABENCH: THE JUDGE SCORES FIGURE SIZE  (Section 6)
+==============================================================================
+    model        system  repr  boxes  faithful  concise  readable  aesthetic  overall
+     Qwen           dot   DOT  14.08     43.75    34.33     49.06      35.87    32.62
+     Qwen   dot_matched   DOT  13.42     45.46    34.42     47.86      31.76    33.13
+     Qwen          ours graph  17.40     48.14    37.67     48.23      48.12    42.81
+     Qwen ours_coverage graph  22.25     44.35    26.74     42.84      42.12    32.48
+    Gemma           dot   DOT  14.55     60.02    65.58     52.48      54.97    70.46
+    Gemma   dot_matched   DOT  21.30     45.63    28.77     37.84      29.97    29.45
+    Gemma          ours graph  19.93     42.61    30.76     46.23      39.13    31.31
+    Gemma ours_coverage graph  23.76     39.73    24.20     40.98      37.36    25.09
+Ministral           dot   DOT  19.65     51.37    46.32     43.07      42.55    46.58
+Ministral   dot_matched   DOT  30.99     39.73    18.07     24.32      24.49    16.44
+Ministral          ours graph  31.76     42.58    19.04     36.13      39.07    23.94
+Ministral ours_coverage graph  44.03     35.02    10.59     25.43      29.91    12.56
+
+  rho(boxes, concise  ) = -0.881   p = 0.0002
+  rho(boxes, faithful ) = -0.725   p = 0.0076
+  rho(boxes, readable ) = -0.902   p = 0.0001
+  rho(boxes, aesthetic) = -0.399   p = 0.1993
+  rho(boxes, overall  ) = -0.860   p = 0.0003
+
+  Gemma      dot (15 boxes, 70 pts)  <  ours (20 boxes, 31 pts)  <  dot_matched (21 boxes, 29 pts)  <  ours_coverage (24 boxes, 25 pts)
+  Ministral  dot (20 boxes, 47 pts)  <  dot_matched (31 boxes, 16 pts)  <  ours (32 boxes, 24 pts)  <  ours_coverage (44 boxes, 13 pts)
+  Qwen       dot_matched (13 boxes, 33 pts)  <  dot (14 boxes, 33 pts)  <  ours (17 boxes, 43 pts)  <  ours_coverage (22 boxes, 32 pts)
+
+Least squares, overall judge points ~ boxes + representation + model:
+  intercept          +64.43   se 12.75   t +5.05
+  boxes               -1.85   se 0.82   t -2.27
+  graph (vs DOT)      +3.85   se 9.34   t +0.41
+  Gemma               +9.56   se 8.97   t +1.07
+  Ministral          +17.06   se 14.85   t +1.15
+  R2 = 0.591, n = 12
+
+==============================================================================
+B7  WHAT THE RATERS RESPONDED TO  (Section 5.3, Table S5)
+==============================================================================
+Best-worst means: ours +0.233, dot +0.323, model's own placement -0.556
+Ours minus dot over the 24 graphs: -0.090; dot ahead on 16, ours on 6.
+
+Correlation of each measure with the best-worst score (measures negated,
+so a positive value means the measure agrees with the raters):
+  -- all 72
+     node_overlap_pairs             +0.733 (p 0.000)
+     node_overlap_area              +0.720 (p 0.000)
+     node_overlap_ratio             +0.720 (p 0.000)
+     min_separation                 -0.500 (p 0.000)
+     edge_node_crossings            +0.692 (p 0.000)
+     edge_edge_crossings            +0.255 (p 0.031)
+     edge_crossing_ratio            +0.248 (p 0.036)
+     label_collisions               +0.747 (p 0.000)
+     edge_label_crossings           +0.519 (p 0.000)
+     stacked_routes                 +0.493 (p 0.000)
+     total_edge_length              -0.321 (p 0.006)
+     mean_edge_length_ratio         -0.357 (p 0.002)
+     total_bends                    -0.525 (p 0.000)
+     mean_bends_per_edge            -0.538 (p 0.000)
+     alignment_ratio                +0.050 (p 0.675)
+     aspect_ratio                   +0.120 (p 0.317)
+     aspect_deviation               +0.189 (p 0.111)
+     area                           -0.373 (p 0.001)
+     ink_ratio                      +0.437 (p 0.000)
+     n_nodes                        +0.136 (p 0.256)
+     n_edges                        +0.124 (p 0.299)
+  -- the 48 by ours or dot
+     min_separation                 +0.203 (p 0.165)
+     edge_edge_crossings            +0.041 (p 0.781)
+     edge_crossing_ratio            +0.043 (p 0.773)
+     total_edge_length              +0.149 (p 0.312)
+     mean_edge_length_ratio         -0.070 (p 0.638)
+     total_bends                    -0.079 (p 0.594)
+     mean_bends_per_edge            -0.125 (p 0.399)
+     alignment_ratio                -0.098 (p 0.506)
+     aspect_ratio                   +0.003 (p 0.984)
+     aspect_deviation               +0.311 (p 0.031)
+     area                           +0.354 (p 0.014)
+     ink_ratio                      -0.221 (p 0.132)
+     n_nodes                        +0.354 (p 0.014)
+     n_edges                        +0.204 (p 0.165)
+
+Paired within the 24 graphs: difference ours - dot in each measure against
+the difference in best-worst score; p from 10,000 sign-flip permutations.
+               measure  mean_difference     rho  p_perm
+      aspect_deviation          -0.4760 -0.5892  0.0059
+     total_edge_length          55.8771 -0.4294  0.0337
+           total_bends          -8.7500  0.3569  0.1026
+mean_edge_length_ratio           0.1185 -0.3114  0.1192
+   mean_bends_per_edge          -0.5779  0.3451  0.1216
+          aspect_ratio           0.6076  0.2638  0.2122
+       alignment_ratio           0.0300  0.2420  0.3592
+                  area          42.6888 -0.0957  0.6762
+             ink_ratio          -0.0900  0.0070  0.9754
+        min_separation           0.4605  0.0042  0.9819
+   edge_crossing_ratio           0.0018 -0.0935  1.0000
+
+Our arrows are 171% longer than dot's on these graphs.
+Against the model's own placement: +0.788 points, ours ahead on 23 of 24.
+
+==============================================================================
+B8  WHY THE DIAGRAMEVAL-STYLE COLUMNS ARE NOT REPORTED  (negative result)
+==============================================================================
+pipeline_items.csv carries a second metric family under strict matching
+(strict_node_f1, strict_path_f1, strict_diagrameval_score, ...). We checked
+whether it could carry a second reading of the results. It cannot:
+
+  flowvqa  items whose paths are not comparable: 72 of 2700 (3%), and their
+           strict_path_f1 is 1.000 by convention, not by measurement.
+  sciflow  items whose paths are not comparable: 1367 of 4347 (31%), and their
+           strict_path_f1 is 1.000 by convention, not by measurement.
+
+Since strict_diagrameval_score is the mean of node and path F1, that default
+propagates: on SciFlow-Bench it correlates with the benchmark score at
+  flowvqa  rho = +0.680 over all items, +0.692 over the comparable ones
+  sciflow  rho = -0.222 over all items, +0.212 over the comparable ones
+
+The apparent disagreement between the two metric families is an artefact of
+the default, and disappears once incomparable items are excluded. The family
+is therefore not used in the paper. The same columns do carry one usable
+check: scoring our own graphs with exact label matching instead of the
+benchmark's 0.5 cosine threshold ranks items the same way,
+  flowvqa  Gemma      rho = +0.745
+  flowvqa  Ministral  rho = +0.745
+  flowvqa  Qwen       rho = +0.760
+  sciflow  Gemma      rho = +0.805
+  sciflow  Ministral  rho = +0.826
+  sciflow  Qwen       rho = +0.806

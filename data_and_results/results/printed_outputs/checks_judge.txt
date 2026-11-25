@@ -1,0 +1,123 @@
+Judge and selection: analyses G1-G4, computed from the per-item CSVs only.
+
+==============================================================================
+== G1  What the benchmark's node matching rewards (paraphrase share)
+==============================================================================
+SciFlow-Bench matches node labels above cosine 0.5. The same graphs
+also carry exact-match columns (strict_*), so the share of every
+matched node that matches only above the threshold is measurable.
+
+ corpus     model    n  node_f1  exact_node_f1  recall  exact_recall  paraphrase_share             ci  label_err
+sciflow      Qwen 1449    0.209          0.102   0.222         0.104             0.532 [0.515, 0.548]      0.943
+sciflow     Gemma 1449    0.247          0.127   0.274         0.132             0.518 [0.503, 0.533]      0.926
+sciflow Ministral 1449    0.247          0.125   0.294         0.147             0.500 [0.486, 0.515]      0.918
+flowvqa      Qwen  900    0.761          0.410   0.752         0.377             0.498 [0.483, 0.513]      0.752
+flowvqa     Gemma  900    0.748          0.401   0.764         0.382             0.500 [0.485, 0.514]      0.758
+flowvqa Ministral  900    0.779          0.415   0.820         0.440             0.464 [0.450, 0.478]      0.718
+
+Between 46% and 53% of the nodes the benchmark counts as
+recovered do not carry the gold label: they match only above the
+threshold. Node F1 therefore roughly halves under exact matching
+(0.209-0.779 against 0.102-0.415).
+
+This is a property of the instrument, not of any system: the ranking
+of items is unchanged (Spearman 0.75-0.83, analysis B8). What it says
+is what the reported score measures - that a reader of the figure can
+find a node about the right thing, not that the label is the gold one.
+Reported alongside the ceiling of 0.611 (N1) it closes the account of
+why absolute scores on this benchmark are low and must stay low.
+
+==============================================================================
+== G2  The PaperBananaBench judge, per dimension
+==============================================================================
+
+Order sensitivity, per dimension (the two image orders of one item):
+          judge          dim    n  order_bias             ci  order_agree  sign_flip  tie
+InternVL3.5-14B faithfulness 5256       -12.4 [-13.2, -11.5]         58.3        2.3 62.6
+InternVL3.5-14B  conciseness 5256         4.9     [3.8, 6.0]         60.7        8.0 23.9
+InternVL3.5-14B  readability 5256        17.9   [17.0, 18.8]         53.3        2.9 63.9
+InternVL3.5-14B   aesthetics 5256        16.4   [15.4, 17.5]         49.1        6.5 47.4
+InternVL3.5-14B      overall 5256         8.1     [6.9, 9.2]         65.3       15.3 11.9
+ Qwen2.5-VL-32B faithfulness  876       -25.1 [-27.1, -23.1]         50.7        4.3 64.4
+ Qwen2.5-VL-32B  conciseness  876       -16.0 [-19.1, -13.0]         54.1       17.0 21.9
+ Qwen2.5-VL-32B  readability  876       -11.5  [-13.6, -9.5]         63.2        2.3 70.7
+ Qwen2.5-VL-32B   aesthetics  876         7.4     [5.0, 9.9]         55.0        3.7 51.1
+ Qwen2.5-VL-32B      overall  876       -29.9 [-33.4, -26.5]         48.6       29.8 13.9
+
+Agreement between the two judges, per dimension (seed 0, both orders
+averaged, verdict discretised to generated / tie / human):
+         dim   n  kappa  agree  pearson
+faithfulness 876  0.219   49.3    0.476
+ conciseness 876  0.294   58.2    0.529
+ readability 876  0.151   47.4    0.377
+  aesthetics 876  0.184   45.7    0.429
+     overall 876  0.227   47.9    0.472
+
+Two findings, both about the instrument and both usable by anyone who
+runs this benchmark:
+
+(a) The position bias is dimension-specific and its sign is not the
+    same across dimensions of one judge: for InternVL3.5-14B it runs
+    -12.4 points on faithfulness and +17.9 on readability.
+    Averaging the two orders is therefore required per dimension; an
+    overall average does not cancel it, because the dimensions do not
+    move together.
+(b) The dimension this literature would use as a legibility measure is
+    the least reproducible one across judges: readability kappa = 0.151
+    (47.4% agreement) against conciseness kappa = 0.294 (58.2%).
+    Section 6 shows that dimension does not respond to the geometry
+    a reader pays for; it also does not agree with a second judge.
+
+==============================================================================
+== G3  The ceiling of any two-engine selector
+==============================================================================
+F3 gave 'dot' an oracle over its own four configurations. The next
+question a caller asks is whether a *policy over both engines* beats
+always using ours. The ceiling of every such policy is the figure
+that is legible under either engine, so it is measurable here.
+
+     corpus     model    n  ours  dot_oracle  both_oracle  headroom
+    sciflow      Qwen 1416  93.1        80.7         96.3       3.1
+    sciflow     Gemma 1416  91.4        71.5         93.7       2.3
+    sciflow Ministral 1416  74.2        40.8         79.5       5.3
+    flowvqa      Qwen  300  97.3        92.0         99.3       2.0
+    flowvqa     Gemma  300  98.0        86.3         99.0       1.0
+    flowvqa Ministral  300  87.7        67.7         89.0       1.3
+paperbanana      Qwen  287  95.1        84.0         96.5       1.4
+paperbanana     Gemma  292  94.5        64.0         96.2       1.7
+paperbanana Ministral  285  57.5        21.1         61.4       3.9
+
+Pooled over 6,012 figures: ours 86.9% strictly legible,
+oracle 'dot' 65.9%, and the best of the two per figure
+90.0%. Always using ours therefore reaches 96.6% of what
+any engine-selection policy over these two engines could reach, while
+always using 'dot' with an oracle over its configurations reaches 73.2%.
+Discordant figures: ours only 1,451, oracle 'dot' only 185 (McNemar p = 1.29e-243).
+
+The headroom of the perfect selector is 3.1 points pooled and at most
+5.3 in any setting. The cheapest objection to a new layout engine
+- "just pick the right existing engine per figure" - is worth less
+than that, since no policy can exceed its oracle.
+
+==============================================================================
+== G4  The engine-choice rule of F4, validated across corpora
+==============================================================================
+F4 fits box count, loop and container on all figures at once and
+reports AUC in sample. A caller wants the rule on a corpus it was not
+fitted on, so the fit is repeated holding one corpus out, with two
+features added that cost nothing to compute (arrow count, density).
+
+AUC of predicting that an engine will draw the figure illegibly,
+from graph properties alone, with no layout run:
+      held_out  n_test  F4_3feat  F4_5feat  oracle_5feat  ours_5feat
+       sciflow    4248     0.762     0.789         0.823       0.816
+       flowvqa     900     0.748     0.749         0.817       0.881
+   paperbanana     864     0.793     0.805         0.849       0.879
+in sample (F4)    6012     0.772     0.795         0.839       0.838
+
+Held out, the rule keeps AUC 0.75-0.81 for 'dot' and 0.82-0.88 for ours, on
+a corpus no figure of which was used to fit it. It is therefore a rule
+and not a description of these runs: a caller holding an extracted
+graph can decide, before drawing anything, whether the drawing needs
+checking. Adding arrow count and density to F4's three features
+raises the in-sample AUC from 0.772 to 0.795; F4 reports 0.772 for the three-feature fit on the same target, which this reproduces.

@@ -1,0 +1,180 @@
+A1  which criterion carries the difference  (6007 identical graphs, five layouts each)
+
+                    config  strict_pct  node_overlap_pairs_pass_pct  edge_node_crossings_pass_pct  route_reversals_pass_pct  label_collisions_pass_pct  edge_label_crossings_pass_pct  stacked_routes_pass_pct  mean_label_collisions
+                      ours        86.9                        100.0                         100.0                     100.0                       97.7                           88.2                     96.7                    0.1
+      dot top-down, curved        54.0                        100.0                          99.2                     100.0                       75.5                           64.9                     99.7                    0.5
+    dot left-right, curved        44.2                        100.0                          99.1                     100.0                       50.4                           59.1                     99.7                    1.1
+  dot top-down, orthogonal         6.8                        100.0                          86.4                     100.0                        8.6                           31.7                     99.7                    9.2
+dot left-right, orthogonal         2.8                        100.0                          86.6                     100.0                        3.8                           47.0                     99.9                   16.6
+
+  The two criteria that need a label-placement stage -- no label collision and
+  no arrow through a label -- are the only ones on which the two engines are
+  more than 3.0 points apart (22.1 and 23.3 points). Graphviz has no label-
+  placement stage: dot attaches a label to its edge's midpoint and never moves it.
+
+A2  the strict verdict with the two label criteria removed  (6007 graphs)
+
+                    config  strict_pct  label_blind_pct  lenient_pct
+                      ours        86.9             96.7        100.0
+      dot top-down, curved        54.0             98.9         99.2
+    dot left-right, curved        44.2             98.8         99.1
+  dot top-down, orthogonal         6.8             86.3         86.4
+dot left-right, orthogonal         2.8             86.6         86.6
+ dot, oracle over its four        65.9             99.5         99.5
+
+  against dot top-down, curved, the configuration with the highest strict share:
+    strict      ours 86.9 vs 54.0  (ours only 2123, dot only 145, McNemar p=0)
+    label-blind ours 96.7 vs 98.9  (ours only 59, dot only 191, McNemar p=2e-17)
+
+  The sign reverses. Removing the two label criteria removes the whole
+  difference and leaves dot ahead by 2.2 points (2.4 with the selection effort
+  matched, A6), because our router stacks
+  two routes on 3.4% of figures and dot almost never does. The difference
+  this paper reports is a difference in label occlusion and nothing else.
+
+A3  the schema or the layout stages  (4248 graphs, our engine stage by stage)
+
+                    layout              config  strict_pct  label_blind_pct  lenient_pct  no_box_overlap_pct  no_arrow_through_box_pct  no_route_reversal_pct
+            all six stages                full        86.3             97.0        100.0               100.0                     100.0                  100.0
+          no sideways pull         no_sideways        79.0             98.5        100.0               100.0                     100.0                  100.0
+      no variants, no pull no_variants_no_pull        74.9             94.8        100.0               100.0                     100.0                  100.0
+        no layout variants         no_variants        73.8             94.9        100.0               100.0                     100.0                  100.0
+        no label placement  no_label_placement        64.4             96.0        100.0               100.0                     100.0                  100.0
+       no obstacle detours          no_detours        60.7             69.7         98.9               100.0                      98.9                  100.0
+      dot top-down, curved       dot_tb_spline        52.9             98.8         99.1               100.0                      99.1                  100.0
+    dot left-right, curved       dot_lr_spline        41.3             98.6         99.0               100.0                      99.0                  100.0
+      no spread arrow ends      no_spread_ends        39.3             51.4        100.0               100.0                     100.0                  100.0
+        all six stages off                none        17.4             45.2         96.6               100.0                      96.6                  100.0
+  dot top-down, orthogonal        dot_tb_ortho         5.0             85.5         85.7               100.0                      85.7                  100.0
+dot left-right, orthogonal        dot_lr_ortho         2.2             86.1         86.1               100.0                      86.1                  100.0
+
+  With all six layout stages off our own engine passes the strict check on
+  17.4% of the identical graphs, against 52.9% for
+  dot top-down with curved edges. The coordinate-free schema is what makes the
+  geometry computable; it is the layout stages that make it legible.
+  Two of the three lenient criteria survive every ablation -- no box overlaps
+  (100.0%) and no route doubles back
+  (100.0%) hold with all six stages off, so they follow
+  from laying out on a grid and marking back edges. The third does not:
+  without the obstacle-aware router 3.4% of
+  figures run an arrow through a box.
+
+A4  what choosing a candidate by the reported counts is worth
+
+                                           setting  strict_pct  label_blind_pct
+our engine, layout variants chosen by defect count        86.3             97.0
+                     our engine, first layout kept        73.8             94.9
+   dot top-down, curved (no selection of any kind)        52.9             98.8
+            pipeline, better of two sampled graphs        87.8              NaN
+                        pipeline, one greedy graph        80.6              NaN
+
+  Keeping the first layout instead of the best of the variants costs
+  12.5 points of the strict share, so part of the
+  difference to dot is our engine selecting on the counts it then reports.
+  dot is given the same chance in the oracle column of A2.
+
+A5  where the difference lives, and what the rater study covered
+
+     boxes  n_graphs  ours_strict_pct  dot_strict_pct  ours_label_collisions  dot_label_collisions  difference_pts
+8 or fewer       271           100.00           84.50                   0.00                  0.04           15.50
+      9-12       546            98.35           81.50                   0.00                  0.09           16.85
+     13-20      1880            95.11           65.99                   0.02                  0.31           29.11
+     21-30      2087            85.43           47.39                   0.04                  0.55           38.05
+   over 30      1228            68.97           27.98                   0.16                  0.90           41.00
+
+  the 24 rated graphs have 8 to 20 boxes, median 16
+  over the two engine-drawn conditions of the rater study:
+           lenient  blind  strict
+condition                        
+graphviz       1.0    1.0   0.708
+ours           1.0    1.0   0.917
+           report_label_collisions  report_total_edge_length
+condition                                                   
+graphviz                      0.04                     32.75
+ours                          0.00                     88.63
+
+  At the sizes rated, dot collides a label on 0.04 figures on average, so the
+  strict verdict has almost nothing to separate there and the raters are
+  deciding on something else -- our arrows are 2.7 times longer. The engine
+  difference the strict verdict reports grows with graph size and is largest
+  above 30 boxes, which the rater study did not cover. The two results are
+  measuring different parts of the same curve, and neither licenses a ranking
+  of the engines at the sizes the other covers.
+
+A6  the same comparison with the choice between candidates matched
+
+    verdict                                                           comparison    n  ours_pct  dot_pct                                        matched  difference_pts
+     strict           as reported: our layout vs dot's best single configuration 6007      86.9     54.0 no: we choose among our variants, dot gets one            32.9
+     strict              both choose: our variants vs dot's oracle over its four 6007      86.9     65.9                                            yes            21.0
+     strict neither chooses: our first layout vs dot's best single configuration 4244      73.8     52.9                                            yes            20.9
+label_blind           as reported: our layout vs dot's best single configuration 6007      96.7     98.9 no: we choose among our variants, dot gets one            -2.2
+label_blind              both choose: our variants vs dot's oracle over its four 6007      96.7     99.5                                            yes            -2.8
+label_blind neither chooses: our first layout vs dot's best single configuration 4244      94.9     98.8                                            yes            -3.9
+
+  strict      both choose      n= 6007  difference  +21.0 pts  McNemar p=4.07e-243
+  strict      neither chooses  n= 4244  difference  +20.9 pts  McNemar p=1.18e-114
+  label_blind both choose      n= 6007  difference   -2.8 pts  McNemar p=1.78e-32
+  label_blind neither chooses  n= 4244  difference   -3.9 pts  McNemar p=4.4e-28
+
+  Our shipped layout is the best of several variants, chosen by the very defect
+  counts the verdict then reports; dot's best single configuration is one layout
+  with no choice at all. The difference between those two is not a difference
+  between two engines run the same way. With the choice matched the strict
+  difference is +21.0 points when both sides choose and +20.9 when neither does, against
+  the 32.9 points the unmatched pair shows, so about a third of the unmatched
+  figure is our selection and not our layout. Matching does not rescue the
+  label-blind result either: it widens it, dot leading by 2.8 points when both
+  choose and by 3.9 when neither does.
+  The graph-level best-of-two is not part of this comparison: both engines draw
+  the identical graph in every row here.
+
+  the same difference per corpus and model, against dot's best single configuration
+  and against its oracle over the four:
+     corpus     model    n  ours_pct  dot_best_pct  dot_oracle_pct  difference_vs_best  difference_vs_oracle
+    flowvqa     Gemma  300      98.0          67.3            86.3                30.7                  11.7
+    flowvqa Ministral  300      87.7          52.3            67.7                35.3                  20.0
+    flowvqa      Qwen  300      97.3          79.3            92.0                18.0                   5.3
+paperbanana     Gemma  292      94.5          51.7            64.0                42.8                  30.5
+paperbanana Ministral  284      57.7          16.2            21.1                41.5                  36.6
+paperbanana      Qwen  287      95.1          71.8            84.0                23.3                  11.1
+    sciflow     Gemma 1416      91.4          57.8            71.5                33.5                  19.8
+    sciflow Ministral 1415      74.3          31.8            40.8                42.5                  33.4
+    sciflow      Qwen 1413      93.1          69.1            80.8                24.1                  12.3
+
+  matched, the nine cells run from +5.3 to +36.6 points, against +18.0 to +42.8 unmatched.
+
+A7  what is left to fix: the residual-defect profile of each engine  (6007 identical graphs from 1064 source graphs)
+
+  ours: 784 of 6007 figures fail the strict check (13.1%)
+    exactly one of the six criteria fails on 71.7% [67.9,75.4] of those failures
+      node_overlap_pairs     in   0.0% [  0.0,  0.0] of failures, sole cause in   0.0%, fails on   0.0% of all figures
+      edge_node_crossings    in   0.0% [  0.0,  0.0] of failures, sole cause in   0.0%, fails on   0.0% of all figures
+      route_reversals        in   0.0% [  0.0,  0.0] of failures, sole cause in   0.0%, fails on   0.0% of all figures
+      label_collisions       in  18.0% [ 14.7, 21.4] of failures, sole cause in   2.3%, fails on   2.3% of all figures
+      edge_label_crossings   in  90.6% [ 88.1, 92.7] of failures, sole cause in  62.4%, fails on  11.8% of all figures
+      stacked_routes         in  25.6% [ 22.2, 29.4] of failures, sole cause in   7.0%, fails on   3.3% of all figures
+
+  dot top-down, curved: 2762 of 6007 figures fail the strict check (46.0%)
+    exactly one of the six criteria fails on 70.1% [68.1,72.1] of those failures
+      node_overlap_pairs     in   0.0% [  0.0,  0.0] of failures, sole cause in   0.0%, fails on   0.0% of all figures
+      edge_node_crossings    in   1.8% [  1.3,  2.4] of failures, sole cause in   0.1%, fails on   0.8% of all figures
+      route_reversals        in   0.0% [  0.0,  0.0] of failures, sole cause in   0.0%, fails on   0.0% of all figures
+      label_collisions       in  53.2% [ 50.7, 55.6] of failures, sole cause in  23.5%, fails on  24.5% of all figures
+      edge_label_crossings   in  76.3% [ 74.2, 78.5] of failures, sole cause in  46.5%, fails on  35.1% of all figures
+      stacked_routes         in   0.7% [  0.3,  1.2] of failures, sole cause in   0.0%, fails on   0.3% of all figures
+
+  ours, by graph size:
+        0-8 boxes  n=  271  strict failure   0.0%   arrow through a label   0.0%   label collision  0.0%   stacked routes   0.0%
+       9-12 boxes  n=  546  strict failure   1.6%   arrow through a label   1.6%   label collision  0.2%   stacked routes   0.0%
+      13-20 boxes  n= 1877  strict failure   4.9%   arrow through a label   4.4%   label collision  0.9%   stacked routes   1.0%
+      21-30 boxes  n= 2087  strict failure  14.6%   arrow through a label  13.6%   label collision  2.3%   stacked routes   2.8%
+        31- boxes  n= 1226  strict failure  30.9%   arrow through a label  27.3%   label collision  6.1%   stacked routes  10.2%
+
+  One criterion bounds both engines. An arrow crossing a label is in 90.6% of our
+  remaining failures and the only thing wrong with 62.4% of them, and in 76.3% of
+  dot's; the three lenient criteria never fail for our engine, and dot fails one of
+  them on 1.8% of its failures. So the defect class that separates the engines (A1)
+  is also the one that limits the better of them, and it is a label stage that may
+  move a label off its own route -- a leader line or a reserved channel -- that
+  addresses it, not a better placement of boxes. Nothing else is left above 26%.
+
