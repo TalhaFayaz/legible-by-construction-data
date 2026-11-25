@@ -125,7 +125,7 @@ vs dot oracle over four configurations
   difference, ours minus dot best single configuration: +29.4 boxes, 95% CI [+25.6, +33.4]
 
 ================================================================================
-== I7  "independent" restated as an equivalence bound
+== I7  arrow crossings vs label collisions, restated as a bound
 ================================================================================
   benchmark score vs strict verdict, boxes held fixed: rho = +0.003 (n=7047 figures, 772 graphs)
     cluster bootstrap 95% CI [-0.025, +0.033] -> any association is smaller than 0.03 in absolute value

@@ -63,3 +63,6 @@ Ministral SDXL                      483  +0.0908  +0.91    6e-59    ahead    0.0
   The column is reported as a measurement of the protocol and as evidence that
   coordinate-free generation is competitive with the systems these benchmarks
   ship, not as a general ranking of systems.
+
+wrote results/tables/published_systems_summary.csv
+wrote results/tables/published_systems_readback.csv

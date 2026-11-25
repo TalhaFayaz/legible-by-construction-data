@@ -156,7 +156,8 @@ def report(table, pair):
     out.append(f"{'model':<10}{'against':<24}{'n':>5}{'diff':>9}{'r':>7}{'p Holm':>9}"
                f"{'verdict':>9}{'resolves':>10}{'clears':>8}")
     for row in pair.itertuples():
-        out.append(f"{row.model:<10}{row.system.replace('$\\rightarrow$', '->').replace('$\\Sigma$', 'Sigma'):<24}"
+        name = row.system.replace('$\\rightarrow$', '->').replace('$\\Sigma$', 'Sigma')
+        out.append(f"{row.model:<10}{name:<24}"
                    f"{row.n:>5}{row.diff:>+9.4f}{row.r:>+7.2f}{row.p_holm:>9.2g}"
                    f"{row.verdict:>9}{row.paired_mde:>10.4f}"
                    f"{('yes' if row.clears_its_resolution else 'no'):>8}")

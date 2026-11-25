@@ -1,6 +1,6 @@
 paper               : main.tex, appendix.tex
-numeric tokens      : 392
-traced to results   : 392
+numeric tokens      : 398
+traced to results   : 398
 not located         : 0
 
 Every numeric token in the paper appears in the released results.

@@ -7,6 +7,27 @@ complete raw runs. The scripts that read the paper expect its two LaTeX files,
 form "§n" and "Table S…" in the analysis tables below follow the numbering of
 an earlier, longer version of the paper and its supplement.
 
+## Reproduce everything with one command
+
+    bash run_all.sh
+
+This rebuilds, from the CSV files in `data/`, every table of the paper, the
+printed output of every analysis and every data figure (including Figures 3
+and 8 of the paper), and then compares each rebuilt file with the shipped one
+in `results/`. It ends with one line: either every rebuilt file matches, or the
+files that differ are listed. Rebuilt files go to `reproduced/`; `results/` is
+never changed.
+
+- Needs Python 3.10 or newer and about 7 minutes; no GPU.
+- If the packages in `requirements.txt` are not installed at exactly these
+  versions, `run_all.sh` creates a local environment `.venv/` in this folder and
+  installs them there (internet access needed once). Nothing outside this
+  folder is changed.
+- Tested on a fresh copy of this archive with a fresh environment.
+- The diagram images in the paper's Figures 1 and 9 are drawings, not data
+  figures: our own diagrams were rendered by the pipeline from the layouts in
+  `raw/`, and the other systems' images are distributed with SciFlow-Bench.
+
 ## Quick start
 
     cd scripts
@@ -28,7 +49,7 @@ an earlier, longer version of the paper and its supplement.
     python3 make_fig_resolution.py --data ../data --out ../results/figures
     python3 make_fig_capacity.py --data ../data --out ../../img    # img/capacity_frontier.pdf
 
-Needs Python 3.9+ with pandas, numpy, scipy and matplotlib. No GPU and no other
+Needs Python 3.10+ with the packages in `requirements.txt` (`run_all.sh` installs them if needed). No GPU and no other
 code. The output is identical to `results/tables_from_data.txt` and to the files
 in `results/printed_outputs/`.
 
@@ -721,5 +742,5 @@ cannot locate:
 It is a tracing aid and not a test: a token can be missing because it is a page
 measurement or a rounding of a value stored at full precision. What matters is
 that the unmatched list stays short enough to read and holds no empirical claim
-nobody can locate. On the released version it is empty: all 392 numeric tokens
+nobody can locate. On the released version it is empty: all 398 numeric tokens
 of both files appear in the released results.

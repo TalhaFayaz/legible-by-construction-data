@@ -1,0 +1,2 @@
+engine_rule_norms.csv  fitted on 6012 figures
+index_norms.csv        fitted on 72 rated images

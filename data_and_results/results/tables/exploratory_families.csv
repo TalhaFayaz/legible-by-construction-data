@@ -10,40 +10,40 @@ five size bins (A5): where the strict difference lives,13-20 boxes (n=1877),29.0
 five size bins (A5): where the strict difference lives,over 30 boxes (n=1226),41.109298531810765,4.624734367341559e-109,1.3874203102024677e-108,True
 five size bins (A5): where the strict difference lives,9-12 boxes (n=546),16.849816849816847,3.4598728933748426e-23,6.919745786749685e-23,True
 five size bins (A5): where the strict difference lives,8 or fewer boxes (n=271),15.498154981549817,4.547473508864641e-13,4.547473508864641e-13,True
-"rater correlations (R5), all 72 images",label_collisions,-0.7473123028530092,4.710878932148894e-14,9.892845757512676e-13,True
-"rater correlations (R5), all 72 images",node_overlap_pairs,-0.7330748493612873,2.4540329069307254e-13,4.9080658138614505e-12,True
-"rater correlations (R5), all 72 images",node_overlap_ratio,-0.7195560117309437,1.0703100107772458e-12,2.0335890204767672e-11,True
-"rater correlations (R5), all 72 images",node_overlap_area,-0.7195158859251871,1.0748616713052715e-12,2.0335890204767672e-11,True
-"rater correlations (R5), all 72 images",edge_node_crossings,-0.6915015864167411,1.7582363914208378e-11,2.9890018654154244e-10,True
-"rater correlations (R5), all 72 images",mean_bends_per_edge,0.5375150333681895,1.1239986931217692e-06,1.7983979089948308e-05,True
-"rater correlations (R5), all 72 images",total_bends,0.524866602974341,2.2120498587041643e-06,3.318074788056246e-05,True
-"rater correlations (R5), all 72 images",edge_label_crossings,-0.5191056796062065,2.9841980960034263e-06,4.177877334404797e-05,True
-"rater correlations (R5), all 72 images",min_separation,0.49964884480909116,7.8859022377719e-06,0.0001025167290910347,True
-"rater correlations (R5), all 72 images",stacked_routes,-0.4933793783905518,1.0651605045385738e-05,0.00012781926054462886,True
-"rater correlations (R5), all 72 images",ink_ratio,-0.4373215800335622,0.00012244065825470004,0.0013468472408017004,True
-"rater correlations (R5), all 72 images",area,0.3728380716766169,0.001257909848229003,0.012579098482290031,True
+"rater correlations (R5), all 72 images",label_collisions,-0.7473123028530092,4.7108789321489064e-14,9.892845757512705e-13,True
+"rater correlations (R5), all 72 images",node_overlap_pairs,-0.7330748493612873,2.4540329069307264e-13,4.908065813861453e-12,True
+"rater correlations (R5), all 72 images",node_overlap_ratio,-0.7195560117309437,1.0703100107772442e-12,2.033589020476764e-11,True
+"rater correlations (R5), all 72 images",node_overlap_area,-0.7195158859251871,1.0748616713052725e-12,2.033589020476764e-11,True
+"rater correlations (R5), all 72 images",edge_node_crossings,-0.6915015864167411,1.7582363914208426e-11,2.9890018654154327e-10,True
+"rater correlations (R5), all 72 images",mean_bends_per_edge,0.5375150333681895,1.1239986931217673e-06,1.7983979089948277e-05,True
+"rater correlations (R5), all 72 images",total_bends,0.524866602974341,2.2120498587041626e-06,3.318074788056244e-05,True
+"rater correlations (R5), all 72 images",edge_label_crossings,-0.5191056796062065,2.9841980960034246e-06,4.1778773344047944e-05,True
+"rater correlations (R5), all 72 images",min_separation,0.49964884480909116,7.88590223777189e-06,0.00010251672909103457,True
+"rater correlations (R5), all 72 images",stacked_routes,-0.4933793783905518,1.0651605045385731e-05,0.00012781926054462878,True
+"rater correlations (R5), all 72 images",ink_ratio,-0.4373215800335622,0.00012244065825469983,0.001346847240801698,True
+"rater correlations (R5), all 72 images",area,0.3728380716766169,0.0012579098482290018,0.012579098482290017,True
 "rater correlations (R5), all 72 images",mean_edge_length_ratio,0.35695479932089674,0.0020844154655731287,0.018759739190158158,True
-"rater correlations (R5), all 72 images",total_edge_length,0.3205650303030752,0.00604495815161874,0.04835966521294992,True
-"rater correlations (R5), all 72 images",edge_edge_crossings,-0.25511753668363285,0.03055782353166384,0.21390476472164688,False
-"rater correlations (R5), all 72 images",edge_crossing_ratio,-0.24782232710248592,0.035825585162203924,0.21495351097322354,False
-"rater correlations (R5), all 72 images",aspect_deviation,-0.18939110860669628,0.11107750712372665,0.5553875356186332,False
-"rater correlations (R5), all 72 images",n_nodes,-0.13561339315445534,0.2560256025033165,1.0,False
-"rater correlations (R5), all 72 images",n_edges,-0.12414277139467061,0.2988158055846099,1.0,False
-"rater correlations (R5), all 72 images",aspect_ratio,-0.1197044593056358,0.316557936090609,1.0,False
+"rater correlations (R5), all 72 images",total_edge_length,0.3205650303030752,0.006044958151618735,0.04835966521294988,True
+"rater correlations (R5), all 72 images",edge_edge_crossings,-0.25511753668363285,0.030557823531663815,0.2139047647216467,False
+"rater correlations (R5), all 72 images",edge_crossing_ratio,-0.24782232710248592,0.03582558516220385,0.21495351097322307,False
+"rater correlations (R5), all 72 images",aspect_deviation,-0.18939110860669628,0.11107750712372663,0.5553875356186332,False
+"rater correlations (R5), all 72 images",n_nodes,-0.13561339315445534,0.25602560250331663,1.0,False
+"rater correlations (R5), all 72 images",n_edges,-0.12414277139467061,0.2988158055846101,1.0,False
+"rater correlations (R5), all 72 images",aspect_ratio,-0.1197044593056358,0.3165579360906093,1.0,False
 "rater correlations (R5), all 72 images",alignment_ratio,-0.050326081962552525,0.6746143938176772,1.0,False
-"rater correlations (R5/K6), the 48 the two engines drew",n_nodes,-0.3539531738117811,0.013583351482062753,0.21733362371300405,False
-"rater correlations (R5/K6), the 48 the two engines drew",area,-0.35388835829963877,0.013601715873473178,0.21733362371300405,False
-"rater correlations (R5/K6), the 48 the two engines drew",aspect_deviation,-0.3112952302626503,0.03126411960414557,0.4376976744580379,False
-"rater correlations (R5/K6), the 48 the two engines drew",label_collisions,0.2327500767069083,0.11138832241619702,1.0,False
-"rater correlations (R5/K6), the 48 the two engines drew",ink_ratio,0.22054623531572498,0.1319828397809069,1.0,False
+"rater correlations (R5/K6), the 48 the two engines drew",n_nodes,-0.3539531738117811,0.013583351482062748,0.21733362371300396,False
+"rater correlations (R5/K6), the 48 the two engines drew",area,-0.35388835829963877,0.013601715873473169,0.21733362371300396,False
+"rater correlations (R5/K6), the 48 the two engines drew",aspect_deviation,-0.3112952302626503,0.031264119604145574,0.43769767445803803,False
+"rater correlations (R5/K6), the 48 the two engines drew",label_collisions,0.2327500767069083,0.11138832241619699,1.0,False
+"rater correlations (R5/K6), the 48 the two engines drew",ink_ratio,0.22054623531572498,0.13198283978090677,1.0,False
 "rater correlations (R5/K6), the 48 the two engines drew",n_edges,-0.20356655886330494,0.16521190807571526,1.0,False
 "rater correlations (R5/K6), the 48 the two engines drew",min_separation,-0.2034742017407882,0.16540790435645786,1.0,False
-"rater correlations (R5/K6), the 48 the two engines drew",edge_label_crossings,0.18650862633363668,0.2043411902408285,1.0,False
-"rater correlations (R5/K6), the 48 the two engines drew",total_edge_length,-0.1490486798016509,0.3119775483505661,1.0,False
-"rater correlations (R5/K6), the 48 the two engines drew",mean_bends_per_edge,0.12460208480001726,0.3987764077833815,1.0,False
+"rater correlations (R5/K6), the 48 the two engines drew",edge_label_crossings,0.18650862633363668,0.20434119024082847,1.0,False
+"rater correlations (R5/K6), the 48 the two engines drew",total_edge_length,-0.1490486798016509,0.3119775483505664,1.0,False
+"rater correlations (R5/K6), the 48 the two engines drew",mean_bends_per_edge,0.12460208480001726,0.3987764077833814,1.0,False
 "rater correlations (R5/K6), the 48 the two engines drew",alignment_ratio,0.09833842067645945,0.5060734769026709,1.0,False
-"rater correlations (R5/K6), the 48 the two engines drew",total_bends,0.07881909813115949,0.5943728188810156,1.0,False
-"rater correlations (R5/K6), the 48 the two engines drew",mean_edge_length_ratio,0.06964330922309118,0.6381005760670017,1.0,False
-"rater correlations (R5/K6), the 48 the two engines drew",edge_crossing_ratio,-0.04273941141784818,0.77301468148928,1.0,False
+"rater correlations (R5/K6), the 48 the two engines drew",total_bends,0.07881909813115949,0.5943728188810155,1.0,False
+"rater correlations (R5/K6), the 48 the two engines drew",mean_edge_length_ratio,0.06964330922309118,0.6381005760670015,1.0,False
+"rater correlations (R5/K6), the 48 the two engines drew",edge_crossing_ratio,-0.04273941141784818,0.7730146814892801,1.0,False
 "rater correlations (R5/K6), the 48 the two engines drew",edge_edge_crossings,-0.04120045021483861,0.780982509904919,1.0,False
 "rater correlations (R5/K6), the 48 the two engines drew",aspect_ratio,-0.0028904427477085613,0.9844440466887469,1.0,False

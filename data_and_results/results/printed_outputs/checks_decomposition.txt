@@ -1,0 +1,8 @@
+                           system   n  boxes_ours  boxes_other  delta_score  node_precision  node_recall  edge_precision  edge_recall          margin_from
+               Gemini 3 Pro Image 483        40.5         44.3      -0.0116         -0.0115      -0.0527         -0.0060      -0.0074              neither
+           Gemini 2.5 Flash Image 483        40.5         33.2       0.0064          0.0050       0.0089          0.0030       0.0171               recall
+                     Seedream 4.0 481        40.4         33.6       0.0110          0.0258       0.0085          0.0037       0.0132 precision and recall
+Graphviz (GPT-4o$\rightarrow$DOT) 475        40.5         25.1       0.0098         -0.0041       0.0405         -0.0034       0.0159               recall
+                       Qwen-Image 483        40.5         23.4       0.0314          0.0400       0.0709          0.0142       0.0201 precision and recall
+                  PixArt-$\Sigma$ 483        40.5         11.8       0.0945          0.2137       0.2645          0.0235       0.0342 precision and recall
+                             SDXL 483        40.5         14.3       0.0908          0.2142       0.2644          0.0172       0.0280 precision and recall

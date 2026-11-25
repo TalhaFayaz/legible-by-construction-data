@@ -1,0 +1,37 @@
+=== S1 ours + Ministral against every system the benchmark ships ===
+                           system weights   n   ours  other   delta   ci_lo   ci_hi  rank_biserial        p_raw       p_holm verdict
+               Gemini 3 Pro Image  closed 483 0.1065 0.1181 -0.0116 -0.0190 -0.0042         -0.203 1.475827e-04 5.903309e-04  behind
+           Gemini 2.5 Flash Image  closed 483 0.1065 0.1001  0.0064 -0.0015  0.0141          0.125 2.023329e-02 2.023329e-02    tied
+                     Seedream 4.0  closed 481 0.1064 0.0953  0.0110  0.0040  0.0181          0.203 1.727607e-04 5.903309e-04   ahead
+Graphviz (GPT-4o$\rightarrow$DOT)  closed 475 0.1056 0.0958  0.0098  0.0020  0.0173          0.197 3.015646e-04 6.031291e-04   ahead
+                       Qwen-Image    open 483 0.1065 0.0751  0.0314  0.0228  0.0400          0.418 7.306914e-15 3.653457e-14   ahead
+                  PixArt-$\Sigma$    open 483 0.1065 0.0121  0.0945  0.0829  0.1054          0.918 2.022590e-61 1.415813e-60   ahead
+                             SDXL    open 483 0.1065 0.0157  0.0908  0.0791  0.1020          0.907 9.945301e-60 5.967180e-59   ahead
+
+ahead of 5, tied with 1, behind 1
+gold-graph ceiling under the same protocol: 0.6114
+
+=== S2 split at the median gold graph size ===
+                 stratum                            system   n   delta   ci_lo   ci_hi verdict
+small (gold <= 28 boxes)                Gemini 3 Pro Image 239 -0.0129 -0.0220 -0.0036  behind
+small (gold <= 28 boxes)            Gemini 2.5 Flash Image 239  0.0066 -0.0037  0.0168    tied
+small (gold <= 28 boxes)                      Seedream 4.0 238  0.0055 -0.0038  0.0144    tied
+small (gold <= 28 boxes) Graphviz (GPT-4o$\rightarrow$DOT) 234  0.0046 -0.0053  0.0147    tied
+small (gold <= 28 boxes)                        Qwen-Image 239  0.0198  0.0092  0.0307   ahead
+small (gold <= 28 boxes)                   PixArt-$\Sigma$ 239  0.0770  0.0603  0.0930   ahead
+small (gold <= 28 boxes)                              SDXL 239  0.0696  0.0517  0.0866   ahead
+ large (gold > 28 boxes)                Gemini 3 Pro Image 244 -0.0103 -0.0217  0.0014    tied
+ large (gold > 28 boxes)            Gemini 2.5 Flash Image 244  0.0062 -0.0053  0.0178    tied
+ large (gold > 28 boxes)                      Seedream 4.0 243  0.0165  0.0062  0.0269   ahead
+ large (gold > 28 boxes) Graphviz (GPT-4o$\rightarrow$DOT) 241  0.0148  0.0032  0.0263   ahead
+ large (gold > 28 boxes)                        Qwen-Image 244  0.0427  0.0297  0.0562   ahead
+ large (gold > 28 boxes)                   PixArt-$\Sigma$ 244  0.1116  0.0953  0.1272   ahead
+ large (gold > 28 boxes)                              SDXL 244  0.1115  0.0964  0.1260   ahead
+
+=== S3 open-weight subset ===
+         system  delta  ci_lo  ci_hi       p_holm verdict
+     Qwen-Image 0.0314 0.0228 0.0400 3.653457e-14   ahead
+PixArt-$\Sigma$ 0.0945 0.0829 0.1054 1.415813e-60   ahead
+           SDXL 0.0908 0.0791 0.1020 5.967180e-59   ahead
+
+wrote tables to results/tables

@@ -1,0 +1,44 @@
+
+=== H1 contrast coverage of the rating panel ===
+                     contrast  pairs  same_verdict  differ  coverage_pct  a_only  b_only
+ours vs dot (engine contrast)     24            17       7          29.2       6       1
+    ours vs model coordinates     24             2      22          91.7      22       0
+     dot vs model coordinates     24             7      17          70.8      17       0
+
+condition  n  label_coll_mean  label_coll_max  label_coll_nonzero  arrow_thru_label_mean  arrow_thru_label_nonzero  strict_pass  lenient_pass  n_nodes_min  n_nodes_max
+     ours 24             0.00               0                   0                   0.08                         2           22            24            8           20
+ graphviz 24             0.04               1                   1                   0.25                         6           17            24            8           20
+    model 24            29.54              85                  24                   7.12                        19            0             0            8           20
+
+=== H2 floor detection ===
+condition  images  lenient_pass_pct  strict_pass_pct  best_picks  worst_picks  share_of_worst_pct  mean_bw
+     ours      24             100.0             91.7          90           23                10.6    0.698
+ graphviz      24             100.0             70.8         115           22                10.2    0.969
+    model      24               0.0              0.0          11          171                79.2   -1.667
+
+                stratum  images  strict_pass_pct  mean_bw  bw_sd
+below the lenient floor      24              0.0   -1.667  0.877
+above the lenient floor      48             81.2    0.833  0.813
+
+=== H3 what raters track, panel of 72 vs the 48 engine-drawn ===
+             measure   kind  rho_panel72  p_panel72  rho_engines48  p_engines48  constant_or_degenerate_in_48  p_holm_panel72  p_holm_engines48
+    label_collisions defect       -0.747     0.0000            NaN          NaN                          True          0.0000               NaN
+edge_label_crossings defect       -0.519     0.0001            NaN          NaN                          True          0.0008               NaN
+  node_overlap_pairs defect       -0.733     0.0000            NaN          NaN                          True          0.0000               NaN
+ edge_node_crossings defect       -0.692     0.0000            NaN          NaN                          True          0.0000               NaN
+      stacked_routes defect       -0.493     0.0000            NaN          NaN                          True          0.0000               NaN
+ edge_edge_crossings defect       -0.255     0.0290         -0.041       0.7901                         False          0.1160            1.0000
+             n_nodes   size       -0.136     0.2510         -0.354       0.0131                         False          0.5020            0.1179
+             n_edges   size       -0.124     0.2919         -0.204       0.1630                         False          0.5020            0.8150
+                area   size        0.373     0.0012         -0.354       0.0138                         False          0.0072            0.1179
+           ink_ratio  shape       -0.437     0.0001          0.221       0.1345                         False          0.0008            0.8070
+    aspect_deviation  shape       -0.189     0.1125         -0.311       0.0317                         False          0.3375            0.2219
+   total_edge_length  shape        0.321     0.0058         -0.149       0.3145                         False          0.0290            0.9435
+         total_bends  shape        0.525     0.0000          0.079       0.5952                         False          0.0000            1.0000
+      min_separation  shape        0.500     0.0000         -0.203       0.1659                         False          0.0000            0.8150
+
+=== H4 resolution of the engine contrast ===
+                                    quantity  n_graphs  estimate  ci_lo  ci_hi    sd  mde_80pct_power  strict_gap_in_panel_pp  corpus_wide_strict_gap_pp                                        verdict
+paired best-worst difference, ours minus dot        24    -0.271 -0.656  0.146 1.011            0.578                    20.8                       21.0 inconclusive: MDE exceeds any plausible effect
+
+wrote tables to results/tables

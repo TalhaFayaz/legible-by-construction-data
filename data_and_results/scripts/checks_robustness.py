@@ -106,7 +106,7 @@ the two columns below is the instrument, not the system.
     print(' judge                model      n   ours    dot    diff'
           '           95% CI      r    p(Holm)   p(vs 50)', file=out)
     for _, r in df.iterrows():
-        print(f" {r.judge:16s} {r.model:10s} {r.n:4.0f} {r.ours:6.1f} {r["dot"]:6.1f} "
+        print(f" {r.judge:16s} {r.model:10s} {r.n:4.0f} {r.ours:6.1f} {r['dot']:6.1f} "
               f"{r['diff']:+7.1f}  [{r.lo:+6.1f},{r.hi:+6.1f}] {r.r:+6.2f} "
               f"{r.p_holm:10.2e} {r.parity_p:10.2e}", file=out)
     tables['judge_second'] = df
@@ -752,7 +752,8 @@ def write_latex(path, tables):
             r = s_.loc[m]
             cells.append(r'\textbf{%s}' % f'{r.code:.{d}f}')
             cells.append(f"{r['model']:.{d}f}")
-        A(f"    {measure.replace('%', r'\%')} & " + ' & '.join(cells) + r' \\')
+        mname = measure.replace('%', r'\%')
+        A(f"    {mname} & " + ' & '.join(cells) + r' \\')
     A(r'    \bottomrule')
     A(r'  \end{tabular}}')
     A(r'  \caption{The same extracted graph drawn twice: deterministic code computes '
