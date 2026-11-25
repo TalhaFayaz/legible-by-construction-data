@@ -1,0 +1,35 @@
+{
+  "upload_type": "dataset",
+  "title": "Data and results for \"Legible by Construction: Coordinate-Free Diagram Generation with Vision–Language Models\"",
+  "creators": [
+    {
+      "name": "Fayaz, Talha",
+      "affiliation": "CAIDAS, University of Würzburg, Germany"
+    },
+    {
+      "name": "Khalil, Zeeshan",
+      "affiliation": "CAIDAS, University of Würzburg, Germany"
+    },
+    {
+      "name": "Ignatov, Dmitry",
+      "affiliation": "CAIDAS, University of Würzburg, Germany"
+    },
+    {
+      "name": "Timofte, Radu",
+      "affiliation": "CAIDAS, University of Würzburg, Germany"
+    }
+  ],
+  "description": "Measurements, results and run logs behind the paper \"Legible by Construction: Coordinate-Free Diagram Generation with Vision–Language Models\": per-item measurements as CSV for SciFlow-Bench, FlowVQA and PaperBananaBench, the human rating study (raters anonymized as R1–R3), the scripts that rebuild every table and figure from the CSVs, the printed output of every analysis, all run logs, and the complete raw runs. The corpora themselves are not included. Start with README.md.",
+  "license": "cc-by-4.0",
+  "keywords": [
+    "constrained decoding",
+    "structured generation",
+    "text-to-diagram",
+    "vision-language models",
+    "graph layout",
+    "legibility",
+    "evaluation methodology"
+  ],
+  "version": "1.0.0",
+  "access_right": "open"
+}

@@ -3,6 +3,8 @@
 Data, measurements, scripts and run logs behind the paper
 **"Legible by Construction: Coordinate-Free Diagram Generation with Vision–Language Models"**.
 
+Talha Fayaz, Zeeshan Khalil, Dmitry Ignatov, Radu Timofte — CAIDAS, University of Würzburg, Germany.
+
 Every GitHub release of this repository is archived on Zenodo with its own DOI.
 
 ## Contents
